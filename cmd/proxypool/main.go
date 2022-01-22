@@ -1,7 +1,8 @@
 package main
 
-import "fmt"
+import "github.com/xwjdsh/proxypool"
 
 func main() {
-	fmt.Println("vim-go")
+	h := proxypool.New()
+	h.Start()
 }

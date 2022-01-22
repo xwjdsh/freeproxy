@@ -1,28 +1,35 @@
 package crawler
 
 import (
-	"context"
 	"fmt"
 	"net/http"
+	"sync"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
+type ProxyType int
+
+const (
+	Unknown ProxyType = iota
+	HighAnonymous
+	Transparent
+)
+
 type Proxy struct {
-	Type     string
+	Type     ProxyType
+	Protocol string
 	Source   string
 	Host     string
 	Port     int
-	Location string
 }
 
 type Result struct {
 	Proxies []*Proxy
-	Err     error
 }
 
 type Crawler interface {
-	Fetch() *Result
+	fetch(chan *Proxy)
 }
 
 type Handler struct {
@@ -31,15 +38,21 @@ type Handler struct {
 
 func New() *Handler {
 	return &Handler{
-		crawlers: []Crawler{daili66Instance},
+		crawlers: []Crawler{daili66Instance, fatezeroInstance},
 	}
 }
 
-func (h *Handler) Crawl(ctx context.Context) *Result {
+func (h *Handler) Crawl(ch chan *Proxy) {
+	wg := sync.WaitGroup{}
+	wg.Add(len(h.crawlers))
 	for _, c := range h.crawlers {
-		c.Fetch()
+		c := c
+		func() {
+			defer wg.Done()
+			c.fetch(ch)
+		}()
 	}
-
+	wg.Wait()
 }
 
 func fetch(url, name string) (*goquery.Document, error) {
