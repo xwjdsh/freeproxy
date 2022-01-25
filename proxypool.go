@@ -4,52 +4,46 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/xwjdsh/proxypool/crawler"
+	"github.com/xwjdsh/proxypool/parser"
 	"github.com/xwjdsh/proxypool/validator"
 )
 
 type Handler struct {
-	crawler   *crawler.Handler
+	parser    *parser.Parser
 	validator *validator.Validator
 }
 
 func New() *Handler {
+	parser := parser.New("./files")
 	return &Handler{
-		crawler:   crawler.New(),
-		validator: validator.New(),
+		parser:    parser,
+		validator: validator.New(parser.Chan()),
 	}
 }
 
 func (h *Handler) Start() {
-	crawlerChan := make(chan *crawler.Proxy)
-	validatorChan := make(chan *validator.Result)
-
 	wg := sync.WaitGroup{}
 	wg.Add(3)
 
 	go func() {
 		defer wg.Done()
-		h.crawler.Crawl(crawlerChan)
-		close(crawlerChan)
+		h.parser.Parse()
 	}()
 
 	go func() {
 		defer wg.Done()
-		h.validator.Validate(crawlerChan, validatorChan)
-		close(validatorChan)
+		h.validator.Validate()
 	}()
 
 	go func() {
 		defer wg.Done()
 		for {
 			select {
-			case result, ok := <-validatorChan:
-				if !ok {
+			case r := <-h.validator.Chan():
+				if r == nil {
 					return
 				}
-				if result.Available {
-					fmt.Printf("%#v, location:%s, toatl: %s\n", result.Proxy, result.Location, result.Total)
-				}
+				fmt.Printf("%+v\n", r.Proxy.GetBase())
 			}
 		}
 	}()
