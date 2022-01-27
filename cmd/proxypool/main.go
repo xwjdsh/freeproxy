@@ -1,8 +1,17 @@
 package main
 
-import "github.com/xwjdsh/proxypool"
+import (
+	"log"
+
+	"github.com/xwjdsh/proxypool"
+	"github.com/xwjdsh/proxypool/config"
+)
 
 func main() {
-	h := proxypool.New()
+	cfg, err := config.Init("./config.yml")
+	if err != nil {
+		log.Fatal(err)
+	}
+	h := proxypool.New(cfg)
 	h.Start()
 }

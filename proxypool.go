@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/xwjdsh/proxypool/config"
 	"github.com/xwjdsh/proxypool/parser"
 	"github.com/xwjdsh/proxypool/validator"
 )
@@ -13,11 +14,11 @@ type Handler struct {
 	validator *validator.Validator
 }
 
-func New() *Handler {
+func New(cfg *config.Config) *Handler {
 	parser := parser.New("./files")
 	return &Handler{
 		parser:    parser,
-		validator: validator.New(parser.Chan()),
+		validator: validator.New(parser.Chan(), cfg.Validator),
 	}
 }
 
@@ -44,14 +45,11 @@ func (h *Handler) Start() {
 					return
 				}
 				if r.Error == nil {
-					fmt.Printf("%+v delay: %d\n", r.Proxy.GetBase(), r.Delay)
-				} else {
-					fmt.Println(r.Error.Error())
+					fmt.Printf("%s %s(%s) delay: %d\n", r.Proxy.GetBase().Server, r.Country, r.CountryEmoji, r.Delay)
 				}
 			}
 		}
 	}()
 
 	wg.Wait()
-
 }
