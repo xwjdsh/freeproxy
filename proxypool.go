@@ -43,7 +43,11 @@ func (h *Handler) Start() {
 				if r == nil {
 					return
 				}
-				fmt.Printf("%+v\n", r.Proxy.GetBase())
+				if r.Error == nil {
+					fmt.Printf("%+v delay: %d\n", r.Proxy.GetBase(), r.Delay)
+				} else {
+					fmt.Println(r.Error.Error())
+				}
 			}
 		}
 	}()

@@ -1,15 +1,20 @@
 package validator
 
 import (
+	"context"
 	"sync"
+	"time"
+
+	"github.com/Dreamacro/clash/adapter"
 
 	"github.com/xwjdsh/proxypool/parser"
 	"github.com/xwjdsh/proxypool/proxy"
 )
 
 type Result struct {
-	Proxy     proxy.Proxy
-	Available bool
+	Proxy proxy.Proxy
+	Delay uint16
+	Error error
 }
 
 type Validator struct {
@@ -44,8 +49,24 @@ func (v *Validator) Validate() {
 	}
 }
 
-func (v *Validator) ValidateOne(proxy proxy.Proxy) *Result {
-	return &Result{Proxy: proxy}
+func (v *Validator) ValidateOne(p proxy.Proxy) *Result {
+	r := &Result{Proxy: p}
+	m, err := p.GetClashMapping()
+	if err != nil {
+		r.Error = err
+		return r
+	}
+	clashProxy, err := adapter.ParseProxy(m)
+	if err != nil {
+		r.Error = err
+		return r
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	r.Delay, r.Error = clashProxy.URLTest(ctx, "http://www.gstatic.com/generate_204")
+	return r
 }
 
 func (v *Validator) Chan() <-chan *Result {
