@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"time"
@@ -9,9 +10,11 @@ import (
 )
 
 type Config struct {
-	Parser    *ParserConfig    `yaml:"parser"`
-	Validator *ValidatorConfig `yaml:"validator"`
-	Storage   *StorageConfig   `yaml:"storage"`
+	ValidatorCount int              `yaml:"validator_count"`
+	StorageCount   int              `yaml:"storage_count"`
+	Parser         *ParserConfig    `yaml:"parser"`
+	Validator      *ValidatorConfig `yaml:"validator"`
+	Storage        *StorageConfig   `yaml:"storage"`
 }
 
 func (c *Config) Marshal() ([]byte, error) {
@@ -33,7 +36,10 @@ type StorageConfig struct {
 }
 
 func DefaultConfig() *Config {
+	homeDir, _ := os.UserHomeDir()
 	return &Config{
+		StorageCount:   10,
+		ValidatorCount: 10,
 		Parser: &ParserConfig{
 			Dir: "./files",
 		},
@@ -43,6 +49,7 @@ func DefaultConfig() *Config {
 		},
 		Storage: &StorageConfig{
 			Driver: "sqlite",
+			DSN:    fmt.Sprintf("%s/.config/freeproxy/freeproxy.db", homeDir),
 		},
 	}
 }

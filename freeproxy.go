@@ -7,49 +7,102 @@ import (
 
 	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/parser"
+	"github.com/xwjdsh/freeproxy/proxy"
+	"github.com/xwjdsh/freeproxy/storage"
 	"github.com/xwjdsh/freeproxy/validator"
 )
 
 type Handler struct {
+	cfg       *config.Config
 	parser    *parser.Parser
 	validator *validator.Validator
+	storage   *storage.Handler
 }
 
-func New(cfg *config.Config) *Handler {
-	parser := parser.New(cfg.Parser)
-	return &Handler{
-		parser:    parser,
-		validator: validator.New(parser.Chan(), cfg.Validator),
+func Init(cfg *config.Config) (*Handler, error) {
+	h, err := storage.Init(cfg.Storage)
+	if err != nil {
+		return nil, err
 	}
+	return &Handler{
+		cfg:       cfg,
+		parser:    parser.New(cfg.Parser),
+		validator: validator.New(cfg.Validator),
+		storage:   h,
+	}, nil
 }
 
 func (h *Handler) Start(ctx context.Context) {
+	parserResultChan := make(chan *parser.Result)
+	validatorResultChan := make(chan proxy.Proxy)
+
 	wg := sync.WaitGroup{}
 	wg.Add(3)
 
 	go func() {
-		defer wg.Done()
-		h.parser.Parse()
+		wg.Done()
+		h.parser.Parse(ctx, parserResultChan)
+		close(parserResultChan)
 	}()
 
 	go func() {
 		defer wg.Done()
-		h.validator.Validate(ctx)
-	}()
 
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case r := <-h.validator.Chan():
-				if r == nil {
-					return
+		validatorWG := sync.WaitGroup{}
+		validatorWG.Add(h.cfg.ValidatorCount)
+		for i := 0; i < h.cfg.ValidatorCount; i++ {
+			go func() {
+				defer validatorWG.Done()
+				for {
+					select {
+					case r, ok := <-parserResultChan:
+						if !ok {
+							return
+						}
+						if r.Err != nil {
+							continue
+						}
+
+						vr, err := h.validator.Validate(r.Proxy)
+						if err != nil {
+							continue
+						}
+						b := vr.Proxy.GetBase()
+						b.CountryCode, b.Country, b.CountryEmoji = vr.CountryCode, vr.Country, vr.CountryEmoji
+						validatorResultChan <- vr.Proxy
+					}
 				}
-				if r.Error == nil {
-					fmt.Printf("%s %s(%s) delay: %d\n", r.Proxy.GetBase().Server, r.Country, r.CountryEmoji, r.Delay)
-				}
-			}
+			}()
 		}
+		validatorWG.Wait()
+		close(validatorResultChan)
+	}()
+
+	go func() {
+		defer wg.Done()
+
+		storageWG := sync.WaitGroup{}
+		storageWG.Add(h.cfg.StorageCount)
+		for i := 0; i < h.cfg.StorageCount; i++ {
+			go func() {
+				defer storageWG.Done()
+				for {
+					select {
+					case p, ok := <-validatorResultChan:
+						if !ok {
+							return
+						}
+						pp, err := h.storage.Store(context.Background(), p)
+						if err != nil {
+							fmt.Println(err)
+						} else {
+							fmt.Printf("save %s\n", pp.Server)
+						}
+					}
+				}
+			}()
+		}
+		storageWG.Wait()
 	}()
 
 	wg.Wait()

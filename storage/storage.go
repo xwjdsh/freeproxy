@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
+	"path"
 	"time"
 
 	"gorm.io/driver/sqlite"
@@ -34,12 +36,16 @@ func NewProxy(p proxy.Proxy) (*Proxy, error) {
 		Base:              p.GetBase(),
 		LastAvailableTime: time.Now(),
 		Config:            string(data),
-	}
+	}, nil
+}
+
+type Result struct {
+	Proxy *Proxy
+	Error error
 }
 
 type Handler struct {
-	validateChan <-chan *proxy.Proxy
-	db           *gorm.DB
+	db *gorm.DB
 }
 
 func Init(cfg *config.StorageConfig) (*Handler, error) {
@@ -49,6 +55,14 @@ func Init(cfg *config.StorageConfig) (*Handler, error) {
 	)
 	switch cfg.Driver {
 	case "sqlite":
+		if _, err := os.Stat(cfg.DSN); os.IsNotExist(err) {
+			_ = os.MkdirAll(path.Dir(cfg.DSN), 0755)
+			f, err := os.Create(cfg.DSN)
+			if err != nil {
+				return nil, err
+			}
+			f.Close()
+		}
 		db, err = gorm.Open(sqlite.Open(cfg.DSN), &gorm.Config{})
 	}
 	if err != nil {
@@ -64,27 +78,25 @@ func Init(cfg *config.StorageConfig) (*Handler, error) {
 	}, nil
 }
 
-func (h *Handler) Store(ctx context.Context) {
-	for {
-		select {
-		case p := <-h.validateChan:
-			if p == nil {
-				return
-			}
-			pp, err := NewProxy(p)
-			if err != nil {
-
-			}
-		case <-ctx.Done():
-			return
-		}
+func (h *Handler) Store(ctx context.Context, p proxy.Proxy) (*Proxy, error) {
+	m, err := p.ConfigMap()
+	if err != nil {
+		return nil, err
 	}
-}
 
-func (h *Handler) SaveProxy(ctx context.Context, p proxy.Proxy) error {
+	data, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+
 	pp := &Proxy{
 		Base:              p.GetBase(),
 		LastAvailableTime: time.Now(),
+		Config:            string(data),
 	}
-	h.db.WithContext(ctx).Create(p)
+
+	if err := h.db.WithContext(ctx).Create(pp).Error; err != nil {
+		return nil, err
+	}
+	return pp, nil
 }

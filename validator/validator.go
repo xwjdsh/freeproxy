@@ -6,13 +6,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"sync"
 
 	"github.com/Dreamacro/clash/adapter"
 	emoji "github.com/jayco/go-emoji-flag"
 
 	"github.com/xwjdsh/freeproxy/config"
-	"github.com/xwjdsh/freeproxy/parser"
 	"github.com/xwjdsh/freeproxy/proxy"
 )
 
@@ -22,76 +20,43 @@ type Result struct {
 	Country      string
 	CountryCode  string
 	CountryEmoji string
-	Error        error
 }
 
 type Validator struct {
-	parserChan <-chan *parser.Result
-	ch         chan *Result
-	cfg        *config.ValidatorConfig
+	cfg *config.ValidatorConfig
 }
 
-func New(parserChan <-chan *parser.Result, cfg *config.ValidatorConfig) *Validator {
+func New(cfg *config.ValidatorConfig) *Validator {
 	return &Validator{
-		ch:         make(chan *Result),
-		parserChan: parserChan,
-		cfg:        cfg,
+		cfg: cfg,
 	}
 }
 
-func (v *Validator) Validate(ctx context.Context) {
-	wg := sync.WaitGroup{}
-	for {
-		select {
-		case r := <-v.parserChan:
-			if r == nil {
-				wg.Wait()
-				v.ch <- nil
-				return
-			}
-
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				v.ch <- v.ValidateOne(r.Proxy)
-			}()
-		case <-ctx.Done():
-			return
-		}
-	}
-}
-
-func (v *Validator) ValidateOne(p proxy.Proxy) *Result {
+func (v *Validator) Validate(p proxy.Proxy) (*Result, error) {
 	r := &Result{Proxy: p}
 	m, err := p.ConfigMap()
 	if err != nil {
-		r.Error = err
-		return r
+		return nil, err
 	}
 	clashProxy, err := adapter.ParseProxy(m)
 	if err != nil {
-		r.Error = err
-		return r
+		return nil, err
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), v.cfg.Timeout)
 	defer cancel()
 
-	r.Delay, r.Error = clashProxy.URLTest(ctx, v.cfg.TestURL)
-	if r.Error != nil {
-		return r
+	r.Delay, err = clashProxy.URLTest(ctx, v.cfg.TestURL)
+	if err != nil {
+		return nil, err
 	}
 
-	r.CountryCode, r.Country, r.Error = getCountryInfo(p.GetBase().Server)
-	if r.Error != nil {
-		return r
+	r.CountryCode, r.Country, err = getCountryInfo(p.GetBase().Server)
+	if err != nil {
+		return nil, err
 	}
 	r.CountryEmoji = emoji.GetFlag(r.CountryCode)
-	return r
-}
-
-func (v *Validator) Chan() <-chan *Result {
-	return v.ch
+	return r, nil
 }
 
 func getCountryInfo(server string) (string, string, error) {

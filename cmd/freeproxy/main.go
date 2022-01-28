@@ -62,7 +62,10 @@ func main() {
 					if err != nil {
 						return err
 					}
-					h := freeproxy.New(cfg)
+					h, err := freeproxy.Init(cfg)
+					if err != nil {
+						return err
+					}
 					h.Start(c.Context)
 					return nil
 				},

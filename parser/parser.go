@@ -2,6 +2,7 @@ package parser
 
 import (
 	"bufio"
+	"context"
 	"io/ioutil"
 	"log"
 	"os"
@@ -19,18 +20,16 @@ type Result struct {
 }
 
 type Parser struct {
-	ch  chan *Result
 	cfg *config.ParserConfig
 }
 
 func New(cfg *config.ParserConfig) *Parser {
 	return &Parser{
-		ch:  make(chan *Result),
 		cfg: cfg,
 	}
 }
 
-func (p *Parser) Parse() {
+func (p *Parser) Parse(ctx context.Context, ch chan<- *Result) {
 	list, err := ioutil.ReadDir(p.cfg.Dir)
 	if err != nil {
 		log.Fatalf("parser: ioutil.ReadDir error: %v", err)
@@ -41,11 +40,11 @@ func (p *Parser) Parse() {
 		if item.IsDir() {
 			continue
 		}
-		fp := filepath.Join(p.cfg.Dir, item.Name())
 		wg.Add(1)
+		fp := filepath.Join(p.cfg.Dir, item.Name())
+
 		go func() {
 			defer wg.Done()
-
 			file, err := os.Open(fp)
 			if err != nil {
 				log.Fatalf("parser: os.Open error: %v, file: %s", err, fp)
@@ -54,22 +53,27 @@ func (p *Parser) Parse() {
 
 			scanner := bufio.NewScanner(file)
 			for scanner.Scan() {
+				if ctx.Err() != nil {
+					return
+				}
 				line := scanner.Text()
-				if strings.HasPrefix(line, "ss://") {
-					r := new(Result)
+				r := new(Result)
+				switch {
+				case strings.HasPrefix(line, "ss://"):
 					r.Proxy, r.Err = proxy.NewShadowsocksByLink(line)
-					p.ch <- r
+				default:
+					r = nil
+				}
+				if r != nil {
+					ch <- r
 				}
 			}
+
 			if err := scanner.Err(); err != nil {
 				log.Fatalf("parser: scanner.Err: %v", err)
 			}
 		}()
 	}
-	wg.Wait()
-	p.ch <- nil
-}
 
-func (p *Parser) Chan() <-chan *Result {
-	return p.ch
+	wg.Wait()
 }
