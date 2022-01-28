@@ -6,7 +6,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
-	"github.com/xwjdsh/proxypool/config"
+	"github.com/xwjdsh/freeproxy/config"
 )
 
 type Handler struct {

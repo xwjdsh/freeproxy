@@ -1,12 +1,12 @@
-package proxypool
+package freeproxy
 
 import (
 	"fmt"
 	"sync"
 
-	"github.com/xwjdsh/proxypool/config"
-	"github.com/xwjdsh/proxypool/parser"
-	"github.com/xwjdsh/proxypool/validator"
+	"github.com/xwjdsh/freeproxy/config"
+	"github.com/xwjdsh/freeproxy/parser"
+	"github.com/xwjdsh/freeproxy/validator"
 )
 
 type Handler struct {

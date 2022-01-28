@@ -13,7 +13,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/xwjdsh/proxypool/proxy"
+	"github.com/xwjdsh/freeproxy/proxy"
 )
 
 type Result struct {

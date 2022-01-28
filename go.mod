@@ -1,4 +1,4 @@
-module github.com/xwjdsh/proxypool
+module github.com/xwjdsh/freeproxy
 
 go 1.17
 

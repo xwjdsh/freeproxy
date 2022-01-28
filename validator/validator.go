@@ -11,9 +11,9 @@ import (
 	"github.com/Dreamacro/clash/adapter"
 	emoji "github.com/jayco/go-emoji-flag"
 
-	"github.com/xwjdsh/proxypool/config"
-	"github.com/xwjdsh/proxypool/parser"
-	"github.com/xwjdsh/proxypool/proxy"
+	"github.com/xwjdsh/freeproxy/config"
+	"github.com/xwjdsh/freeproxy/parser"
+	"github.com/xwjdsh/freeproxy/proxy"
 )
 
 type Result struct {

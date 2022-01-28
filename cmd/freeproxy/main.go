@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/xwjdsh/proxypool"
-	"github.com/xwjdsh/proxypool/config"
+	"github.com/xwjdsh/freeproxy"
+	"github.com/xwjdsh/freeproxy/config"
 )
 
 func main() {
@@ -12,6 +12,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	h := proxypool.New(cfg)
+	h := freeproxy.New(cfg)
 	h.Start()
 }
