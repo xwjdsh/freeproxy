@@ -13,6 +13,10 @@ type Config struct {
 	Storage   *StorageConfig   `yaml:"storage"`
 }
 
+func (c *Config) Marshal() ([]byte, error) {
+	return yaml.Marshal(c)
+}
+
 type ValidatorConfig struct {
 	TestURL string        `yaml:"test_url"`
 	Timeout time.Duration `yaml:"timeout"`
@@ -23,7 +27,7 @@ type StorageConfig struct {
 	DSN    string `yaml:"dsn"`
 }
 
-func defaultConfig() *Config {
+func DefaultConfig() *Config {
 	return &Config{
 		Validator: &ValidatorConfig{
 			TestURL: "http://www.gstatic.com/generate_204",
@@ -36,7 +40,7 @@ func defaultConfig() *Config {
 }
 
 func Init(fp string) (*Config, error) {
-	cfg := defaultConfig()
+	cfg := DefaultConfig()
 	data, err := ioutil.ReadFile(fp)
 	if os.IsNotExist(err) {
 		return cfg, nil
