@@ -72,6 +72,7 @@ func (h *Handler) Start(ctx context.Context) {
 						}
 						b := vr.Proxy.GetBase()
 						b.CountryCode, b.Country, b.CountryEmoji = vr.CountryCode, vr.Country, vr.CountryEmoji
+						b.Delay = vr.Delay
 						validatorResultChan <- vr.Proxy
 					}
 				}

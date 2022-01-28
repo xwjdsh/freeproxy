@@ -30,6 +30,7 @@ type Base struct {
 	Country      string `json:"-"`
 	CountryCode  string `json:"-"`
 	CountryEmoji string `json:"-"`
+	Delay        uint16 `json:"-"`
 }
 
 func (b *Base) GetBase() *Base {
