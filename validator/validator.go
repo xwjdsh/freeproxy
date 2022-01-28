@@ -39,7 +39,7 @@ func New(parserChan <-chan *parser.Result, cfg *config.ValidatorConfig) *Validat
 	}
 }
 
-func (v *Validator) Validate() {
+func (v *Validator) Validate(ctx context.Context) {
 	wg := sync.WaitGroup{}
 	for {
 		select {
@@ -55,13 +55,15 @@ func (v *Validator) Validate() {
 				defer wg.Done()
 				v.ch <- v.ValidateOne(r.Proxy)
 			}()
+		case <-ctx.Done():
+			return
 		}
 	}
 }
 
 func (v *Validator) ValidateOne(p proxy.Proxy) *Result {
 	r := &Result{Proxy: p}
-	m, err := p.GetClashMapping()
+	m, err := p.ConfigMap()
 	if err != nil {
 		r.Error = err
 		return r

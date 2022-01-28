@@ -9,12 +9,17 @@ import (
 )
 
 type Config struct {
+	Parser    *ParserConfig    `yaml:"parser"`
 	Validator *ValidatorConfig `yaml:"validator"`
 	Storage   *StorageConfig   `yaml:"storage"`
 }
 
 func (c *Config) Marshal() ([]byte, error) {
 	return yaml.Marshal(c)
+}
+
+type ParserConfig struct {
+	Dir string `yaml:"dir"`
 }
 
 type ValidatorConfig struct {
@@ -29,6 +34,9 @@ type StorageConfig struct {
 
 func DefaultConfig() *Config {
 	return &Config{
+		Parser: &ParserConfig{
+			Dir: "./files",
+		},
 		Validator: &ValidatorConfig{
 			TestURL: "http://www.gstatic.com/generate_204",
 			Timeout: 5 * time.Second,

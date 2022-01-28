@@ -63,7 +63,7 @@ func main() {
 						return err
 					}
 					h := freeproxy.New(cfg)
-					h.Start()
+					h.Start(c.Context)
 					return nil
 				},
 			},

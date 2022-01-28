@@ -1,6 +1,7 @@
 package freeproxy
 
 import (
+	"context"
 	"fmt"
 	"sync"
 
@@ -15,14 +16,14 @@ type Handler struct {
 }
 
 func New(cfg *config.Config) *Handler {
-	parser := parser.New("./files")
+	parser := parser.New(cfg.Parser)
 	return &Handler{
 		parser:    parser,
 		validator: validator.New(parser.Chan(), cfg.Validator),
 	}
 }
 
-func (h *Handler) Start() {
+func (h *Handler) Start(ctx context.Context) {
 	wg := sync.WaitGroup{}
 	wg.Add(3)
 
@@ -33,7 +34,7 @@ func (h *Handler) Start() {
 
 	go func() {
 		defer wg.Done()
-		h.validator.Validate()
+		h.validator.Validate(ctx)
 	}()
 
 	go func() {
