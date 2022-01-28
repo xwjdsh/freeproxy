@@ -100,3 +100,8 @@ func (h *Handler) Store(ctx context.Context, p proxy.Proxy) (*Proxy, error) {
 	}
 	return pp, nil
 }
+
+func (h *Handler) GetProxies(ctx context.Context) ([]*Proxy, error) {
+	proxies := []*Proxy{}
+	return proxies, h.db.Find(&proxies).Error
+}

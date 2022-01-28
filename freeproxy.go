@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/xwjdsh/freeproxy/config"
+	"github.com/xwjdsh/freeproxy/exporter"
 	"github.com/xwjdsh/freeproxy/parser"
 	"github.com/xwjdsh/freeproxy/proxy"
 	"github.com/xwjdsh/freeproxy/storage"
@@ -17,6 +18,7 @@ type Handler struct {
 	parser    *parser.Parser
 	validator *validator.Validator
 	storage   *storage.Handler
+	exporter  *exporter.Exporter
 }
 
 func Init(cfg *config.Config) (*Handler, error) {
@@ -29,6 +31,7 @@ func Init(cfg *config.Config) (*Handler, error) {
 		parser:    parser.New(cfg.Parser),
 		validator: validator.New(cfg.Validator),
 		storage:   h,
+		exporter:  exporter.New(cfg.Exporter),
 	}, nil
 }
 
@@ -106,4 +109,13 @@ func (h *Handler) Start(ctx context.Context) {
 	}()
 
 	wg.Wait()
+}
+
+func (h *Handler) Export(ctx context.Context, tfp string) (string, error) {
+	ps, err := h.storage.GetProxies(ctx)
+	if err != nil {
+		return "", nil
+	}
+
+	return h.exporter.Export(ps, tfp)
 }

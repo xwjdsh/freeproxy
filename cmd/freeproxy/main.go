@@ -70,6 +70,35 @@ func main() {
 					return nil
 				},
 			},
+			{
+				Name:    "export",
+				Aliases: []string{"e"},
+				Usage:   "Export proxies",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:    "tmpl",
+						Aliases: []string{"t"},
+						Usage:   "Template file path",
+					},
+				},
+				Action: func(c *cli.Context) error {
+					cfg, err := config.Init(c.String("config"))
+					if err != nil {
+						return err
+					}
+					h, err := freeproxy.Init(cfg)
+					if err != nil {
+						return err
+					}
+					result, err := h.Export(c.Context, c.String("template"))
+					if err != nil {
+						return err
+					}
+
+					fmt.Println(result)
+					return nil
+				},
+			},
 		},
 	}
 

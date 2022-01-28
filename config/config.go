@@ -15,6 +15,7 @@ type Config struct {
 	Parser         *ParserConfig    `yaml:"parser"`
 	Validator      *ValidatorConfig `yaml:"validator"`
 	Storage        *StorageConfig   `yaml:"storage"`
+	Exporter       *ExporterConfig  `yaml:"exporter"`
 }
 
 func (c *Config) Marshal() ([]byte, error) {
@@ -35,6 +36,10 @@ type StorageConfig struct {
 	DSN    string `yaml:"dsn"`
 }
 
+type ExporterConfig struct {
+	TemplateFilePath string `yaml:"template_file_path"`
+}
+
 func DefaultConfig() *Config {
 	homeDir, _ := os.UserHomeDir()
 	return &Config{
@@ -51,6 +56,7 @@ func DefaultConfig() *Config {
 			Driver: "sqlite",
 			DSN:    fmt.Sprintf("%s/.config/freeproxy/freeproxy.db", homeDir),
 		},
+		Exporter: &ExporterConfig{},
 	}
 }
 
