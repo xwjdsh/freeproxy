@@ -80,23 +80,28 @@ func main() {
 						Aliases: []string{"t"},
 						Usage:   "Template file path",
 					},
+					&cli.StringFlag{
+						Name:    "output",
+						Aliases: []string{"o"},
+						Usage:   "Output file path, stdout if empty",
+					},
 				},
 				Action: func(c *cli.Context) error {
 					cfg, err := config.Init(c.String("config"))
 					if err != nil {
 						return err
 					}
+					if fp := c.String("template"); fp != "" {
+						cfg.Exporter.TemplateFilePath = fp
+					}
+					if fp := c.String("output"); fp != "" {
+						cfg.Exporter.OutputFilePath = fp
+					}
 					h, err := freeproxy.Init(cfg)
 					if err != nil {
 						return err
 					}
-					result, err := h.Export(c.Context, c.String("template"))
-					if err != nil {
-						return err
-					}
-
-					fmt.Println(result)
-					return nil
+					return h.Export(c.Context)
 				},
 			},
 		},

@@ -1,11 +1,12 @@
 package exporter
 
 import (
-	"bytes"
 	_ "embed"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"os"
 	"text/template"
 
 	"github.com/xwjdsh/freeproxy/config"
@@ -14,6 +15,15 @@ import (
 
 //go:embed clash.tmpl
 var defaultTemplate string
+
+type RenderItem struct {
+	Proxy  *storage.Proxy
+	Config string
+}
+
+type RenderData struct {
+	Items []*RenderItem
+}
 
 type Exporter struct {
 	cfg *config.ExporterConfig
@@ -25,38 +35,56 @@ func New(cfg *config.ExporterConfig) *Exporter {
 	}
 }
 
-func (e *Exporter) Export(ps []*storage.Proxy, tfp string) (string, error) {
-	proxies := []map[string]interface{}{}
+func (e *Exporter) Export(ps []*storage.Proxy) error {
+	rd := &RenderData{}
 	for _, p := range ps {
 		m := map[string]interface{}{}
 		if err := json.Unmarshal([]byte(p.Config), &m); err == nil {
-			m["name"] = fmt.Sprintf("%s-%s-%d", p.CountryCode, p.CountryEmoji, p.ID)
-			proxies = append(proxies, m)
+			p.Name = fmt.Sprintf("%s-%s-%d", p.CountryEmoji, p.CountryCode, p.ID)
+			m["name"] = p.Name
 		}
-	}
-
-	if tfp == "" {
-		tfp = e.cfg.TemplateFilePath
+		data, err := json.Marshal(m)
+		if err != nil {
+			return err
+		}
+		rd.Items = append(rd.Items, &RenderItem{
+			Proxy:  p,
+			Config: string(data),
+		})
 	}
 
 	text := defaultTemplate
-	if tfp != "" {
-		data, err := ioutil.ReadFile(tfp)
+	if fp := e.cfg.TemplateFilePath; fp != "" {
+		data, err := ioutil.ReadFile(fp)
 		if err != nil {
-			return "", err
+			return err
 		}
 		text = string(data)
 	}
 
 	t, err := template.New("").Parse(text)
 	if err != nil {
-		return "", err
+		return err
 	}
 
-	var buf bytes.Buffer
-	if err := t.Execute(&buf, proxies); err != nil {
-		return "", err
+	var wr io.Writer = os.Stdout
+	outputPath := e.cfg.OutputFilePath
+	if fp := outputPath; fp != "" {
+		f, err := os.OpenFile(fp, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+		wr = f
 	}
 
-	return buf.String(), nil
+	if err := t.Execute(wr, rd); err != nil {
+		return err
+	}
+
+	if outputPath != "" {
+		fmt.Printf("file save to: %s\n", outputPath)
+	}
+
+	return nil
 }

@@ -6,13 +6,8 @@ mode: Rule
 log-level: warning
 
 proxies:
-  {{- range . }}
-  - name: {{index . "name"}}
-    type: {{index . "type"}}
-    server: {{index . "server"}}
-    port: {{index . "port"}}
-    cipher: {{index . "cipher"}}
-    password: {{index . "password"}}
+  {{- range .Items }}
+  - {{.Config}}
   {{- end }}
 proxy-groups:
 - name: PROXY
@@ -20,14 +15,14 @@ proxy-groups:
   proxies:
   - Auto - UrlTest
   - DIRECT
-  {{- range . }}
-  - "{{index . "name"}}"
+  {{- range .Items }}
+  - {{.Proxy.Name}}
   {{- end }}
 - name: Auto - UrlTest
   type: url-test
   proxies:
-  {{- range . }}
-  - "{{index . "name"}}"
+  {{- range .Items }}
+  - {{.Proxy.Name}}
   {{- end }}
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"

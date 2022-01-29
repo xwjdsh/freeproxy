@@ -21,7 +21,7 @@ const (
 )
 
 type Base struct {
-	Name   string `json:"name"`
+	Name   string `json:"name" gorm:"-"`
 	Type   Type   `json:"type"`
 	Server string `json:"server"`
 	Port   int    `json:"port"`

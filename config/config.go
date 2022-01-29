@@ -42,6 +42,7 @@ type StorageConfig struct {
 
 type ExporterConfig struct {
 	TemplateFilePath string `yaml:"template_file_path"`
+	OutputFilePath   string `yaml:"output_file_path"`
 }
 
 func DefaultConfig() *Config {

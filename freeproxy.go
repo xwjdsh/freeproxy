@@ -116,11 +116,11 @@ func (h *Handler) Start(ctx context.Context) {
 	wg.Wait()
 }
 
-func (h *Handler) Export(ctx context.Context, tfp string) (string, error) {
+func (h *Handler) Export(ctx context.Context) error {
 	ps, err := h.storage.GetProxies(ctx)
 	if err != nil {
-		return "", nil
+		return nil
 	}
 
-	return h.exporter.Export(ps, tfp)
+	return h.exporter.Export(ps)
 }
