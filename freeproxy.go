@@ -15,7 +15,7 @@ import (
 
 type Handler struct {
 	cfg       *config.Config
-	parser    *parser.Parser
+	parser    *parser.Handler
 	validator *validator.Validator
 	storage   *storage.Handler
 	exporter  *exporter.Exporter
@@ -26,9 +26,13 @@ func Init(cfg *config.Config) (*Handler, error) {
 	if err != nil {
 		return nil, err
 	}
+	p, err := parser.Init(cfg.Parser)
+	if err != nil {
+		return nil, err
+	}
 	return &Handler{
 		cfg:       cfg,
-		parser:    parser.New(cfg.Parser),
+		parser:    p,
 		validator: validator.New(cfg.Validator),
 		storage:   h,
 		exporter:  exporter.New(cfg.Exporter),

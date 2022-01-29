@@ -22,8 +22,12 @@ func (c *Config) Marshal() ([]byte, error) {
 	return yaml.Marshal(c)
 }
 
+type ParserExecutor struct {
+	Name string `yaml:"name"`
+}
+
 type ParserConfig struct {
-	Dir string `yaml:"dir"`
+	Executors []*ParserExecutor `yaml:"executors"`
 }
 
 type ValidatorConfig struct {
@@ -46,7 +50,9 @@ func DefaultConfig() *Config {
 		StorageCount:   10,
 		ValidatorCount: 10,
 		Parser: &ParserConfig{
-			Dir: "./files",
+			Executors: []*ParserExecutor{
+				{Name: "cfmem"},
+			},
 		},
 		Validator: &ValidatorConfig{
 			TestURL: "http://www.gstatic.com/generate_204",
