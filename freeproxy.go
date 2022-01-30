@@ -7,6 +7,7 @@ import (
 
 	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/exporter"
+	"github.com/xwjdsh/freeproxy/log"
 	"github.com/xwjdsh/freeproxy/parser"
 	"github.com/xwjdsh/freeproxy/proxy"
 	"github.com/xwjdsh/freeproxy/storage"
@@ -22,6 +23,7 @@ type Handler struct {
 }
 
 func Init(cfg *config.Config) (*Handler, error) {
+	log.Init(cfg.Log)
 	h, err := storage.Init(cfg.Storage)
 	if err != nil {
 		return nil, err
@@ -75,7 +77,7 @@ func (h *Handler) Start(ctx context.Context) {
 							continue
 						}
 						b := vr.Proxy.GetBase()
-						b.CountryCode, b.Country, b.CountryEmoji = vr.CountryCode, vr.Country, vr.CountryEmoji
+						b.CountryCode, b.Country = vr.CountryCode, vr.Country
 						b.Delay = vr.Delay
 						validatorResultChan <- vr.Proxy
 					}

@@ -8,18 +8,16 @@ import (
 	"net/http"
 
 	"github.com/Dreamacro/clash/adapter"
-	emoji "github.com/jayco/go-emoji-flag"
 
 	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/proxy"
 )
 
 type Result struct {
-	Proxy        proxy.Proxy
-	Delay        uint16
-	Country      string
-	CountryCode  string
-	CountryEmoji string
+	Proxy       proxy.Proxy
+	Delay       uint16
+	Country     string
+	CountryCode string
 }
 
 type Validator struct {
@@ -55,7 +53,6 @@ func (v *Validator) Validate(p proxy.Proxy) (*Result, error) {
 	if err != nil {
 		return nil, err
 	}
-	r.CountryEmoji = emoji.GetFlag(r.CountryCode)
 	return r, nil
 }
 

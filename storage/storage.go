@@ -10,6 +10,7 @@ import (
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/proxy"
@@ -95,9 +96,13 @@ func (h *Handler) Store(ctx context.Context, p proxy.Proxy) (*Proxy, error) {
 		Config:            string(data),
 	}
 
-	if err := h.db.WithContext(ctx).Create(pp).Error; err != nil {
+	if err := h.db.Clauses(clause.OnConflict{
+		Columns:   []clause.Column{{Name: "server"}, {Name: "port"}},
+		UpdateAll: true,
+	}).Create(pp).Error; err != nil {
 		return nil, err
 	}
+
 	return pp, nil
 }
 

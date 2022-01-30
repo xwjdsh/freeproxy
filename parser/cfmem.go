@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"sync"
 
 	"github.com/PuerkitoBio/goquery"
 	"go.uber.org/zap"
@@ -13,6 +12,10 @@ import (
 var cfmemInstance = new(cfmemExecutor)
 
 type cfmemExecutor struct{}
+
+func (c *cfmemExecutor) Name() string {
+	return "cfmem"
+}
 
 func (c *cfmemExecutor) Execute(ctx context.Context, linkchan chan<- string) error {
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "https://www.cfmem.com/search/label/free", nil)
@@ -30,19 +33,10 @@ func (c *cfmemExecutor) Execute(ctx context.Context, linkchan chan<- string) err
 		return fmt.Errorf("parser: [cfmem] goquery.NewDocumentFromReader error: %w", err)
 	}
 
-	wg := sync.WaitGroup{}
-	doc.Find("article .entry-title a").Each(func(i int, s *goquery.Selection) {
-		if post, ok := s.Attr("href"); ok {
-			wg.Add(1)
+	if postLink, ok := doc.Find("article .entry-title a").First().Attr("href"); ok {
+		c.parsePage(ctx, postLink, linkchan)
+	}
 
-			go func() {
-				defer wg.Done()
-				c.parsePage(ctx, post, linkchan)
-			}()
-		}
-	})
-
-	wg.Wait()
 	return nil
 }
 

@@ -6,7 +6,10 @@ import (
 	"strings"
 	"sync"
 
+	"go.uber.org/zap"
+
 	"github.com/xwjdsh/freeproxy/config"
+	"github.com/xwjdsh/freeproxy/log"
 	"github.com/xwjdsh/freeproxy/proxy"
 )
 
@@ -17,6 +20,7 @@ type Result struct {
 
 type Executor interface {
 	Execute(ctx context.Context, linkchan chan<- string) error
+	Name() string
 }
 
 type Handler struct {
@@ -36,6 +40,8 @@ func Init(cfg *config.ParserConfig) (*Handler, error) {
 		switch e.Name {
 		case "cfmem":
 			h.executors[e.Name] = cfmemInstance
+		case "freefq":
+			h.executors[e.Name] = freefqInstance
 		default:
 			return nil, fmt.Errorf("parser: invalid executor name: %s", e.Name)
 		}
@@ -52,8 +58,14 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 	for _, e := range h.executors {
 		e := e
 		go func() {
-			defer wg.Done()
-			e.Execute(ctx, linkChan)
+			defer func() {
+				wg.Done()
+				log.L().Debug("parser: executor end", zap.String("name", e.Name()))
+			}()
+			log.L().Debug("parser: executor start", zap.String("name", e.Name()))
+			if err := e.Execute(ctx, linkChan); err != nil {
+				log.L().Debug("parser: executor error", zap.Error(err))
+			}
 		}()
 	}
 
@@ -80,4 +92,9 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 			return
 		}
 	}
+}
+
+func linkValid(link string) bool {
+	return strings.HasPrefix(link, "ss://") ||
+		strings.HasPrefix(link, "ssr://")
 }

@@ -23,14 +23,13 @@ const (
 type Base struct {
 	Name   string `json:"name" gorm:"-"`
 	Type   Type   `json:"type"`
-	Server string `json:"server"`
-	Port   int    `json:"port"`
+	Server string `json:"server" gorm:"uniqueIndex:idx_server_port"`
+	Port   int    `json:"port" gorm:"uniqueIndex:idx_server_port"`
 	UDP    bool   `json:"udp"`
 
-	Country      string `json:"-"`
-	CountryCode  string `json:"-"`
-	CountryEmoji string `json:"-"`
-	Delay        uint16 `json:"-"`
+	Country     string `json:"-"`
+	CountryCode string `json:"-"`
+	Delay       uint16 `json:"-"`
 }
 
 func (b *Base) GetBase() *Base {

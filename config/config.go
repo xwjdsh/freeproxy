@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"go.uber.org/zap/zapcore"
 	"gopkg.in/yaml.v3"
 )
 
@@ -16,10 +17,15 @@ type Config struct {
 	Validator      *ValidatorConfig `yaml:"validator"`
 	Storage        *StorageConfig   `yaml:"storage"`
 	Exporter       *ExporterConfig  `yaml:"exporter"`
+	Log            *LogConfig       `yaml:"log"`
 }
 
 func (c *Config) Marshal() ([]byte, error) {
 	return yaml.Marshal(c)
+}
+
+type LogConfig struct {
+	Level zapcore.Level `yaml:"level"`
 }
 
 type ParserExecutor struct {
@@ -53,6 +59,7 @@ func DefaultConfig() *Config {
 		Parser: &ParserConfig{
 			Executors: []*ParserExecutor{
 				{Name: "cfmem"},
+				{Name: "freefq"},
 			},
 		},
 		Validator: &ValidatorConfig{
@@ -64,6 +71,9 @@ func DefaultConfig() *Config {
 			DSN:    fmt.Sprintf("%s/.config/freeproxy/freeproxy.db", homeDir),
 		},
 		Exporter: &ExporterConfig{},
+		Log: &LogConfig{
+			Level: zapcore.InfoLevel,
+		},
 	}
 }
 

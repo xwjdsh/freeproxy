@@ -9,6 +9,8 @@ import (
 	"os"
 	"text/template"
 
+	emoji "github.com/jayco/go-emoji-flag"
+
 	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/storage"
 )
@@ -40,7 +42,8 @@ func (e *Exporter) Export(ps []*storage.Proxy) error {
 	for _, p := range ps {
 		m := map[string]interface{}{}
 		if err := json.Unmarshal([]byte(p.Config), &m); err == nil {
-			p.Name = fmt.Sprintf("%s-%s-%d", p.CountryEmoji, p.CountryCode, p.ID)
+			countryEmoji := emoji.GetFlag(p.CountryCode)
+			p.Name = fmt.Sprintf("%s-%s-%d", countryEmoji, p.CountryCode, p.ID)
 			m["name"] = p.Name
 		}
 		data, err := json.Marshal(m)
