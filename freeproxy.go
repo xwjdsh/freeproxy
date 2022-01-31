@@ -88,19 +88,26 @@ func (h *Handler) Fetch(ctx context.Context) error {
 		return nil
 	})
 
+	pb := progressbar.New(0)
 	g.Go(func() error {
 		ng := new(errgroup.Group)
+		total := 0
 		for {
 			select {
 			case r, ok := <-parserResultChan:
 				if !ok {
-					return ng.Wait()
+					err := ng.Wait()
+					pb.SetTotal(total, true)
+					return err
 				}
 				if r.Err != nil {
 					continue
 				}
+				total += 1
+				pb.SetTotal(total, false)
 
 				ng.Go(func() error {
+					defer pb.Incr()
 					if err := h.validator.Validate(ctx, r.Proxy); err != nil {
 						return nil
 					}

@@ -13,6 +13,7 @@ type ProgressBar struct {
 	bar       *mpb.Bar
 	prefix    string
 	suffix    string
+	total     int
 }
 
 func (s *ProgressBar) SetPrefix(format string, args ...interface{}) {
@@ -20,6 +21,7 @@ func (s *ProgressBar) SetPrefix(format string, args ...interface{}) {
 }
 
 func (s *ProgressBar) SetTotal(total int, triggerComplete bool) {
+	s.total = total
 	s.bar.SetTotal(int64(total), triggerComplete)
 }
 
@@ -79,7 +81,7 @@ func New(count int) *ProgressBar {
 			decor.NewPercentage("%d  "),
 			decor.Any(func(statistics decor.Statistics) string {
 				if progressBar != nil {
-					return fmt.Sprintf("(%d/%d) %s", statistics.Current, count, progressBar.suffix)
+					return fmt.Sprintf("(%d/%d) %s", statistics.Current, progressBar.total, progressBar.suffix)
 				}
 				return ""
 			}),
@@ -87,8 +89,10 @@ func New(count int) *ProgressBar {
 		mpb.BarWidth(15),
 	)
 
-	return &ProgressBar{
+	progressBar = &ProgressBar{
 		container: container,
 		bar:       bar,
 	}
+
+	return progressBar
 }
