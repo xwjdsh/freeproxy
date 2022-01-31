@@ -7,6 +7,7 @@ import (
 
 	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/exporter"
+	"github.com/xwjdsh/freeproxy/internal/progressbar"
 	"github.com/xwjdsh/freeproxy/log"
 	"github.com/xwjdsh/freeproxy/parser"
 	"github.com/xwjdsh/freeproxy/storage"
@@ -52,9 +53,14 @@ func (h *Handler) Tidy(ctx context.Context) error {
 	}
 
 	g := new(errgroup.Group)
+	pb := progressbar.New(len(ps))
 	for _, p := range ps {
 		p := p
 		g.Go(func() error {
+			defer func() {
+				pb.SetSuffix("done: %d", p.ID)
+				pb.Incr()
+			}()
 			pp, err := p.Restore(p.Config)
 			if err != nil {
 				return err
@@ -68,6 +74,7 @@ func (h *Handler) Tidy(ctx context.Context) error {
 		})
 	}
 
+	pb.Wait()
 	return g.Wait()
 }
 
@@ -82,17 +89,17 @@ func (h *Handler) Fetch(ctx context.Context) error {
 	})
 
 	g.Go(func() error {
+		ng := new(errgroup.Group)
 		for {
 			select {
 			case r, ok := <-parserResultChan:
 				if !ok {
-					return nil
+					return ng.Wait()
 				}
 				if r.Err != nil {
 					continue
 				}
 
-				ng := new(errgroup.Group)
 				ng.Go(func() error {
 					if err := h.validator.Validate(ctx, r.Proxy); err != nil {
 						return nil
