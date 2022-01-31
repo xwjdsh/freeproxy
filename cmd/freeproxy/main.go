@@ -54,9 +54,9 @@ func main() {
 				},
 			},
 			{
-				Name:    "run",
-				Aliases: []string{"r"},
-				Usage:   "Parse, validate and save proxies",
+				Name:    "fetch",
+				Aliases: []string{"f"},
+				Usage:   "Fetch new proxies",
 				Action: func(c *cli.Context) error {
 					cfg, err := config.Init(c.String("config"))
 					if err != nil {
@@ -66,8 +66,23 @@ func main() {
 					if err != nil {
 						return err
 					}
-					h.Start(c.Context)
-					return nil
+					return h.Fetch(c.Context)
+				},
+			},
+			{
+				Name:    "tidy",
+				Aliases: []string{"t"},
+				Usage:   "Tidy saved proxies, remove disabled records",
+				Action: func(c *cli.Context) error {
+					cfg, err := config.Init(c.String("config"))
+					if err != nil {
+						return err
+					}
+					h, err := freeproxy.Init(cfg)
+					if err != nil {
+						return err
+					}
+					return h.Tidy(c.Context)
 				},
 			},
 			{

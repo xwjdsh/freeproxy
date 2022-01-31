@@ -2,6 +2,7 @@ package proxy
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 )
 
@@ -30,10 +31,28 @@ type Base struct {
 	Country     string `json:"-"`
 	CountryCode string `json:"-"`
 	Delay       uint16 `json:"-"`
+	Link        string `json:"-"`
 }
 
 func (b *Base) GetBase() *Base {
 	return b
+}
+
+func (b *Base) Restore(cm string) (Proxy, error) {
+	var proxy Proxy
+	switch b.Type {
+	case SS:
+		proxy = new(Shadowsocks)
+	}
+
+	if err := json.Unmarshal([]byte(cm), proxy); err != nil {
+		return nil, err
+	}
+
+	b1 := proxy.GetBase()
+	*b1 = *b
+
+	return proxy, nil
 }
 
 func base64Decode(src string) (string, error) {

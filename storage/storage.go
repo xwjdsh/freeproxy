@@ -17,7 +17,9 @@ import (
 )
 
 type Proxy struct {
-	gorm.Model
+	ID        uint `gorm:"primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 	*proxy.Base
 	LastAvailableTime time.Time
 	Config            string
@@ -77,6 +79,10 @@ func Init(cfg *config.StorageConfig) (*Handler, error) {
 	return &Handler{
 		db: db,
 	}, nil
+}
+
+func (h *Handler) Remove(ctx context.Context, id uint) error {
+	return h.db.Delete(&Proxy{}, id).Error
 }
 
 func (h *Handler) Store(ctx context.Context, p proxy.Proxy) (*Proxy, error) {

@@ -78,6 +78,7 @@ func NewShadowsocksByLink(link string) (*Shadowsocks, error) {
 			Type:   SS,
 			Server: server,
 			Port:   port,
+			Link:   link,
 		},
 		Password:   password,
 		Cipher:     cipher,

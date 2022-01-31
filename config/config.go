@@ -11,13 +11,11 @@ import (
 )
 
 type Config struct {
-	ValidatorCount int              `yaml:"validator_count"`
-	StorageCount   int              `yaml:"storage_count"`
-	Parser         *ParserConfig    `yaml:"parser"`
-	Validator      *ValidatorConfig `yaml:"validator"`
-	Storage        *StorageConfig   `yaml:"storage"`
-	Exporter       *ExporterConfig  `yaml:"exporter"`
-	Log            *LogConfig       `yaml:"log"`
+	Parser    *ParserConfig    `yaml:"parser"`
+	Validator *ValidatorConfig `yaml:"validator"`
+	Storage   *StorageConfig   `yaml:"storage"`
+	Exporter  *ExporterConfig  `yaml:"exporter"`
+	Log       *LogConfig       `yaml:"log"`
 }
 
 func (c *Config) Marshal() ([]byte, error) {
@@ -37,8 +35,9 @@ type ParserConfig struct {
 }
 
 type ValidatorConfig struct {
-	TestURL string        `yaml:"test_url"`
-	Timeout time.Duration `yaml:"timeout"`
+	TestNetworkURL string        `yaml:"test_network_url"`
+	TestURL        string        `yaml:"test_url"`
+	Timeout        time.Duration `yaml:"timeout"`
 }
 
 type StorageConfig struct {
@@ -54,8 +53,6 @@ type ExporterConfig struct {
 func DefaultConfig() *Config {
 	homeDir, _ := os.UserHomeDir()
 	return &Config{
-		StorageCount:   10,
-		ValidatorCount: 10,
 		Parser: &ParserConfig{
 			Executors: []*ParserExecutor{
 				{Name: "cfmem"},
@@ -63,8 +60,9 @@ func DefaultConfig() *Config {
 			},
 		},
 		Validator: &ValidatorConfig{
-			TestURL: "http://www.gstatic.com/generate_204",
-			Timeout: 5 * time.Second,
+			TestNetworkURL: "https://www.baidu.com",
+			TestURL:        "http://www.gstatic.com/generate_204",
+			Timeout:        5 * time.Second,
 		},
 		Storage: &StorageConfig{
 			Driver: "sqlite",

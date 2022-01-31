@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 
@@ -12,13 +13,6 @@ import (
 	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/proxy"
 )
-
-type Result struct {
-	Proxy       proxy.Proxy
-	Delay       uint16
-	Country     string
-	CountryCode string
-}
 
 type Validator struct {
 	cfg *config.ValidatorConfig
@@ -30,34 +24,54 @@ func New(cfg *config.ValidatorConfig) *Validator {
 	}
 }
 
-func (v *Validator) Validate(p proxy.Proxy) (*Result, error) {
-	r := &Result{Proxy: p}
+func (v *Validator) CheckNetwork(ctx context.Context) error {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, v.cfg.TestNetworkURL, nil)
+	if err != nil {
+		return err
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	io.Copy(ioutil.Discard, resp.Body)
+	return nil
+}
+
+func (v *Validator) Validate(ctx context.Context, p proxy.Proxy) error {
 	m, err := p.ConfigMap()
 	if err != nil {
-		return nil, err
+		return err
 	}
 	clashProxy, err := adapter.ParseProxy(m)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), v.cfg.Timeout)
+	ctx, cancel := context.WithTimeout(ctx, v.cfg.Timeout)
 	defer cancel()
 
-	r.Delay, err = clashProxy.URLTest(ctx, v.cfg.TestURL)
+	b := p.GetBase()
+	b.Delay, err = clashProxy.URLTest(ctx, v.cfg.TestURL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	r.CountryCode, r.Country, err = getCountryInfo(p.GetBase().Server)
-	if err != nil {
-		return nil, err
+	if b.CountryCode == "" {
+		b.CountryCode, b.Country, err = getCountryInfo(ctx, p.GetBase().Server)
+		return err
 	}
-	return r, nil
+
+	return nil
 }
 
-func getCountryInfo(server string) (string, string, error) {
-	resp, err := http.Get(fmt.Sprintf("http://ip-api.com/json/%s?fields=countryCode,country", server))
+func getCountryInfo(ctx context.Context, server string) (string, string, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("http://ip-api.com/json/%s?fields=countryCode,country", server), nil)
+	if err != nil {
+		return "", "", err
+	}
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return "", "", err
 	}

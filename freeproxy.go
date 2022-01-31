@@ -2,14 +2,13 @@ package freeproxy
 
 import (
 	"context"
-	"fmt"
-	"sync"
+
+	"golang.org/x/sync/errgroup"
 
 	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/exporter"
 	"github.com/xwjdsh/freeproxy/log"
 	"github.com/xwjdsh/freeproxy/parser"
-	"github.com/xwjdsh/freeproxy/proxy"
 	"github.com/xwjdsh/freeproxy/storage"
 	"github.com/xwjdsh/freeproxy/validator"
 )
@@ -24,6 +23,7 @@ type Handler struct {
 
 func Init(cfg *config.Config) (*Handler, error) {
 	log.Init(cfg.Log)
+
 	h, err := storage.Init(cfg.Storage)
 	if err != nil {
 		return nil, err
@@ -41,81 +41,70 @@ func Init(cfg *config.Config) (*Handler, error) {
 	}, nil
 }
 
-func (h *Handler) Start(ctx context.Context) {
+func (h *Handler) Tidy(ctx context.Context) error {
+	ps, err := h.storage.GetProxies(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err := h.validator.CheckNetwork(ctx); err != nil {
+		return err
+	}
+
+	g := new(errgroup.Group)
+	for _, p := range ps {
+		p := p
+		g.Go(func() error {
+			pp, err := p.Restore(p.Config)
+			if err != nil {
+				return err
+			}
+			if err := h.validator.Validate(ctx, pp); err != nil {
+				return h.storage.Remove(ctx, p.ID)
+			}
+
+			_, err = h.storage.Store(ctx, pp)
+			return err
+		})
+	}
+
+	return g.Wait()
+}
+
+func (h *Handler) Fetch(ctx context.Context) error {
 	parserResultChan := make(chan *parser.Result)
-	validatorResultChan := make(chan proxy.Proxy)
+	g := new(errgroup.Group)
 
-	wg := sync.WaitGroup{}
-	wg.Add(3)
-
-	go func() {
-		wg.Done()
+	g.Go(func() error {
 		h.parser.Parse(ctx, parserResultChan)
 		close(parserResultChan)
-	}()
+		return nil
+	})
 
-	go func() {
-		defer wg.Done()
-
-		validatorWG := sync.WaitGroup{}
-		validatorWG.Add(h.cfg.ValidatorCount)
-		for i := 0; i < h.cfg.ValidatorCount; i++ {
-			go func() {
-				defer validatorWG.Done()
-				for {
-					select {
-					case r, ok := <-parserResultChan:
-						if !ok {
-							return
-						}
-						if r.Err != nil {
-							continue
-						}
-
-						vr, err := h.validator.Validate(r.Proxy)
-						if err != nil {
-							continue
-						}
-						b := vr.Proxy.GetBase()
-						b.CountryCode, b.Country = vr.CountryCode, vr.Country
-						b.Delay = vr.Delay
-						validatorResultChan <- vr.Proxy
-					}
+	g.Go(func() error {
+		for {
+			select {
+			case r, ok := <-parserResultChan:
+				if !ok {
+					return nil
 				}
-			}()
-		}
-		validatorWG.Wait()
-		close(validatorResultChan)
-	}()
-
-	go func() {
-		defer wg.Done()
-
-		storageWG := sync.WaitGroup{}
-		storageWG.Add(h.cfg.StorageCount)
-		for i := 0; i < h.cfg.StorageCount; i++ {
-			go func() {
-				defer storageWG.Done()
-				for {
-					select {
-					case p, ok := <-validatorResultChan:
-						if !ok {
-							return
-						}
-						pp, err := h.storage.Store(context.Background(), p)
-						if err != nil {
-							fmt.Println(err)
-						} else {
-							fmt.Printf("save %s\n", pp.Server)
-						}
-					}
+				if r.Err != nil {
+					continue
 				}
-			}()
-		}
-		storageWG.Wait()
-	}()
 
-	wg.Wait()
+				ng := new(errgroup.Group)
+				ng.Go(func() error {
+					if err := h.validator.Validate(ctx, r.Proxy); err != nil {
+						return nil
+					}
+					_, err := h.storage.Store(ctx, r.Proxy)
+					return err
+				})
+			}
+		}
+	})
+
+	return g.Wait()
 }
 
 func (h *Handler) Export(ctx context.Context) error {
