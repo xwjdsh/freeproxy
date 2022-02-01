@@ -5,7 +5,9 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"sync"
+	"strings"
+
+	"golang.org/x/sync/errgroup"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -23,19 +25,19 @@ func (c *freefqExecutor) Name() string {
 }
 
 func (c *freefqExecutor) Execute(ctx context.Context, linkChan chan<- *linkResp) error {
-	wg := sync.WaitGroup{}
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		c.parseSS(ctx, linkChan)
-	}()
+	g := new(errgroup.Group)
+	for _, url := range []string{"https://freefq.com/free-ss/", "https://freefq.com/free-ssr/"} {
+		url := url
+		g.Go(func() error {
+			return c.parse(ctx, url, linkChan)
+		})
+	}
 
-	wg.Wait()
-	return nil
+	return g.Wait()
 }
 
-func (c *freefqExecutor) parseSS(ctx context.Context, linkChan chan<- *linkResp) error {
-	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "https://freefq.com/free-ss/", nil)
+func (c *freefqExecutor) parse(ctx context.Context, url string, linkChan chan<- *linkResp) error {
+	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return fmt.Errorf("parser: [freefq] http.Get error: %w", err)
@@ -73,10 +75,15 @@ func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkCha
 
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
+		return fmt.Errorf("parser: [freefq] http status code error: %d, url: %s", res.StatusCode, fileLink)
+	}
+
+	doc, err := goquery.NewDocumentFromResponse(res)
+	if err != nil {
 		return err
 	}
 
-	scanner := bufio.NewScanner(res.Body)
+	scanner := bufio.NewScanner(strings.NewReader(doc.Text()))
 	for scanner.Scan() {
 		text := scanner.Text()
 		linkChan <- &linkResp{
@@ -85,10 +92,7 @@ func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkCha
 		}
 	}
 
-	if err := scanner.Err(); err != nil {
-		return err
-	}
-	return nil
+	return scanner.Err()
 }
 
 func (c *freefqExecutor) getFileLinkByPageLink(ctx context.Context, pageLink string) (string, error) {

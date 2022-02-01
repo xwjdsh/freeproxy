@@ -9,7 +9,7 @@ import (
 )
 
 func TestCfmem(t *testing.T) {
-	linkChan := make(chan string)
+	linkChan := make(chan *linkResp)
 	go func() {
 		for {
 			<-linkChan
@@ -20,7 +20,7 @@ func TestCfmem(t *testing.T) {
 }
 
 func TestFreefq(t *testing.T) {
-	linkChan := make(chan string)
+	linkChan := make(chan *linkResp)
 	go func() {
 		for {
 			fmt.Println(<-linkChan)

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"path"
 	"time"
@@ -11,6 +12,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+	"gorm.io/gorm/logger"
 
 	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/proxy"
@@ -21,8 +23,7 @@ type Proxy struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	*proxy.Base
-	LastAvailableTime time.Time
-	Config            string
+	Config string
 }
 
 func NewProxy(p proxy.Proxy) (*Proxy, error) {
@@ -36,9 +37,8 @@ func NewProxy(p proxy.Proxy) (*Proxy, error) {
 	}
 
 	return &Proxy{
-		Base:              p.GetBase(),
-		LastAvailableTime: time.Now(),
-		Config:            string(data),
+		Base:   p.GetBase(),
+		Config: string(data),
 	}, nil
 }
 
@@ -56,6 +56,15 @@ func Init(cfg *config.StorageConfig) (*Handler, error) {
 		db  *gorm.DB
 		err error
 	)
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold:             time.Second,   // Slow SQL threshold
+			LogLevel:                  logger.Silent, // Log level
+			IgnoreRecordNotFoundError: true,          // Ignore ErrRecordNotFound error for logger
+			Colorful:                  false,         // Disable color
+		},
+	)
 	switch cfg.Driver {
 	case "sqlite":
 		if _, err := os.Stat(cfg.DSN); os.IsNotExist(err) {
@@ -66,7 +75,7 @@ func Init(cfg *config.StorageConfig) (*Handler, error) {
 			}
 			f.Close()
 		}
-		db, err = gorm.Open(sqlite.Open(cfg.DSN), &gorm.Config{})
+		db, err = gorm.Open(sqlite.Open(cfg.DSN), &gorm.Config{Logger: newLogger})
 	}
 	if err != nil {
 		return nil, err
@@ -85,31 +94,36 @@ func (h *Handler) Remove(ctx context.Context, id uint) error {
 	return h.db.Delete(&Proxy{}, id).Error
 }
 
-func (h *Handler) Store(ctx context.Context, p proxy.Proxy) (*Proxy, error) {
+func (h *Handler) Update(ctx context.Context, p *Proxy) error {
+	b := p.GetBase()
+	return h.db.Model(p).Updates(map[string]interface{}{"delay": b.Delay, "country_code": b.CountryCode, "country": b.Country}).Error
+}
+
+func (h *Handler) Create(ctx context.Context, p proxy.Proxy) (*Proxy, bool, error) {
 	m, err := p.ConfigMap()
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 
 	data, err := json.Marshal(m)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 
 	pp := &Proxy{
-		Base:              p.GetBase(),
-		LastAvailableTime: time.Now(),
-		Config:            string(data),
+		Base:   p.GetBase(),
+		Config: string(data),
 	}
 
-	if err := h.db.Clauses(clause.OnConflict{
+	r := h.db.Clauses(clause.OnConflict{
 		Columns:   []clause.Column{{Name: "server"}, {Name: "port"}},
-		UpdateAll: true,
-	}).Create(pp).Error; err != nil {
-		return nil, err
+		DoNothing: true,
+	}).Create(pp)
+	if r.Error != nil {
+		return nil, false, r.Error
 	}
 
-	return pp, nil
+	return pp, r.RowsAffected > 0, nil
 }
 
 func (h *Handler) GetProxies(ctx context.Context) ([]*Proxy, error) {

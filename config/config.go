@@ -35,9 +35,11 @@ type ParserConfig struct {
 }
 
 type ValidatorConfig struct {
-	TestNetworkURL string        `yaml:"test_network_url"`
-	TestURL        string        `yaml:"test_url"`
-	Timeout        time.Duration `yaml:"timeout"`
+	TestNetworkURL        string        `yaml:"test_network_url"`
+	TestURL               string        `yaml:"test_url"`
+	TestURLCount          int           `yaml:"test_url_count"`
+	TestURLTimeout        time.Duration `yaml:"test_url_timeout"`
+	GetCountryInfoTimeout time.Duration `yaml:"get_country_info_timeout"`
 }
 
 type StorageConfig struct {
@@ -60,9 +62,11 @@ func DefaultConfig() *Config {
 			},
 		},
 		Validator: &ValidatorConfig{
-			TestNetworkURL: "https://www.baidu.com",
-			TestURL:        "http://www.gstatic.com/generate_204",
-			Timeout:        5 * time.Second,
+			TestNetworkURL:        "https://www.baidu.com",
+			TestURL:               "http://www.gstatic.com/generate_204",
+			TestURLCount:          3,
+			TestURLTimeout:        5 * time.Second,
+			GetCountryInfoTimeout: 5 * time.Second,
 		},
 		Storage: &StorageConfig{
 			Driver: "sqlite",

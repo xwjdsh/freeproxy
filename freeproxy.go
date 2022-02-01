@@ -55,11 +55,13 @@ func (h *Handler) Tidy(ctx context.Context) error {
 
 	g := new(errgroup.Group)
 	pb := progressbar.New(len(ps))
+	removed := 0
+	setCountry, emptyCountry := 0, 0
 	for _, p := range ps {
 		p := p
 		g.Go(func() error {
 			defer func() {
-				pb.SetSuffix("done: %d", p.ID)
+				pb.SetSuffix("removed: %d, setCountry: %d, emptyCountry: %d", removed, setCountry, emptyCountry)
 				pb.Incr()
 			}()
 			pp, err := p.Restore(p.Config)
@@ -67,11 +69,23 @@ func (h *Handler) Tidy(ctx context.Context) error {
 				return err
 			}
 			if err := h.validator.Validate(ctx, pp); err != nil {
-				return h.storage.Remove(ctx, p.ID)
+				removed += 1
+				err := h.storage.Remove(ctx, p.ID)
+				if err == nil {
+				}
+				return err
 			}
 
-			_, err = h.storage.Store(ctx, pp)
-			return err
+			if p.CountryCode == "" {
+				p.CountryCode, p.Country, _ = h.validator.GetCountryInfo(ctx, p.Server)
+				if p.CountryCode != "" {
+					setCountry += 1
+				} else {
+					emptyCountry += 1
+				}
+			}
+
+			return h.storage.Update(ctx, p)
 		})
 	}
 
@@ -93,6 +107,7 @@ func (h *Handler) Fetch(ctx context.Context) error {
 	g.Go(func() error {
 		ng := new(errgroup.Group)
 		total := 0
+		createdCount := 0
 		for {
 			select {
 			case r, ok := <-parserResultChan:
@@ -110,11 +125,18 @@ func (h *Handler) Fetch(ctx context.Context) error {
 				pb.SetTotal(total, false)
 
 				ng.Go(func() error {
-					defer pb.Incr()
+					defer func() {
+						pb.SetSuffix("created: %d", createdCount)
+						pb.Incr()
+					}()
+
 					if err := h.validator.Validate(ctx, r.Proxy); err != nil {
 						return nil
 					}
-					_, err := h.storage.Store(ctx, r.Proxy)
+					_, created, err := h.storage.Create(ctx, r.Proxy)
+					if created {
+						createdCount += 1
+					}
 					return err
 				})
 			}

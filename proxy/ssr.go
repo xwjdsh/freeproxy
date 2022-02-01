@@ -9,7 +9,7 @@ import (
 )
 
 type ShadowsocksR struct {
-	Base
+	*Base
 	Password      string `json:"password"`
 	Cipher        string `json:"cipher"`
 	Protocol      string `json:"protocol"`
@@ -68,8 +68,13 @@ func NewShadowsocksRByLink(link string) (*ShadowsocksR, error) {
 		return nil, fmt.Errorf("parser: invalid ssr obfsparam: %s", link)
 	}
 
+	// https://github.com/Dreamacro/clash/issues/865
+	if cipher == "none" {
+		cipher = "dummy"
+	}
+
 	return &ShadowsocksR{
-		Base: Base{
+		Base: &Base{
 			Server: server,
 			Port:   port,
 			Type:   SSR,

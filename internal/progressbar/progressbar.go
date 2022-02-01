@@ -92,6 +92,7 @@ func New(count int) *ProgressBar {
 	progressBar = &ProgressBar{
 		container: container,
 		bar:       bar,
+		total:     count,
 	}
 
 	return progressBar

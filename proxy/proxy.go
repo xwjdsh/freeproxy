@@ -43,15 +43,14 @@ func (b *Base) Restore(cm string) (Proxy, error) {
 	var proxy Proxy
 	switch b.Type {
 	case SS:
-		proxy = new(Shadowsocks)
+		proxy = &Shadowsocks{Base: b}
+	case SSR:
+		proxy = &ShadowsocksR{Base: b}
 	}
 
 	if err := json.Unmarshal([]byte(cm), proxy); err != nil {
 		return nil, err
 	}
-
-	b1 := proxy.GetBase()
-	*b1 = *b
 
 	return proxy, nil
 }

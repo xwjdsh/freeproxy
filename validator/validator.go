@@ -49,24 +49,31 @@ func (v *Validator) Validate(ctx context.Context, p proxy.Proxy) error {
 		return err
 	}
 
-	ctx, cancel := context.WithTimeout(ctx, v.cfg.Timeout)
-	defer cancel()
+	base := p.GetBase()
+	base.Delay = 0
+	for i := 0; i < v.cfg.TestURLCount; i++ {
+		base.Delay, err = func() (uint16, error) {
+			ctx, cancel := context.WithTimeout(ctx, v.cfg.TestURLTimeout)
+			defer cancel()
 
-	b := p.GetBase()
-	b.Delay, err = clashProxy.URLTest(ctx, v.cfg.TestURL)
-	if err != nil {
-		return err
+			return clashProxy.URLTest(ctx, v.cfg.TestURL)
+		}()
+		if err == nil {
+			break
+		}
 	}
 
-	if b.CountryCode == "" {
-		b.CountryCode, b.Country, err = getCountryInfo(ctx, p.GetBase().Server)
+	if base.Delay == 0 {
 		return err
 	}
 
 	return nil
 }
 
-func getCountryInfo(ctx context.Context, server string) (string, string, error) {
+func (v *Validator) GetCountryInfo(ctx context.Context, server string) (string, string, error) {
+	ctx, cancel := context.WithTimeout(ctx, v.cfg.GetCountryInfoTimeout)
+	defer cancel()
+
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("http://ip-api.com/json/%s?fields=countryCode,country", server), nil)
 	if err != nil {
 		return "", "", err
@@ -81,6 +88,7 @@ func getCountryInfo(ctx context.Context, server string) (string, string, error) 
 	if err != nil {
 		return "", "", err
 	}
+
 	var res struct {
 		Country     string `json:"country"`
 		CountryCode string `json:"countryCode"`

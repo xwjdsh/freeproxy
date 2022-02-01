@@ -9,7 +9,7 @@ import (
 )
 
 type Shadowsocks struct {
-	Base
+	*Base
 	Password   string                 `json:"password"`
 	Cipher     string                 `json:"cipher"`
 	Plugin     string                 `json:"plugin"`
@@ -74,7 +74,7 @@ func NewShadowsocksByLink(link string) (*Shadowsocks, error) {
 	}
 
 	return &Shadowsocks{
-		Base: Base{
+		Base: &Base{
 			Type:   SS,
 			Server: server,
 			Port:   port,
