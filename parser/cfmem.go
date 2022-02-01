@@ -65,11 +65,12 @@ func (c *cfmemExecutor) parsePage(ctx context.Context, post string, linkchan cha
 
 	doc.Find("pre span[role=presentation]").Each(func(i int, s *goquery.Selection) {
 		text := s.Text()
-		if text != "" {
-			linkchan <- &linkResp{
-				Source: c.Name(),
-				Link:   text,
-			}
+		if !linkValid(text) {
+			return
+		}
+		linkchan <- &linkResp{
+			Source: c.Name(),
+			Link:   text,
 		}
 	})
 }

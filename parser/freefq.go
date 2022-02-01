@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"golang.org/x/sync/errgroup"
@@ -86,6 +87,12 @@ func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkCha
 	scanner := bufio.NewScanner(strings.NewReader(doc.Text()))
 	for scanner.Scan() {
 		text := scanner.Text()
+		if link, ok := getSSRlink(text); ok {
+			text = link
+		}
+		if !linkValid(text) {
+			continue
+		}
 		linkChan <- &linkResp{
 			Source: c.Name(),
 			Link:   text,
@@ -93,6 +100,14 @@ func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkCha
 	}
 
 	return scanner.Err()
+}
+
+func getSSRlink(line string) (string, bool) {
+	result := regexp.MustCompile(`(?U)data="ssr://(?P<result>.+)"`).FindStringSubmatch(line)
+	if len(result) != 2 {
+		return line, false
+	}
+	return "ssr://" + result[1], true
 }
 
 func (c *freefqExecutor) getFileLinkByPageLink(ctx context.Context, pageLink string) (string, error) {

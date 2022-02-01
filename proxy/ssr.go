@@ -19,6 +19,7 @@ type ShadowsocksR struct {
 }
 
 func NewShadowsocksRByLink(link string) (*ShadowsocksR, error) {
+	originLink := link
 	link = strings.TrimPrefix(link, "ssr://")
 	link = strings.ReplaceAll(link, "–", "+")
 	link = strings.ReplaceAll(link, "_", "/")
@@ -78,7 +79,7 @@ func NewShadowsocksRByLink(link string) (*ShadowsocksR, error) {
 			Server: server,
 			Port:   port,
 			Type:   SSR,
-			Link:   link,
+			Link:   originLink,
 		},
 		Password:      password,
 		Cipher:        cipher,

@@ -104,3 +104,7 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 		}
 	}
 }
+
+func linkValid(link string) bool {
+	return strings.HasPrefix(link, "ss://") || strings.HasPrefix(link, "ssr://")
+}
