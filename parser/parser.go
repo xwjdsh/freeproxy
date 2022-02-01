@@ -19,13 +19,18 @@ type Result struct {
 }
 
 type Executor interface {
-	Execute(ctx context.Context, linkchan chan<- string) error
+	Execute(ctx context.Context, linkchan chan<- *linkResp) error
 	Name() string
 }
 
 type Handler struct {
 	executors map[string]Executor
 	cfg       *config.ParserConfig
+}
+
+type linkResp struct {
+	Source string
+	Link   string
 }
 
 func Init(cfg *config.ParserConfig) (*Handler, error) {
@@ -53,7 +58,7 @@ func Init(cfg *config.ParserConfig) (*Handler, error) {
 func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 	wg := sync.WaitGroup{}
 	wg.Add(len(h.executors))
-	linkChan := make(chan string)
+	linkChan := make(chan *linkResp)
 
 	for _, e := range h.executors {
 		e := e
@@ -69,32 +74,33 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 		}()
 	}
 
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
-
 	go func() {
 		wg.Wait()
-		cancel()
+		close(linkChan)
 	}()
 
 	for {
 		select {
-		case link := <-linkChan:
+		case lr, ok := <-linkChan:
+			if !ok {
+				return
+			}
 			r := new(Result)
 			switch {
-			case strings.HasPrefix(link, "ss://"):
-				r.Proxy, r.Err = proxy.NewShadowsocksByLink(link)
+			case strings.HasPrefix(lr.Link, "ss://"):
+				r.Proxy, r.Err = proxy.NewShadowsocksByLink(lr.Link)
+			case strings.HasPrefix(lr.Link, "ssr://"):
+				r.Proxy, r.Err = proxy.NewShadowsocksRByLink(lr.Link)
 			default:
 				continue
+			}
+
+			if r.Err == nil {
+				r.Proxy.GetBase().Source = lr.Source
 			}
 			ch <- r
 		case <-ctx.Done():
 			return
 		}
 	}
-}
-
-func linkValid(link string) bool {
-	return strings.HasPrefix(link, "ss://") ||
-		strings.HasPrefix(link, "ssr://")
 }

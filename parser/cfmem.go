@@ -17,7 +17,7 @@ func (c *cfmemExecutor) Name() string {
 	return "cfmem"
 }
 
-func (c *cfmemExecutor) Execute(ctx context.Context, linkchan chan<- string) error {
+func (c *cfmemExecutor) Execute(ctx context.Context, linkchan chan<- *linkResp) error {
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "https://www.cfmem.com/search/label/free", nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -40,7 +40,7 @@ func (c *cfmemExecutor) Execute(ctx context.Context, linkchan chan<- string) err
 	return nil
 }
 
-func (c *cfmemExecutor) parsePage(ctx context.Context, post string, linkchan chan<- string) {
+func (c *cfmemExecutor) parsePage(ctx context.Context, post string, linkchan chan<- *linkResp) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, post, nil)
 	if err != nil {
 		zap.L().Debug("parser: [cfmem] http.NewRequestWithContext error", zap.Error(err), zap.String("post", post))
@@ -66,7 +66,10 @@ func (c *cfmemExecutor) parsePage(ctx context.Context, post string, linkchan cha
 	doc.Find("pre span[role=presentation]").Each(func(i int, s *goquery.Selection) {
 		text := s.Text()
 		if text != "" {
-			linkchan <- text
+			linkchan <- &linkResp{
+				Source: c.Name(),
+				Link:   text,
+			}
 		}
 	})
 }

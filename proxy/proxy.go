@@ -18,7 +18,8 @@ var (
 type Type string
 
 const (
-	SS Type = "ss"
+	SS  Type = "ss"
+	SSR Type = "ssr"
 )
 
 type Base struct {
@@ -26,12 +27,12 @@ type Base struct {
 	Type   Type   `json:"type"`
 	Server string `json:"server" gorm:"uniqueIndex:idx_server_port"`
 	Port   int    `json:"port" gorm:"uniqueIndex:idx_server_port"`
-	UDP    bool   `json:"udp"`
+	Link   string `json:"-"`
+	Source string `json:"-"`
 
 	Country     string `json:"-"`
 	CountryCode string `json:"-"`
 	Delay       uint16 `json:"-"`
-	Link        string `json:"-"`
 }
 
 func (b *Base) GetBase() *Base {

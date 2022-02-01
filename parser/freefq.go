@@ -22,7 +22,7 @@ func (c *freefqExecutor) Name() string {
 	return "freefq"
 }
 
-func (c *freefqExecutor) Execute(ctx context.Context, linkChan chan<- string) error {
+func (c *freefqExecutor) Execute(ctx context.Context, linkChan chan<- *linkResp) error {
 	wg := sync.WaitGroup{}
 	wg.Add(1)
 	go func() {
@@ -34,7 +34,7 @@ func (c *freefqExecutor) Execute(ctx context.Context, linkChan chan<- string) er
 	return nil
 }
 
-func (c *freefqExecutor) parseSS(ctx context.Context, linkChan chan<- string) error {
+func (c *freefqExecutor) parseSS(ctx context.Context, linkChan chan<- *linkResp) error {
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "https://freefq.com/free-ss/", nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -64,7 +64,7 @@ func (c *freefqExecutor) parseSS(ctx context.Context, linkChan chan<- string) er
 	return c.fetchFile(ctx, fileLink, linkChan)
 }
 
-func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkChan chan<- string) error {
+func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkChan chan<- *linkResp) error {
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, fileLink, nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -78,9 +78,10 @@ func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkCha
 
 	scanner := bufio.NewScanner(res.Body)
 	for scanner.Scan() {
-		line := scanner.Text()
-		if linkValid(line) {
-			linkChan <- line
+		text := scanner.Text()
+		linkChan <- &linkResp{
+			Source: c.Name(),
+			Link:   text,
 		}
 	}
 

@@ -2,6 +2,7 @@ package freeproxy
 
 import (
 	"context"
+	"time"
 
 	"golang.org/x/sync/errgroup"
 
@@ -98,6 +99,8 @@ func (h *Handler) Fetch(ctx context.Context) error {
 				if !ok {
 					err := ng.Wait()
 					pb.SetTotal(total, true)
+					// wait progressbar 100%
+					time.Sleep(100 * time.Millisecond)
 					return err
 				}
 				if r.Err != nil {
