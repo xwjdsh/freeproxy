@@ -84,6 +84,10 @@ func (v *Validator) GetCountryInfo(ctx context.Context, server string) (string, 
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != 200 {
+		return "", "", fmt.Errorf("validator: GetCountryInfo unexpected status code: %d", resp.StatusCode)
+	}
+
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return "", "", err

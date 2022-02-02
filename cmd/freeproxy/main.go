@@ -58,11 +58,7 @@ func main() {
 				Aliases: []string{"f"},
 				Usage:   "Fetch new proxies",
 				Action: func(c *cli.Context) error {
-					cfg, err := config.Init(c.String("config"))
-					if err != nil {
-						return err
-					}
-					h, err := freeproxy.Init(cfg)
+					h, err := getHandler(c)
 					if err != nil {
 						return err
 					}
@@ -74,11 +70,7 @@ func main() {
 				Aliases: []string{"t"},
 				Usage:   "Tidy saved proxies, remove disabled records",
 				Action: func(c *cli.Context) error {
-					cfg, err := config.Init(c.String("config"))
-					if err != nil {
-						return err
-					}
-					h, err := freeproxy.Init(cfg)
+					h, err := getHandler(c)
 					if err != nil {
 						return err
 					}
@@ -86,33 +78,23 @@ func main() {
 				},
 			},
 			{
-				Name:    "export",
-				Aliases: []string{"e"},
-				Usage:   "Export proxies",
-				Flags: []cli.Flag{
-					&cli.StringFlag{
-						Name:    "tmpl",
-						Aliases: []string{"t"},
-						Usage:   "Template file path",
-					},
-					&cli.StringFlag{
-						Name:    "output",
-						Aliases: []string{"o"},
-						Usage:   "Output file path, stdout if empty",
-					},
-				},
+				Name:    "summary",
+				Aliases: []string{"s"},
+				Usage:   "Display saved proxies summary",
 				Action: func(c *cli.Context) error {
-					cfg, err := config.Init(c.String("config"))
+					h, err := getHandler(c)
 					if err != nil {
 						return err
 					}
-					if fp := c.String("template"); fp != "" {
-						cfg.Exporter.TemplateFilePath = fp
-					}
-					if fp := c.String("output"); fp != "" {
-						cfg.Exporter.OutputFilePath = fp
-					}
-					h, err := freeproxy.Init(cfg)
+					return h.Summary(c.Context)
+				},
+			},
+			{
+				Name:    "export",
+				Aliases: []string{"e"},
+				Usage:   "Export proxies",
+				Action: func(c *cli.Context) error {
+					h, err := getHandler(c)
 					if err != nil {
 						return err
 					}
@@ -126,4 +108,16 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func getHandler(c *cli.Context) (*freeproxy.Handler, error) {
+	cfg, err := config.Init(c.String("config"))
+	if err != nil {
+		return nil, err
+	}
+	h, err := freeproxy.Init(cfg)
+	if err != nil {
+		return nil, err
+	}
+	return h, nil
 }

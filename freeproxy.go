@@ -2,8 +2,13 @@ package freeproxy
 
 import (
 	"context"
+	"os"
+	"sort"
+	"strconv"
 	"time"
 
+	emoji "github.com/jayco/go-emoji-flag"
+	"github.com/olekukonko/tablewriter"
 	"golang.org/x/sync/errgroup"
 
 	"github.com/xwjdsh/freeproxy/config"
@@ -69,9 +74,9 @@ func (h *Handler) Tidy(ctx context.Context) error {
 				return err
 			}
 			if err := h.validator.Validate(ctx, pp); err != nil {
-				removed += 1
 				err := h.storage.Remove(ctx, p.ID)
 				if err == nil {
+					removed += 1
 				}
 				return err
 			}
@@ -153,4 +158,45 @@ func (h *Handler) Export(ctx context.Context) error {
 	}
 
 	return h.exporter.Export(ps)
+}
+
+func (h *Handler) Summary(ctx context.Context) error {
+	ps, err := h.storage.GetProxies(ctx)
+	if err != nil {
+		return nil
+	}
+
+	countryMap := map[string]string{}
+	countMap := map[string]int{}
+	for _, p := range ps {
+		countMap[p.CountryCode] += 1
+		if _, ok := countryMap[p.CountryCode]; !ok {
+			countryMap[p.CountryCode] = p.Country
+		}
+	}
+
+	codes := []string{}
+	for k := range countMap {
+		codes = append(codes, k)
+	}
+
+	sort.Slice(codes, func(i, j int) bool {
+		return countMap[codes[i]] > countMap[codes[j]]
+	})
+
+	data := [][]string{}
+	for _, code := range codes {
+		countryEmoji := emoji.GetFlag(code)
+		data = append(data, []string{
+			countryEmoji, code, countryMap[code], strconv.Itoa(countMap[code]),
+		})
+	}
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetAutoFormatHeaders(false)
+	table.SetHeader([]string{"", "CountryCode", "Country", "Amount"})
+	table.SetFooter([]string{"", "", "Total", strconv.Itoa(len(ps))}) // Add Footer
+	table.SetBorder(false)                                            // Set Border to false
+	table.AppendBulk(data)                                            // Add Bulk Data
+	table.Render()
+	return nil
 }
