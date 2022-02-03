@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-type Vmess struct {
+type vmessProxy struct {
 	*Base
 	UUID           string            `json:"uuid"`
 	AlterID        int               `json:"alterId"`
@@ -26,7 +26,7 @@ type HTTPOptions struct {
 	Headers map[string][]string `json:"headers,omitempty"`
 }
 
-func NewVmessByLink(link string) (*Vmess, error) {
+func newVmessByLink(link string) (*vmessProxy, error) {
 	originLink := link
 	link = strings.TrimPrefix(link, "vmess://")
 	decodeStr, err := base64Decode(link)
@@ -68,11 +68,11 @@ func NewVmessByLink(link string) (*Vmess, error) {
 		resp.Path = "/"
 	}
 
-	return &Vmess{
+	return &vmessProxy{
 		Base: &Base{
 			Server: resp.Add,
 			Port:   port,
-			Type:   VMESS,
+			Type:   Vmess,
 			Link:   originLink,
 		},
 		UUID:           resp.ID,
@@ -88,7 +88,7 @@ func NewVmessByLink(link string) (*Vmess, error) {
 	}, nil
 }
 
-func (p *Vmess) ConfigMap() (map[string]interface{}, error) {
+func (p *vmessProxy) ConfigMap() (map[string]interface{}, error) {
 	data, err := json.Marshal(p)
 	if err != nil {
 		return nil, err

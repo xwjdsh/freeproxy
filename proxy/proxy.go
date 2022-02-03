@@ -4,7 +4,10 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"strings"
 )
+
+var ErrInvalidLink = fmt.Errorf("proxy: invalid link")
 
 type Proxy interface {
 	GetBase() *Base
@@ -12,7 +15,7 @@ type Proxy interface {
 }
 
 var (
-	_ Proxy = new(Shadowsocks)
+	_ Proxy = new(ssProxy)
 )
 
 type Type string
@@ -20,7 +23,7 @@ type Type string
 const (
 	SS    Type = "ss"
 	SSR   Type = "ssr"
-	VMESS Type = "vmess"
+	Vmess Type = "vmess"
 )
 
 type Base struct {
@@ -44,11 +47,11 @@ func (b *Base) Restore(cm string) (Proxy, error) {
 	var proxy Proxy
 	switch b.Type {
 	case SS:
-		proxy = &Shadowsocks{Base: b}
+		proxy = &ssProxy{Base: b}
 	case SSR:
-		proxy = &ShadowsocksR{Base: b}
-	case VMESS:
-		proxy = &Vmess{Base: b}
+		proxy = &ssrProxy{Base: b}
+	case Vmess:
+		proxy = &vmessProxy{Base: b}
 	}
 
 	if err := json.Unmarshal([]byte(cm), proxy); err != nil {
@@ -76,4 +79,29 @@ func base64Decode(src string) (string, error) {
 	}
 
 	return "", fmt.Errorf("base64 decode error")
+}
+
+func NewProxyByLink(link string) (Proxy, error) {
+	var (
+		p   Proxy
+		err error
+	)
+	switch {
+	case strings.HasPrefix(link, "ss://"):
+		p, err = newSSByLink(link)
+	case strings.HasPrefix(link, "ssr://"):
+		p, err = newSSRByLink(link)
+	case strings.HasPrefix(link, "vmess://"):
+		p, err = newVmessByLink(link)
+	default:
+		err = ErrInvalidLink
+	}
+
+	return p, err
+}
+
+func LinkValid(link string) bool {
+	return strings.HasPrefix(link, "ss://") ||
+		strings.HasPrefix(link, "ssr://") ||
+		strings.HasPrefix(link, "vmess://")
 }

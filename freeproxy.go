@@ -16,6 +16,7 @@ import (
 	"github.com/xwjdsh/freeproxy/internal/progressbar"
 	"github.com/xwjdsh/freeproxy/log"
 	"github.com/xwjdsh/freeproxy/parser"
+	"github.com/xwjdsh/freeproxy/proxy"
 	"github.com/xwjdsh/freeproxy/storage"
 	"github.com/xwjdsh/freeproxy/validator"
 )
@@ -198,43 +199,65 @@ func (h *Handler) Export(ctx context.Context) error {
 	return h.exporter.Export(ps)
 }
 
+type summaryGroup struct {
+	CountryCode  string
+	Country      string
+	Total        int
+	ProxyTypeMap map[proxy.Type]int
+}
+
 func (h *Handler) Summary(ctx context.Context) error {
 	ps, err := h.storage.GetProxies(ctx)
 	if err != nil {
 		return nil
 	}
 
-	countryMap := map[string]string{}
-	countMap := map[string]int{}
-	for _, p := range ps {
-		countMap[p.CountryCode] += 1
-		if _, ok := countryMap[p.CountryCode]; !ok {
-			countryMap[p.CountryCode] = p.Country
-		}
-	}
-
+	summaryMap := map[string]*summaryGroup{}
 	codes := []string{}
-	for k := range countMap {
-		codes = append(codes, k)
+	totalProxyTypeMap := map[proxy.Type]int{}
+
+	for _, p := range ps {
+		sg := summaryMap[p.CountryCode]
+		if sg == nil {
+			codes = append(codes, p.CountryCode)
+			sg = &summaryGroup{
+				CountryCode:  p.CountryCode,
+				Country:      p.Country,
+				ProxyTypeMap: map[proxy.Type]int{},
+			}
+			summaryMap[p.CountryCode] = sg
+		}
+		sg.Total += 1
+		sg.ProxyTypeMap[p.Type] += 1
+		totalProxyTypeMap[p.Type] += 1
 	}
 
 	sort.Slice(codes, func(i, j int) bool {
-		return countMap[codes[i]] > countMap[codes[j]]
+		return summaryMap[codes[i]].Total > summaryMap[codes[j]].Total
 	})
 
 	data := [][]string{}
 	for _, code := range codes {
+		sg := summaryMap[code]
 		countryEmoji := emoji.GetFlag(code)
 		data = append(data, []string{
-			countryEmoji, code, countryMap[code], strconv.Itoa(countMap[code]),
+			countryEmoji + "  " + code, sg.Country, strconv.Itoa(sg.ProxyTypeMap[proxy.SS]),
+			strconv.Itoa(sg.ProxyTypeMap[proxy.SSR]), strconv.Itoa(sg.ProxyTypeMap[proxy.Vmess]),
+			strconv.Itoa(sg.Total),
 		})
 	}
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetAutoFormatHeaders(false)
-	table.SetHeader([]string{"", "CountryCode", "Country", "Amount"})
-	table.SetFooter([]string{"", "", "Total", strconv.Itoa(len(ps))}) // Add Footer
-	table.SetBorder(false)                                            // Set Border to false
-	table.AppendBulk(data)                                            // Add Bulk Data
+	table.SetHeader([]string{"CountryCode", "Country", "SS", "SSR", "Vmess", "Total"})
+	table.SetFooter([]string{
+		"", "Total",
+		strconv.Itoa(totalProxyTypeMap[proxy.SS]),
+		strconv.Itoa(totalProxyTypeMap[proxy.SSR]),
+		strconv.Itoa(totalProxyTypeMap[proxy.Vmess]),
+		strconv.Itoa(len(ps))})
+	table.SetBorder(false)
+	table.AppendBulk(data)
+	table.SetAlignment(tablewriter.ALIGN_CENTER)
 	table.Render()
 	return nil
 }

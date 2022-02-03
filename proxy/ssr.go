@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-type ShadowsocksR struct {
+type ssrProxy struct {
 	*Base
 	Password      string `json:"password"`
 	Cipher        string `json:"cipher"`
@@ -18,7 +18,7 @@ type ShadowsocksR struct {
 	ObfsParam     string `json:"obfs_param,omitempty"`
 }
 
-func NewShadowsocksRByLink(link string) (*ShadowsocksR, error) {
+func newSSRByLink(link string) (*ssrProxy, error) {
 	originLink := link
 	link = strings.TrimPrefix(link, "ssr://")
 	link = strings.ReplaceAll(link, "–", "+")
@@ -74,7 +74,7 @@ func NewShadowsocksRByLink(link string) (*ShadowsocksR, error) {
 		cipher = "dummy"
 	}
 
-	return &ShadowsocksR{
+	return &ssrProxy{
 		Base: &Base{
 			Server: server,
 			Port:   port,
@@ -90,7 +90,7 @@ func NewShadowsocksRByLink(link string) (*ShadowsocksR, error) {
 	}, nil
 }
 
-func (p *ShadowsocksR) ConfigMap() (map[string]interface{}, error) {
+func (p *ssrProxy) ConfigMap() (map[string]interface{}, error) {
 	data, err := json.Marshal(p)
 	if err != nil {
 		return nil, err

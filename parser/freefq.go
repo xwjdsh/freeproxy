@@ -89,13 +89,10 @@ func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkCha
 		text := scanner.Text()
 		if link, ok := getSSRlink(text); ok {
 			text = link
-		}
-		if link, ok := getV2raylink(text); ok {
+		} else if link, ok := getV2raylink(text); ok {
 			text = link
 		}
-		if !linkValid(text) {
-			continue
-		}
+
 		linkChan <- &linkResp{
 			Source: c.Name(),
 			Link:   text,

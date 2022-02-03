@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-type Shadowsocks struct {
+type ssProxy struct {
 	*Base
 	Password   string                 `json:"password"`
 	Cipher     string                 `json:"cipher"`
@@ -16,7 +16,7 @@ type Shadowsocks struct {
 	PluginOpts map[string]interface{} `json:"plugin-opts"`
 }
 
-func NewShadowsocksByLink(link string) (*Shadowsocks, error) {
+func newSSByLink(link string) (*ssProxy, error) {
 	uri, err := url.Parse(link)
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func NewShadowsocksByLink(link string) (*Shadowsocks, error) {
 		return nil, fmt.Errorf("proxy: [ss] invalid link")
 	}
 
-	return &Shadowsocks{
+	return &ssProxy{
 		Base: &Base{
 			Type:   SS,
 			Server: server,
@@ -87,7 +87,7 @@ func NewShadowsocksByLink(link string) (*Shadowsocks, error) {
 	}, nil
 }
 
-func (p *Shadowsocks) ConfigMap() (map[string]interface{}, error) {
+func (p *ssProxy) ConfigMap() (map[string]interface{}, error) {
 	data, err := json.Marshal(p)
 	if err != nil {
 		return nil, err

@@ -2,8 +2,8 @@ package parser
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"strings"
 	"sync"
 
 	"go.uber.org/zap"
@@ -86,29 +86,18 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 				return
 			}
 			r := new(Result)
-			switch {
-			case strings.HasPrefix(lr.Link, "ss://"):
-				r.Proxy, r.Err = proxy.NewShadowsocksByLink(lr.Link)
-			case strings.HasPrefix(lr.Link, "ssr://"):
-				r.Proxy, r.Err = proxy.NewShadowsocksRByLink(lr.Link)
-			case strings.HasPrefix(lr.Link, "vmess://"):
-				r.Proxy, r.Err = proxy.NewVmessByLink(lr.Link)
-			default:
+			r.Proxy, r.Err = proxy.NewProxyByLink(lr.Link)
+			if errors.Is(r.Err, proxy.ErrInvalidLink) {
 				continue
 			}
 
 			if r.Err == nil {
 				r.Proxy.GetBase().Source = lr.Source
 			}
+
 			ch <- r
 		case <-ctx.Done():
 			return
 		}
 	}
-}
-
-func linkValid(link string) bool {
-	return strings.HasPrefix(link, "ss://") ||
-		strings.HasPrefix(link, "ssr://") ||
-		strings.HasPrefix(link, "vmess://")
 }
