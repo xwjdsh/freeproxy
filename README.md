@@ -1,1 +1,1 @@
-# pxoxypool
+# freeproxy

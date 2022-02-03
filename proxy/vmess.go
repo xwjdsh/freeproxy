@@ -35,29 +35,46 @@ func newVmessByLink(link string) (*vmessProxy, error) {
 	}
 
 	var resp struct {
-		V    string `json:"v"`
-		Ps   string `json:"ps"`
-		Add  string `json:"add"`
-		Port string `json:"port"`
-		ID   string `json:"id"`
-		Aid  string `json:"aid"`
-		Scy  string `json:"scy"`
-		Net  string `json:"net"`
-		Type string `json:"type"`
-		Host string `json:"host"`
-		Path string `json:"path"`
-		TLS  string `json:"tls"`
-		Sni  string `json:"sni"`
+		// V    string      `json:"v"`
+		Ps   string      `json:"ps"`
+		Add  string      `json:"add"`
+		Port interface{} `json:"port"`
+		ID   string      `json:"id"`
+		Aid  interface{} `json:"aid"`
+		Scy  string      `json:"scy"`
+		Net  string      `json:"net"`
+		Type string      `json:"type"`
+		Host string      `json:"host"`
+		Path string      `json:"path"`
+		TLS  string      `json:"tls"`
+		Sni  string      `json:"sni"`
 	}
 	if err := json.Unmarshal([]byte(decodeStr), &resp); err != nil {
 		return nil, err
 	}
 
-	port, err := strconv.Atoi(resp.Port)
-	if err != nil {
-		return nil, err
+	port := 0
+	switch v := resp.Port.(type) {
+	case int:
+		port = v
+	case string:
+		port, err = strconv.Atoi(v)
+		if err != nil {
+			return nil, err
+		}
 	}
-	alterId, _ := strconv.Atoi(resp.Aid)
+
+	alterId := 0
+	switch v := resp.Aid.(type) {
+	case int:
+		alterId = v
+	case string:
+		alterId, err = strconv.Atoi(v)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	tls := resp.TLS == "tls"
 	wsHeaders := make(map[string]string)
 	if resp.Host != "" {
