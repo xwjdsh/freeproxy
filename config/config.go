@@ -11,6 +11,7 @@ import (
 )
 
 type Config struct {
+	App       *AppConfig       `yaml:"app"`
 	Parser    *ParserConfig    `yaml:"parser"`
 	Validator *ValidatorConfig `yaml:"validator"`
 	Storage   *StorageConfig   `yaml:"storage"`
@@ -20,6 +21,10 @@ type Config struct {
 
 func (c *Config) Marshal() ([]byte, error) {
 	return yaml.Marshal(c)
+}
+
+type AppConfig struct {
+	Worker int `yaml:"worker"`
 }
 
 type LogConfig struct {
@@ -55,6 +60,9 @@ type ExporterConfig struct {
 func DefaultConfig() *Config {
 	homeDir, _ := os.UserHomeDir()
 	return &Config{
+		App: &AppConfig{
+			Worker: 100,
+		},
 		Parser: &ParserConfig{
 			Executors: []*ParserExecutor{
 				{Name: "cfmem"},
