@@ -18,8 +18,9 @@ var (
 type Type string
 
 const (
-	SS  Type = "ss"
-	SSR Type = "ssr"
+	SS    Type = "ss"
+	SSR   Type = "ssr"
+	VMESS Type = "vmess"
 )
 
 type Base struct {
@@ -46,6 +47,8 @@ func (b *Base) Restore(cm string) (Proxy, error) {
 		proxy = &Shadowsocks{Base: b}
 	case SSR:
 		proxy = &ShadowsocksR{Base: b}
+	case VMESS:
+		proxy = &Vmess{Base: b}
 	}
 
 	if err := json.Unmarshal([]byte(cm), proxy); err != nil {

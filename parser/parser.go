@@ -91,6 +91,8 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 				r.Proxy, r.Err = proxy.NewShadowsocksByLink(lr.Link)
 			case strings.HasPrefix(lr.Link, "ssr://"):
 				r.Proxy, r.Err = proxy.NewShadowsocksRByLink(lr.Link)
+			case strings.HasPrefix(lr.Link, "vmess://"):
+				r.Proxy, r.Err = proxy.NewVmessByLink(lr.Link)
 			default:
 				continue
 			}
@@ -106,5 +108,7 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 }
 
 func linkValid(link string) bool {
-	return strings.HasPrefix(link, "ss://") || strings.HasPrefix(link, "ssr://")
+	return strings.HasPrefix(link, "ss://") ||
+		strings.HasPrefix(link, "ssr://") ||
+		strings.HasPrefix(link, "vmess://")
 }

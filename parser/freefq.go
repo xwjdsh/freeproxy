@@ -27,7 +27,7 @@ func (c *freefqExecutor) Name() string {
 
 func (c *freefqExecutor) Execute(ctx context.Context, linkChan chan<- *linkResp) error {
 	g := new(errgroup.Group)
-	for _, url := range []string{"https://freefq.com/free-ss/", "https://freefq.com/free-ssr/"} {
+	for _, url := range []string{"https://freefq.com/free-ss/", "https://freefq.com/free-ssr/", "https://freefq.com/v2ray/"} {
 		url := url
 		g.Go(func() error {
 			return c.parse(ctx, url, linkChan)
@@ -90,6 +90,9 @@ func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkCha
 		if link, ok := getSSRlink(text); ok {
 			text = link
 		}
+		if link, ok := getV2raylink(text); ok {
+			text = link
+		}
 		if !linkValid(text) {
 			continue
 		}
@@ -108,6 +111,14 @@ func getSSRlink(line string) (string, bool) {
 		return line, false
 	}
 	return "ssr://" + result[1], true
+}
+
+func getV2raylink(line string) (string, bool) {
+	result := regexp.MustCompile(`(?U)data="vmess://(?P<result>.+)"`).FindStringSubmatch(line)
+	if len(result) != 2 {
+		return line, false
+	}
+	return "vmess://" + result[1], true
 }
 
 func (c *freefqExecutor) getFileLinkByPageLink(ctx context.Context, pageLink string) (string, error) {
