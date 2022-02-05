@@ -1,0 +1,34 @@
+name: 'tidy & export'
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  auto-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: run
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+      - name: Run Tidy & Export
+        run: |
+          go install github.com/xwjdsh/freeproxy/cmd/freeproxy@main
+          freeproxy -c ./config.yml tidy
+          freeproxy -c ./config.yml export
+      - name: Commit & Push
+        run: |
+          CHANGES=$(git status --porcelain)
+          if [[ $CHANGES != '' ]]; then
+            git pull
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            TIME=$(date +"%Y-%m-%d %H:%M:%S")
+            git add .
+            git commit -m "tidy & export: $TIME"
+            git push
+          fi
