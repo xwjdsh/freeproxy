@@ -14,6 +14,7 @@ import (
 func main() {
 	homeDir, _ := os.UserHomeDir()
 	app := &cli.App{
+		Usage: "A command-line free proxy manager",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:    "config",
