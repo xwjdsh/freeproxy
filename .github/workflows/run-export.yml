@@ -20,6 +20,7 @@ jobs:
           go install github.com/xwjdsh/freeproxy/cmd/freeproxy@main
           freeproxy -c ./config.yml tidy
           freeproxy -c ./config.yml export
+          freeproxy -c ./config.yml summary -t ./README.tmpl > README.md
       - name: Commit & Push
         run: |
           CHANGES=$(git status --porcelain)
