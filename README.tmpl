@@ -1,0 +1,7 @@
+# freeproxy
+
+|CountryCode|Country|SS|SSR|Vmess|Total|
+{{- range .Items }}
+|{{.CountryEmoji}} {{.CountryCode}}|{{.Country}}|{{index .ProxyTypeMap "SS"}}|{{index .ProxyTypeMap "SSR"}}|{{index .ProxyTypeMap "Vmess"}}|{{.Total}}| 
+{{- end }}
+||Total|{{index .TotalProxyTypeMap "SS"}}|{{index .TotalProxyTypeMap "SSR"}}|{{index .TotalProxyTypeMap "Vmess"}}|{{.Total}}| 
