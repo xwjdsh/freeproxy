@@ -2,10 +2,12 @@ package freeproxy
 
 import (
 	"context"
+	"io/ioutil"
 	"os"
 	"sort"
 	"strconv"
 	"sync"
+	"text/template"
 
 	emoji "github.com/jayco/go-emoji-flag"
 	"github.com/olekukonko/tablewriter"
@@ -199,51 +201,73 @@ func (h *Handler) Export(ctx context.Context) error {
 	return h.exporter.Export(ps)
 }
 
-type summaryGroup struct {
+type SummaryGroup struct {
 	CountryCode  string
+	CountryEmoji string
 	Country      string
 	Total        int
 	ProxyTypeMap map[proxy.Type]int
 }
 
-func (h *Handler) Summary(ctx context.Context) error {
+type SummaryData struct {
+	Items             []*SummaryGroup
+	TotalProxyTypeMap map[proxy.Type]int
+	Total             int
+}
+
+func (h *Handler) Summary(ctx context.Context, templatePath string) error {
 	ps, err := h.storage.GetProxies(ctx)
 	if err != nil {
 		return nil
 	}
 
-	summaryMap := map[string]*summaryGroup{}
-	codes := []string{}
-	totalProxyTypeMap := map[proxy.Type]int{}
+	sd := &SummaryData{
+		Total:             len(ps),
+		TotalProxyTypeMap: map[proxy.Type]int{},
+	}
 
+	m := map[string]*SummaryGroup{}
 	for _, p := range ps {
-		sg := summaryMap[p.CountryCode]
+		sg := m[p.CountryCode]
 		if sg == nil {
-			codes = append(codes, p.CountryCode)
-			sg = &summaryGroup{
+			sg = &SummaryGroup{
 				CountryCode:  p.CountryCode,
+				CountryEmoji: emoji.GetFlag(p.CountryCode),
 				Country:      p.Country,
 				ProxyTypeMap: map[proxy.Type]int{},
 			}
-			summaryMap[p.CountryCode] = sg
+			m[p.CountryCode] = sg
+			sd.Items = append(sd.Items, sg)
 		}
 		sg.Total += 1
 		sg.ProxyTypeMap[p.Type] += 1
-		totalProxyTypeMap[p.Type] += 1
+		sd.TotalProxyTypeMap[p.Type] += 1
 	}
 
-	sort.Slice(codes, func(i, j int) bool {
-		return summaryMap[codes[i]].Total > summaryMap[codes[j]].Total
+	sort.Slice(sd.Items, func(i, j int) bool {
+		return sd.Items[i].Total > sd.Items[j].Total
 	})
 
+	if templatePath != "" {
+		data, err := ioutil.ReadFile(templatePath)
+		if err != nil {
+			return err
+		}
+
+		t, err := template.New("").Parse(string(data))
+		if err != nil {
+			return err
+		}
+
+		return t.Execute(os.Stdout, sd)
+	}
+
 	data := [][]string{}
-	for _, code := range codes {
-		sg := summaryMap[code]
-		countryEmoji := emoji.GetFlag(code)
+	for _, item := range sd.Items {
 		data = append(data, []string{
-			countryEmoji + "  " + code, sg.Country, strconv.Itoa(sg.ProxyTypeMap[proxy.SS]),
-			strconv.Itoa(sg.ProxyTypeMap[proxy.SSR]), strconv.Itoa(sg.ProxyTypeMap[proxy.Vmess]),
-			strconv.Itoa(sg.Total),
+			item.CountryEmoji + " " + item.CountryCode, item.Country, strconv.Itoa(item.ProxyTypeMap[proxy.SS]),
+			strconv.Itoa(item.ProxyTypeMap[proxy.SSR]), strconv.Itoa(item.ProxyTypeMap[proxy.Vmess]),
+			strconv.Itoa(item.Total),
 		})
 	}
 	table := tablewriter.NewWriter(os.Stdout)
@@ -251,10 +275,10 @@ func (h *Handler) Summary(ctx context.Context) error {
 	table.SetHeader([]string{"CountryCode", "Country", "SS", "SSR", "Vmess", "Total"})
 	table.SetFooter([]string{
 		"", "Total",
-		strconv.Itoa(totalProxyTypeMap[proxy.SS]),
-		strconv.Itoa(totalProxyTypeMap[proxy.SSR]),
-		strconv.Itoa(totalProxyTypeMap[proxy.Vmess]),
-		strconv.Itoa(len(ps))})
+		strconv.Itoa(sd.TotalProxyTypeMap[proxy.SS]),
+		strconv.Itoa(sd.TotalProxyTypeMap[proxy.SSR]),
+		strconv.Itoa(sd.TotalProxyTypeMap[proxy.Vmess]),
+		strconv.Itoa(sd.Total)})
 	table.SetBorder(false)
 	table.AppendBulk(data)
 	table.SetAlignment(tablewriter.ALIGN_CENTER)

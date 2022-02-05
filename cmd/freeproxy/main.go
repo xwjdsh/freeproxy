@@ -82,12 +82,19 @@ func main() {
 				Name:    "summary",
 				Aliases: []string{"s"},
 				Usage:   "Display saved proxies summary",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:    "template",
+						Aliases: []string{"t"},
+						Usage:   "Output template",
+					},
+				},
 				Action: func(c *cli.Context) error {
 					h, err := getHandler(c)
 					if err != nil {
 						return err
 					}
-					return h.Summary(c.Context)
+					return h.Summary(c.Context, c.String("template"))
 				},
 			},
 			{

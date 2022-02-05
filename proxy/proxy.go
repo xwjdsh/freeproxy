@@ -18,7 +18,7 @@ var (
 	_ Proxy = new(ssProxy)
 )
 
-type Type string
+type Type = string
 
 const (
 	SS    Type = "ss"
