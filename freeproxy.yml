@@ -1,0 +1,20 @@
+app:
+    worker: 100
+parser:
+    executors:
+        - name: cfmem
+        - name: freefq
+validator:
+    test_network_url: https://www.baidu.com
+    test_url: http://www.gstatic.com/generate_204
+    test_url_count: 3
+    test_url_timeout: 5s
+    get_country_info_timeout: 5s
+storage:
+    driver: sqlite
+    dsn: ./freeproxy.db
+exporter:
+    template_file_path: ""
+    output_file_path: "./freeproxy.yaml"
+log:
+    level: info
