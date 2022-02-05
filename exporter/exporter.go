@@ -73,7 +73,7 @@ func (e *Exporter) Export(ps []*storage.Proxy) error {
 	var wr io.Writer = os.Stdout
 	outputPath := e.cfg.OutputFilePath
 	if fp := outputPath; fp != "" {
-		f, err := os.OpenFile(fp, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+		f, err := os.OpenFile(fp, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 		if err != nil {
 			return err
 		}
