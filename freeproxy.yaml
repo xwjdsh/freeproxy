@@ -442,12 +442,10 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-472","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2376,"server":"172.105.244.165","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇳🇱-NL-473","password":"pKEW8JPByTVTLtM","plugin":"","plugin-opts":{},"port":4444,"server":"172.99.188.99","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-474","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5004,"server":"198.57.27.184","type":"ss"}
-  - {"cipher":"chacha20-ietf-poly1305","name":"🇫🇷-FR-475","password":"Xd2xnHT8tYkVt5BDk92b","plugin":"","plugin-opts":{},"port":8389,"server":"37.120.136.234","type":"ss"}
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-476","network":"tcp","port":52286,"server":"86.wgong.xyz","servername":"86.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"86.wgong.xyz"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-478","password":"kDWvXYZoTBcGkC4","plugin":"","plugin-opts":{},"port":8881,"server":"167.88.63.61","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-479","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7306,"server":"198.57.27.184","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇯🇵-JP-480","obfs":"tls1.2_ticket_auth","password":"3H2aN5Gnm","port":8081,"protocol":"origin","server":"jp-am48-9.eqnode.net","type":"ssr"}
-  - {"alterId":0,"cipher":"auto","http-opts":{},"name":"🇨🇳-CN-481","network":"ws","port":8443,"server":"192.74.225.120","servername":"shz.mooncloud.bike","skip-cert-verify":true,"tls":true,"type":"vmess","uuid":"348f0186-e84e-4eec-b57f-03b988d2c498","ws-headers":{"HOST":"shz.mooncloud.bike"},"ws-path":"/"}
   - {"cipher":"aes-256-cfb","name":"🇯🇵-JP-484","obfs":"tls1.2_ticket_auth","password":"3H2aN5Gnm","port":8081,"protocol":"origin","server":"54.168.200.100","type":"ssr"}
 proxy-groups:
 - name: PROXY
@@ -891,12 +889,10 @@ proxy-groups:
   - 🇩🇪-DE-472
   - 🇳🇱-NL-473
   - 🇨🇦-CA-474
-  - 🇫🇷-FR-475
   - 🇭🇰-HK-476
   - 🇺🇸-US-478
   - 🇨🇦-CA-479
   - 🇯🇵-JP-480
-  - 🇨🇳-CN-481
   - 🇯🇵-JP-484
 - name: Auto - UrlTest
   type: url-test
@@ -1337,12 +1333,10 @@ proxy-groups:
   - 🇩🇪-DE-472
   - 🇳🇱-NL-473
   - 🇨🇦-CA-474
-  - 🇫🇷-FR-475
   - 🇭🇰-HK-476
   - 🇺🇸-US-478
   - 🇨🇦-CA-479
   - 🇯🇵-JP-480
-  - 🇨🇳-CN-481
   - 🇯🇵-JP-484
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
