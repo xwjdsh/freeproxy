@@ -24,11 +24,11 @@ jobs:
         run: |
           CHANGES=$(git status --porcelain)
           if [[ $CHANGES != '' ]]; then
-            git pull
             git config user.name github-actions
             git config user.email github-actions@github.com
             TIME=$(date +"%Y-%m-%d %H:%M:%S")
             git add .
             git commit -m "fetch: $TIME"
+            git pull --rebase
             git push
           fi
