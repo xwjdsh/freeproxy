@@ -443,9 +443,6 @@ proxies:
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-476","network":"tcp","port":52286,"server":"86.wgong.xyz","servername":"86.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"86.wgong.xyz"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-478","password":"kDWvXYZoTBcGkC4","plugin":"","plugin-opts":{},"port":8881,"server":"167.88.63.61","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-479","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7306,"server":"198.57.27.184","type":"ss"}
-  - {"cipher":"aes-256-cfb","name":"🇯🇵-JP-480","obfs":"tls1.2_ticket_auth","password":"3H2aN5Gnm","port":8081,"protocol":"origin","server":"jp-am48-9.eqnode.net","type":"ssr"}
-  - {"cipher":"aes-256-cfb","name":"🇯🇵-JP-484","obfs":"tls1.2_ticket_auth","password":"3H2aN5Gnm","port":8081,"protocol":"origin","server":"54.168.200.100","type":"ssr"}
-  - {"cipher":"aes-256-cfb","name":"🇨🇳-CN-489","obfs":"plain","password":"73117962","port":9359,"protocol":"origin","server":"117.28.242.137","type":"ssr"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -889,9 +886,6 @@ proxy-groups:
   - 🇭🇰-HK-476
   - 🇺🇸-US-478
   - 🇨🇦-CA-479
-  - 🇯🇵-JP-480
-  - 🇯🇵-JP-484
-  - 🇨🇳-CN-489
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1332,9 +1326,6 @@ proxy-groups:
   - 🇭🇰-HK-476
   - 🇺🇸-US-478
   - 🇨🇦-CA-479
-  - 🇯🇵-JP-480
-  - 🇯🇵-JP-484
-  - 🇨🇳-CN-489
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
