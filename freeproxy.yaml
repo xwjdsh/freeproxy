@@ -349,10 +349,7 @@ proxies:
   - {"cipher":"chacha20-ietf-poly1305","name":"🇫🇷-FR-365","password":"Xd2xnHT8tYkVt5BDk92b","plugin":"","plugin-opts":{},"port":8389,"server":"37.120.136.234","type":"ss"}
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-366","network":"tcp","port":52210,"server":"110.wgong.xyz","servername":"110.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"110.wgong.xyz"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-368","password":"dongtaiwang.com","plugin":"","plugin-opts":{},"port":12345,"server":"209.209.112.6","type":"ss"}
-  - {"cipher":"dummy","name":"🇺🇸-US-369","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"us3.free4444.xyz","type":"ssr"}
   - {"cipher":"aes-256-cfb","name":"🇦🇺-AU-370","obfs":"tls1.2_ticket_auth","password":"Jz8r4gLNP","port":443,"protocol":"origin","server":"sy-am2.eqsunshine.com","type":"ssr"}
-  - {"alterId":0,"cipher":"auto","http-opts":{},"name":"🇨🇳-CN-371","network":"ws","port":8443,"server":"192.74.225.120","servername":"shz.mooncloud.bike","skip-cert-verify":true,"tls":true,"type":"vmess","uuid":"348f0186-e84e-4eec-b57f-03b988d2c498","ws-headers":{"HOST":"shz.mooncloud.bike"},"ws-path":"/"}
-  - {"cipher":"dummy","name":"🇷🇺-RU-372","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"ru1.free4444.xyz","type":"ssr"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -702,10 +699,7 @@ proxy-groups:
   - 🇫🇷-FR-365
   - 🇭🇰-HK-366
   - 🇺🇸-US-368
-  - 🇺🇸-US-369
   - 🇦🇺-AU-370
-  - 🇨🇳-CN-371
-  - 🇷🇺-RU-372
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1052,10 +1046,7 @@ proxy-groups:
   - 🇫🇷-FR-365
   - 🇭🇰-HK-366
   - 🇺🇸-US-368
-  - 🇺🇸-US-369
   - 🇦🇺-AU-370
-  - 🇨🇳-CN-371
-  - 🇷🇺-RU-372
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
