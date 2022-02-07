@@ -503,11 +503,9 @@ proxies:
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-571","network":"tcp","port":52226,"server":"126.wgong.xyz","servername":"126.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"126.wgong.xyz"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-572","password":"RexnBgU7EV5ADxG","plugin":"","plugin-opts":{},"port":7001,"server":"198.57.27.172","type":"ss"}
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-573","network":"tcp","port":52437,"server":"137.wgong.xyz","servername":"137.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"137.wgong.xyz"},"ws-path":"/"}
-  - {"cipher":"dummy","name":"🇷🇺-RU-574","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"ru1.free4444.xyz","type":"ssr"}
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-575","network":"tcp","port":52332,"server":"132.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇨🇳-CN-578","password":"29bbe1a0-e2d2-4e83-975b-6dcec7e2e700","plugin":"","plugin-opts":{},"port":12576,"server":"117.164.185.71","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇨🇳-CN-579","obfs":"plain","password":"73117962","port":9359,"protocol":"origin","server":"117.28.242.137","type":"ssr"}
-  - {"cipher":"aes-256-cfb","name":"🇸🇬-SG-580","obfs":"tls1.2_ticket_auth","password":"kKdNNt2HZ","port":8181,"protocol":"origin","server":"sg-am11.eqnode.net","type":"ssr"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -1011,11 +1009,9 @@ proxy-groups:
   - 🇭🇰-HK-571
   - 🇨🇦-CA-572
   - 🇭🇰-HK-573
-  - 🇷🇺-RU-574
   - 🇭🇰-HK-575
   - 🇨🇳-CN-578
   - 🇨🇳-CN-579
-  - 🇸🇬-SG-580
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1516,11 +1512,9 @@ proxy-groups:
   - 🇭🇰-HK-571
   - 🇨🇦-CA-572
   - 🇭🇰-HK-573
-  - 🇷🇺-RU-574
   - 🇭🇰-HK-575
   - 🇨🇳-CN-578
   - 🇨🇳-CN-579
-  - 🇸🇬-SG-580
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
