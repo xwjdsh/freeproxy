@@ -130,3 +130,15 @@ func (h *Handler) GetProxies(ctx context.Context) ([]*Proxy, error) {
 	proxies := []*Proxy{}
 	return proxies, h.db.Find(&proxies).Error
 }
+
+func (h *Handler) GetProxy(ctx context.Context, id uint, countryCode string) (*Proxy, error) {
+	p := new(Proxy)
+	db := h.db.Order("RANDOM()")
+	if id != 0 {
+		db = db.Where("id = ?", id)
+	}
+	if countryCode != "" {
+		db = db.Where("country_code = ?", countryCode)
+	}
+	return p, db.First(p).Error
+}

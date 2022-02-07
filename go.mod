@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/Dreamacro/clash v1.9.0
 	github.com/PuerkitoBio/goquery v1.8.0
+	github.com/elazarl/goproxy v0.0.0-20220115173737-adb46da277ac
 	github.com/fatih/color v1.13.0
 	github.com/jayco/go-emoji-flag v0.0.0-20190810054606-01604da018da
 	github.com/olekukonko/tablewriter v0.0.5

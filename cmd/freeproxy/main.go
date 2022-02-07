@@ -109,6 +109,46 @@ func main() {
 					return h.Export(c.Context)
 				},
 			},
+			{
+				Name:    "proxy",
+				Aliases: []string{"p"},
+				Usage:   "Start http proxy server",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:    "address",
+						Aliases: []string{"a"},
+						Usage:   "Server listen address",
+						Value:   ":10000",
+					},
+					&cli.StringFlag{
+						Name:    "country-code",
+						Aliases: []string{"cc"},
+						Usage:   "Filter proxies by country code",
+					},
+					&cli.UintFlag{
+						Name:  "id",
+						Usage: "Filter proxies by id",
+					},
+					&cli.BoolFlag{
+						Name:    "verbose",
+						Aliases: []string{"v"},
+						Usage:   "Verbose to true will log information on each request sent to the proxy",
+					},
+				},
+				Action: func(c *cli.Context) error {
+					h, err := getHandler(c)
+					if err != nil {
+						return err
+					}
+					opts := &freeproxy.ProxyOptions{
+						Address:     c.String("address"),
+						Verbose:     c.Bool("verbose"),
+						ID:          c.Uint("id"),
+						CountryCode: c.String("country-code"),
+					}
+					return h.Proxy(c.Context, opts)
+				},
+			},
 		},
 	}
 
