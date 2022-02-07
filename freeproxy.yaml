@@ -313,7 +313,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-325","password":"e4FCWrgpkji3QY","plugin":"","plugin-opts":{},"port":9102,"server":"38.75.136.93","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-332","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"145.239.1.137","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-333","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8091,"server":"38.68.134.191","type":"ss"}
-  - {"cipher":"aes-256-cfb","name":"🇸🇬-SG-338","obfs":"tls1.2_ticket_auth","password":"kKdNNt2HZ","port":8181,"protocol":"origin","server":"sg-am11.eqnode.net","type":"ssr"}
   - {"alterId":64,"cipher":"auto","http-opts":{},"name":"🇨🇳-CN-339","network":"tcp","port":47972,"server":"47.113.190.48","skip-cert-verify":true,"type":"vmess","uuid":"d1f1e8e0-bf5c-4219-8ba4-48de32c50557","ws-path":"/"}
   - {"alterId":0,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-340","network":"tcp","port":44444,"server":"keli.scsevers.cf","servername":"keli.scsevers.cf","skip-cert-verify":true,"type":"vmess","uuid":"3fd63a1f-3f1c-4f62-8073-dfce344a2bcf","ws-headers":{"HOST":"keli.scsevers.cf"},"ws-path":"/ws"}
   - {"alterId":64,"cipher":"auto","http-opts":{},"name":"🇨🇳-CN-342","network":"tcp","port":48727,"server":"42.157.8.52","skip-cert-verify":true,"type":"vmess","uuid":"57aa5ac3-d1d0-4e2f-b32e-6488d5a7cb45","ws-path":"/"}
@@ -757,7 +756,6 @@ proxy-groups:
   - 🇺🇸-US-325
   - 🇩🇪-DE-332
   - 🇺🇸-US-333
-  - 🇸🇬-SG-338
   - 🇨🇳-CN-339
   - 🇭🇰-HK-340
   - 🇨🇳-CN-342
@@ -1198,7 +1196,6 @@ proxy-groups:
   - 🇺🇸-US-325
   - 🇩🇪-DE-332
   - 🇺🇸-US-333
-  - 🇸🇬-SG-338
   - 🇨🇳-CN-339
   - 🇭🇰-HK-340
   - 🇨🇳-CN-342
