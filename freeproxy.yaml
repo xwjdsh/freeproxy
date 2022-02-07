@@ -447,6 +447,9 @@ proxies:
   - {"cipher":"aes-256-cfb","name":"🇯🇵-JP-498","obfs":"tls1.2_ticket_auth","password":"3oaJ5K2Wn","port":8081,"protocol":"origin","server":"jp-am46.eqnode.net","type":"ssr"}
   - {"cipher":"aes-256-cfb","name":"🇯🇵-JP-501","obfs":"tls1.2_ticket_auth","password":"3H2aN5Gnm","port":8081,"protocol":"origin","server":"54.168.200.100","type":"ssr"}
   - {"cipher":"rc4-md5","name":"🇨🇳-CN-502","obfs":"plain","password":"passfw2xs4e!","port":8333,"protocol":"origin","server":"ssr3.ssrsub.com","type":"ssr"}
+  - {"cipher":"chacha20-ietf-poly1305","name":"🇫🇷-FR-503","password":"Xd2xnHT8tYkVt5BDk92b","plugin":"","plugin-opts":{},"port":8389,"server":"37.120.136.234","type":"ss"}
+  - {"cipher":"aes-256-cfb","name":"🇫🇷-FR-504","obfs":"tls1.2_ticket_auth","password":"gVWc0WaJn","port":8181,"protocol":"origin","server":"fr-am1-1.eqsunshine.com","type":"ssr"}
+  - {"cipher":"aes-256-cfb","name":"🇫🇷-FR-506","obfs":"tls1.2_ticket_auth","password":"gVWc0WaJn","port":8181,"protocol":"origin","server":"13.38.75.17","type":"ssr"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -894,6 +897,9 @@ proxy-groups:
   - 🇯🇵-JP-498
   - 🇯🇵-JP-501
   - 🇨🇳-CN-502
+  - 🇫🇷-FR-503
+  - 🇫🇷-FR-504
+  - 🇫🇷-FR-506
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1338,6 +1344,9 @@ proxy-groups:
   - 🇯🇵-JP-498
   - 🇯🇵-JP-501
   - 🇨🇳-CN-502
+  - 🇫🇷-FR-503
+  - 🇫🇷-FR-504
+  - 🇫🇷-FR-506
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
