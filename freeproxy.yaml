@@ -299,7 +299,6 @@ proxies:
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-315","network":"tcp","port":52228,"server":"128.wgong.xyz","servername":"128.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"128.wgong.xyz"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-316","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"167.88.63.61","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-317","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2376,"server":"145.239.1.137","type":"ss"}
-  - {"cipher":"aes-256-cfb","name":"🇮🇳-IN-318","obfs":"tls1.2_ticket_auth","password":"fD0KP8PWA","port":8080,"protocol":"origin","server":"3.6.86.77","type":"ssr"}
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-319","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":8080,"server":"145.239.1.137","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-321","password":"zDNVedRFPQexG9v","plugin":"","plugin-opts":{},"port":6379,"server":"38.68.134.23","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-322","password":"cdBIDV42DCwnfIN","plugin":"","plugin-opts":{},"port":8118,"server":"38.75.136.93","type":"ss"}
@@ -488,7 +487,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-582","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3306,"server":"38.121.43.71","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇨🇦-CA-590","obfs":"tls1.2_ticket_auth","password":"4axflHccX","port":8080,"protocol":"origin","server":"35.182.60.100","type":"ssr"}
   - {"cipher":"aes-256-cfb","name":"🇺🇸-US-591","obfs":"tls1.2_ticket_auth","password":"vGndzdmPB","port":8080,"protocol":"origin","server":"us-am11.eqnode.net","type":"ssr"}
-  - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-595","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"172.105.244.165","type":"ss"}
   - {"cipher":"chacha20-ietf-poly1305","name":"🇩🇪-DE-600","password":"sF43Xt2gONqcgFX563","plugin":"","plugin-opts":{},"port":826,"server":"141.95.0.26","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇸🇬-SG-607","obfs":"tls1.2_ticket_auth","password":"kKdNNt2HZ","port":8181,"protocol":"origin","server":"sg-am11.eqnode.net","type":"ssr"}
   - {"cipher":"rc4-md5","name":"🇨🇳-CN-611","password":"passinfo123","plugin":"","plugin-opts":{},"port":4173,"server":"117.28.243.173","type":"ss"}
@@ -533,7 +531,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇦🇺-AU-650","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8091,"server":"192.53.169.18","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-651","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7307,"server":"172.99.190.153","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇫🇷-FR-652","password":"cdBIDV42DCwnfIN","plugin":"","plugin-opts":{},"port":8118,"server":"62.210.209.50","type":"ss"}
-  - {"cipher":"aes-256-gcm","name":"🇨🇳-CN-653","password":"22efb2e7-d417-4fb3-bfb7-9e62ac6aa038","plugin":"","plugin-opts":{},"port":32634,"server":"101.230.149.38","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-654","password":"XKFKl2rULjIp74","plugin":"","plugin-opts":{},"port":8008,"server":"145.239.1.100","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-655","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2375,"server":"172.99.190.149","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-656","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8091,"server":"172.99.190.149","type":"ss"}
@@ -542,6 +539,9 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-660","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":8080,"server":"167.88.61.60","type":"ss"}
   - {"alterId":0,"cipher":"auto","http-opts":{},"name":"🇨🇦-CA-662","network":"ws","port":8443,"server":"oz1.mooncloud.bike","servername":"oz.mooncloud.bike","skip-cert-verify":true,"tls":true,"type":"vmess","uuid":"f1533fd1-4562-4935-a1e6-832685d4a919","ws-headers":{"HOST":"oz.mooncloud.bike"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-663","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3306,"server":"172.99.190.87","type":"ss"}
+  - {"cipher":"dummy","name":"🇺🇸-US-664","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"us3.free4444.xyz","type":"ssr"}
+  - {"cipher":"dummy","name":"🇺🇸-US-665","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"lg1.free4444.xyz","type":"ssr"}
+  - {"cipher":"chacha20-ietf-poly1305","name":"🇫🇷-FR-666","password":"tkAx1ehPPkMN","plugin":"","plugin-opts":{},"port":443,"server":"95.142.175.14","type":"ss"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -841,7 +841,6 @@ proxy-groups:
   - 🇭🇰-HK-315
   - 🇺🇸-US-316
   - 🇩🇪-DE-317
-  - 🇮🇳-IN-318
   - 🇩🇪-DE-319
   - 🇺🇸-US-321
   - 🇺🇸-US-322
@@ -1030,7 +1029,6 @@ proxy-groups:
   - 🇺🇸-US-582
   - 🇨🇦-CA-590
   - 🇺🇸-US-591
-  - 🇩🇪-DE-595
   - 🇩🇪-DE-600
   - 🇸🇬-SG-607
   - 🇨🇳-CN-611
@@ -1075,7 +1073,6 @@ proxy-groups:
   - 🇦🇺-AU-650
   - 🇬🇧-GB-651
   - 🇫🇷-FR-652
-  - 🇨🇳-CN-653
   - 🇩🇪-DE-654
   - 🇬🇧-GB-655
   - 🇬🇧-GB-656
@@ -1084,6 +1081,9 @@ proxy-groups:
   - 🇺🇸-US-660
   - 🇨🇦-CA-662
   - 🇬🇧-GB-663
+  - 🇺🇸-US-664
+  - 🇺🇸-US-665
+  - 🇫🇷-FR-666
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1380,7 +1380,6 @@ proxy-groups:
   - 🇭🇰-HK-315
   - 🇺🇸-US-316
   - 🇩🇪-DE-317
-  - 🇮🇳-IN-318
   - 🇩🇪-DE-319
   - 🇺🇸-US-321
   - 🇺🇸-US-322
@@ -1569,7 +1568,6 @@ proxy-groups:
   - 🇺🇸-US-582
   - 🇨🇦-CA-590
   - 🇺🇸-US-591
-  - 🇩🇪-DE-595
   - 🇩🇪-DE-600
   - 🇸🇬-SG-607
   - 🇨🇳-CN-611
@@ -1614,7 +1612,6 @@ proxy-groups:
   - 🇦🇺-AU-650
   - 🇬🇧-GB-651
   - 🇫🇷-FR-652
-  - 🇨🇳-CN-653
   - 🇩🇪-DE-654
   - 🇬🇧-GB-655
   - 🇬🇧-GB-656
@@ -1623,6 +1620,9 @@ proxy-groups:
   - 🇺🇸-US-660
   - 🇨🇦-CA-662
   - 🇬🇧-GB-663
+  - 🇺🇸-US-664
+  - 🇺🇸-US-665
+  - 🇫🇷-FR-666
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
