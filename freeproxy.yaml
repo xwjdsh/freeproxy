@@ -497,7 +497,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-595","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"172.105.244.165","type":"ss"}
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-596","network":"tcp","port":52333,"server":"133.wgong.xyz","servername":"133.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"133.wgong.xyz"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-598","password":"dongtaiwang.com","plugin":"","plugin-opts":{},"port":20088,"server":"23.19.26.246","type":"ss"}
-  - {"cipher":"chacha20-ietf-poly1305","name":"🇫🇷-FR-599","password":"Xd2xnHT8tYkVt5BDk92b","plugin":"","plugin-opts":{},"port":8389,"server":"37.120.136.234","type":"ss"}
   - {"cipher":"chacha20-ietf-poly1305","name":"🇩🇪-DE-600","password":"sF43Xt2gONqcgFX563","plugin":"","plugin-opts":{},"port":826,"server":"141.95.0.26","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇯🇵-JP-601","obfs":"tls1.2_ticket_auth","password":"3H2aN5Gnm","port":8081,"protocol":"origin","server":"jp-am48-9.eqnode.net","type":"ssr"}
   - {"cipher":"rc4-md5","name":"🇨🇳-CN-603","password":"passinfo123","plugin":"","plugin-opts":{},"port":8254,"server":"117.28.243.220","type":"ss"}
@@ -507,8 +506,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇨🇳-CN-610","password":"22efb2e7-d417-4fb3-bfb7-9e62ac6aa038","plugin":"","plugin-opts":{},"port":32634,"server":"101.230.149.38","type":"ss"}
   - {"cipher":"rc4-md5","name":"🇨🇳-CN-611","password":"passinfo123","plugin":"","plugin-opts":{},"port":4173,"server":"117.28.243.173","type":"ss"}
   - {"cipher":"dummy","name":"🇺🇸-US-612","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"us3.free4444.xyz","type":"ssr"}
-  - {"cipher":"rc4-md5","name":"🇨🇳-CN-614","obfs":"plain","password":"passfw2xs4e!","port":8333,"protocol":"origin","server":"117.28.243.132","type":"ssr"}
-  - {"cipher":"rc4-md5","name":"🇨🇳-CN-615","obfs":"plain","password":"passfw2xs4e!","port":8333,"protocol":"origin","server":"ssr3.ssrsub.com","type":"ssr"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -1006,7 +1003,6 @@ proxy-groups:
   - 🇩🇪-DE-595
   - 🇭🇰-HK-596
   - 🇺🇸-US-598
-  - 🇫🇷-FR-599
   - 🇩🇪-DE-600
   - 🇯🇵-JP-601
   - 🇨🇳-CN-603
@@ -1016,8 +1012,6 @@ proxy-groups:
   - 🇨🇳-CN-610
   - 🇨🇳-CN-611
   - 🇺🇸-US-612
-  - 🇨🇳-CN-614
-  - 🇨🇳-CN-615
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1512,7 +1506,6 @@ proxy-groups:
   - 🇩🇪-DE-595
   - 🇭🇰-HK-596
   - 🇺🇸-US-598
-  - 🇫🇷-FR-599
   - 🇩🇪-DE-600
   - 🇯🇵-JP-601
   - 🇨🇳-CN-603
@@ -1522,8 +1515,6 @@ proxy-groups:
   - 🇨🇳-CN-610
   - 🇨🇳-CN-611
   - 🇺🇸-US-612
-  - 🇨🇳-CN-614
-  - 🇨🇳-CN-615
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
