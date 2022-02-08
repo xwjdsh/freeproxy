@@ -420,7 +420,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-474","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5004,"server":"198.57.27.184","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-478","password":"kDWvXYZoTBcGkC4","plugin":"","plugin-opts":{},"port":8881,"server":"167.88.63.61","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-479","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7306,"server":"198.57.27.184","type":"ss"}
-  - {"cipher":"chacha20-ietf-poly1305","name":"🇫🇷-FR-481","password":"tkAx1ehPPkMN","plugin":"","plugin-opts":{},"port":443,"server":"95.142.175.14","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇺🇸-US-484","obfs":"tls1.2_ticket_auth","password":"YFVrXZgRo","port":8081,"protocol":"origin","server":"us-am32-5.eqnode.net","type":"ssr"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-487","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7307,"server":"142.202.48.34","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-488","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2375,"server":"172.105.244.165","type":"ss"}
@@ -964,7 +963,6 @@ proxy-groups:
   - 🇨🇦-CA-474
   - 🇺🇸-US-478
   - 🇨🇦-CA-479
-  - 🇫🇷-FR-481
   - 🇺🇸-US-484
   - 🇺🇸-US-487
   - 🇩🇪-DE-488
@@ -1505,7 +1503,6 @@ proxy-groups:
   - 🇨🇦-CA-474
   - 🇺🇸-US-478
   - 🇨🇦-CA-479
-  - 🇫🇷-FR-481
   - 🇺🇸-US-484
   - 🇺🇸-US-487
   - 🇩🇪-DE-488
