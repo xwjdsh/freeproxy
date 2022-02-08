@@ -5,4 +5,4 @@
 {{- range .Items }}
 |{{.CountryEmoji}} {{.CountryCode}}|{{.Country}}|{{index .ProxyTypeMap "ss"}}|{{index .ProxyTypeMap "ssr"}}|{{index .ProxyTypeMap "vmess"}}|{{.Total}}|
 {{- end }}
-||Total|{{index .TotalProxyTypeMap "ss"}}|{{index .TotalProxyTypeMap "ssr"}}|{{index .TotalProxyTypeMap "umess"}}|{{.Total}}|
+||Total|{{index .TotalProxyTypeMap "ss"}}|{{index .TotalProxyTypeMap "ssr"}}|{{index .TotalProxyTypeMap "vmess"}}|{{.Total}}|
