@@ -67,6 +67,7 @@ func DefaultConfig() *Config {
 			Executors: []*ParserExecutor{
 				{Name: "cfmem"},
 				{Name: "freefq"},
+				{Name: "feedburner"},
 			},
 		},
 		Validator: &ValidatorConfig{

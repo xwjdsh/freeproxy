@@ -47,6 +47,8 @@ func Init(cfg *config.ParserConfig) (*Handler, error) {
 			h.executors[e.Name] = cfmemInstance
 		case "freefq":
 			h.executors[e.Name] = freefqInstance
+		case "feedburner":
+			h.executors[e.Name] = feedburnerInstance
 		default:
 			return nil, fmt.Errorf("parser: invalid executor name: %s", e.Name)
 		}

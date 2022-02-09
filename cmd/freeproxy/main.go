@@ -58,24 +58,38 @@ func main() {
 				Name:    "fetch",
 				Aliases: []string{"f"},
 				Usage:   "Fetch new proxies",
+				Flags: []cli.Flag{
+					&cli.BoolFlag{
+						Name:    "quiet",
+						Aliases: []string{"q"},
+						Usage:   "Quiet mode, do not display progress bar",
+					},
+				},
 				Action: func(c *cli.Context) error {
 					h, err := getHandler(c)
 					if err != nil {
 						return err
 					}
-					return h.Fetch(c.Context)
+					return h.Fetch(c.Context, c.Bool("quiet"))
 				},
 			},
 			{
 				Name:    "tidy",
 				Aliases: []string{"t"},
 				Usage:   "Tidy saved proxies, remove disabled records",
+				Flags: []cli.Flag{
+					&cli.BoolFlag{
+						Name:    "quiet",
+						Aliases: []string{"q"},
+						Usage:   "Quiet mode, do not display progress bar",
+					},
+				},
 				Action: func(c *cli.Context) error {
 					h, err := getHandler(c)
 					if err != nil {
 						return err
 					}
-					return h.Tidy(c.Context)
+					return h.Tidy(c.Context, c.Bool("quiet"))
 				},
 			},
 			{

@@ -51,7 +51,7 @@ func Init(cfg *config.Config) (*Handler, error) {
 	}, nil
 }
 
-func (h *Handler) Tidy(ctx context.Context) error {
+func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
 	ps, err := h.storage.GetProxies(ctx)
 	if err != nil {
 		return err
@@ -61,7 +61,7 @@ func (h *Handler) Tidy(ctx context.Context) error {
 		return err
 	}
 
-	pb := progressbar.New(len(ps))
+	pb := progressbar.New(len(ps), quiet)
 	proxyChan := make(chan *storage.Proxy)
 
 	var (
@@ -132,13 +132,13 @@ func (h *Handler) Tidy(ctx context.Context) error {
 	return nil
 }
 
-func (h *Handler) Fetch(ctx context.Context) error {
+func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 	var (
 		createdCount counter.Count
 		total        counter.Count
 	)
 
-	pb := progressbar.New(0)
+	pb := progressbar.New(0, quiet)
 	parserResultChan := make(chan *parser.Result)
 
 	wg := sync.WaitGroup{}

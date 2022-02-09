@@ -17,24 +17,34 @@ type ProgressBar struct {
 }
 
 func (s *ProgressBar) SetPrefix(format string, args ...interface{}) {
-	s.prefix = fmt.Sprintf(format, args...)
+	if s != nil {
+		s.prefix = fmt.Sprintf(format, args...)
+	}
 }
 
 func (s *ProgressBar) SetTotal(total int, triggerComplete bool) {
-	s.total = total
-	s.bar.SetTotal(int64(total), triggerComplete)
+	if s != nil {
+		s.total = total
+		s.bar.SetTotal(int64(total), triggerComplete)
+	}
 }
 
 func (s *ProgressBar) SetSuffix(format string, args ...interface{}) {
-	s.suffix = fmt.Sprintf(format, args...)
+	if s != nil {
+		s.suffix = fmt.Sprintf(format, args...)
+	}
 }
 
 func (s *ProgressBar) Incr() {
-	s.bar.Increment()
+	if s != nil {
+		s.bar.Increment()
+	}
 }
 
 func (s *ProgressBar) Wait() {
-	s.container.Wait()
+	if s != nil {
+		s.container.Wait()
+	}
 }
 
 func getSpinner() []string {
@@ -50,8 +60,12 @@ func getSpinner() []string {
 	}
 }
 
-func New(count int) *ProgressBar {
+func New(count int, quiet bool) *ProgressBar {
 	var progressBar *ProgressBar
+	if quiet {
+		return progressBar
+	}
+
 	container := mpb.New()
 	bar := container.Add(int64(count),
 		mpb.NewBarFiller(mpb.BarStyle().Lbound("[").
