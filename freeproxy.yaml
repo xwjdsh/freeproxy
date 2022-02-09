@@ -103,7 +103,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-95","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":8080,"server":"134.195.196.193","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇸🇬-SG-96","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":8888,"server":"139.162.24.50","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇸🇬-SG-97","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7307,"server":"139.162.24.50","type":"ss"}
-  - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-99","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":5500,"server":"158.247.208.213","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-100","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2376,"server":"158.247.199.253","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-101","password":"RexnBgU7EV5ADxG","plugin":"","plugin-opts":{},"port":7001,"server":"158.247.199.253","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-106","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5003,"server":"158.247.226.61","type":"ss"}
@@ -290,7 +289,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-302","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"38.107.226.48","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-307","password":"kDWvXYZoTBcGkC4","plugin":"","plugin-opts":{},"port":8882,"server":"134.195.196.71","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-308","password":"e4FCWrgpkji3QY","plugin":"","plugin-opts":{},"port":9101,"server":"172.99.190.87","type":"ss"}
-  - {"alterId":64,"cipher":"auto","http-opts":{},"name":"🇨🇳-CN-309","network":"tcp","port":50002,"server":"42.157.8.162","servername":"42.157.8.162","skip-cert-verify":true,"type":"vmess","uuid":"418048af-a293-4b99-9b0c-98ca3580dd24","ws-headers":{"HOST":"42.157.8.162"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-310","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8091,"server":"145.239.1.137","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-313","password":"pKEW8JPByTVTLtM","plugin":"","plugin-opts":{},"port":4444,"server":"134.195.196.71","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-314","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":8000,"server":"38.68.134.23","type":"ss"}
@@ -530,7 +528,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-660","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":8080,"server":"167.88.61.60","type":"ss"}
   - {"alterId":0,"cipher":"auto","http-opts":{},"name":"🇨🇦-CA-662","network":"ws","port":8443,"server":"oz1.mooncloud.bike","servername":"oz.mooncloud.bike","skip-cert-verify":true,"tls":true,"type":"vmess","uuid":"f1533fd1-4562-4935-a1e6-832685d4a919","ws-headers":{"HOST":"oz.mooncloud.bike"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-663","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3306,"server":"172.99.190.87","type":"ss"}
-  - {"cipher":"aes-256-gcm","name":"🇺🇸-US-668","password":"dongtaiwang.com","plugin":"","plugin-opts":{},"port":20088,"server":"23.19.26.246","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇺🇸-US-669","obfs":"tls1.2_ticket_auth","password":"YFVrXZgRo","port":8081,"protocol":"origin","server":"us-am32-5.eqnode.net","type":"ssr"}
   - {"cipher":"aes-256-cfb","name":"🇨🇦-CA-670","obfs":"tls1.2_ticket_auth","password":"4axflHccX","port":8080,"protocol":"origin","server":"ca-am3.eqnode.net","type":"ssr"}
   - {"cipher":"aes-256-cfb","name":"🇩🇪-DE-674","obfs":"tls1.2_ticket_auth","password":"82BMko4lE","port":8080,"protocol":"origin","server":"de-am2.eqnode.net","type":"ssr"}
@@ -641,7 +638,6 @@ proxy-groups:
   - 🇨🇦-CA-95
   - 🇸🇬-SG-96
   - 🇸🇬-SG-97
-  - 🇰🇷-KR-99
   - 🇰🇷-KR-100
   - 🇰🇷-KR-101
   - 🇰🇷-KR-106
@@ -828,7 +824,6 @@ proxy-groups:
   - 🇺🇸-US-302
   - 🇨🇦-CA-307
   - 🇬🇧-GB-308
-  - 🇨🇳-CN-309
   - 🇩🇪-DE-310
   - 🇨🇦-CA-313
   - 🇺🇸-US-314
@@ -1068,7 +1063,6 @@ proxy-groups:
   - 🇺🇸-US-660
   - 🇨🇦-CA-662
   - 🇬🇧-GB-663
-  - 🇺🇸-US-668
   - 🇺🇸-US-669
   - 🇨🇦-CA-670
   - 🇩🇪-DE-674
@@ -1176,7 +1170,6 @@ proxy-groups:
   - 🇨🇦-CA-95
   - 🇸🇬-SG-96
   - 🇸🇬-SG-97
-  - 🇰🇷-KR-99
   - 🇰🇷-KR-100
   - 🇰🇷-KR-101
   - 🇰🇷-KR-106
@@ -1363,7 +1356,6 @@ proxy-groups:
   - 🇺🇸-US-302
   - 🇨🇦-CA-307
   - 🇬🇧-GB-308
-  - 🇨🇳-CN-309
   - 🇩🇪-DE-310
   - 🇨🇦-CA-313
   - 🇺🇸-US-314
@@ -1603,7 +1595,6 @@ proxy-groups:
   - 🇺🇸-US-660
   - 🇨🇦-CA-662
   - 🇬🇧-GB-663
-  - 🇺🇸-US-668
   - 🇺🇸-US-669
   - 🇨🇦-CA-670
   - 🇩🇪-DE-674
