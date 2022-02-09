@@ -105,7 +105,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇸🇬-SG-97","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7307,"server":"139.162.24.50","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-100","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2376,"server":"158.247.199.253","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-101","password":"RexnBgU7EV5ADxG","plugin":"","plugin-opts":{},"port":7001,"server":"158.247.199.253","type":"ss"}
-  - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-106","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5003,"server":"158.247.226.61","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-107","password":"pKEW8JPByTVTLtM","plugin":"","plugin-opts":{},"port":443,"server":"158.247.199.253","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-109","password":"pKEW8JPByTVTLtM","plugin":"","plugin-opts":{},"port":4444,"server":"158.247.226.61","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-110","password":"RexnBgU7EV5ADxG","plugin":"","plugin-opts":{},"port":7001,"server":"158.247.226.61","type":"ss"}
@@ -588,7 +587,6 @@ proxies:
   - {"cipher":"chacha20-ietf-poly1305","name":"🇫🇷-FR-731","password":"tkAx1ehPPkMN","plugin":"","plugin-opts":{},"port":443,"server":"95.142.175.14","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-732","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3306,"server":"142.202.48.34","type":"ss"}
   - {"alterId":64,"cipher":"auto","http-opts":{},"name":"🇨🇳-CN-733","network":"tcp","port":50002,"server":"42.157.8.162","servername":"42.157.8.162","skip-cert-verify":true,"type":"vmess","uuid":"418048af-a293-4b99-9b0c-98ca3580dd24","ws-headers":{"HOST":"42.157.8.162"},"ws-path":"/"}
-  - {"cipher":"aes-256-gcm","name":"🇺🇸-US-735","password":"dongtaiwang.com","plugin":"","plugin-opts":{},"port":20088,"server":"23.19.26.246","type":"ss"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -694,7 +692,6 @@ proxy-groups:
   - 🇸🇬-SG-97
   - 🇰🇷-KR-100
   - 🇰🇷-KR-101
-  - 🇰🇷-KR-106
   - 🇰🇷-KR-107
   - 🇰🇷-KR-109
   - 🇰🇷-KR-110
@@ -1177,7 +1174,6 @@ proxy-groups:
   - 🇫🇷-FR-731
   - 🇺🇸-US-732
   - 🇨🇳-CN-733
-  - 🇺🇸-US-735
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1280,7 +1276,6 @@ proxy-groups:
   - 🇸🇬-SG-97
   - 🇰🇷-KR-100
   - 🇰🇷-KR-101
-  - 🇰🇷-KR-106
   - 🇰🇷-KR-107
   - 🇰🇷-KR-109
   - 🇰🇷-KR-110
@@ -1763,7 +1758,6 @@ proxy-groups:
   - 🇫🇷-FR-731
   - 🇺🇸-US-732
   - 🇨🇳-CN-733
-  - 🇺🇸-US-735
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
