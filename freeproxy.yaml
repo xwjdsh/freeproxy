@@ -580,7 +580,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇫🇷-FR-742","password":"XKFKl2rULjIp74","plugin":"","plugin-opts":{},"port":8009,"server":"62.210.209.50","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-743","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5004,"server":"134.195.196.193","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-744","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"134.195.196.193","type":"ss"}
-  - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-746","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7307,"server":"193.108.118.79","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-747","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2376,"server":"134.195.196.193","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇨🇦-CA-748","obfs":"tls1.2_ticket_auth","password":"4axflHccX","port":8080,"protocol":"origin","server":"ca-am3.eqnode.net","type":"ssr"}
   - {"alterId":64,"cipher":"auto","http-opts":{},"name":"🇨🇳-CN-750","network":"tcp","port":50002,"server":"42.157.8.162","servername":"42.157.8.162","skip-cert-verify":true,"type":"vmess","uuid":"418048af-a293-4b99-9b0c-98ca3580dd24","ws-headers":{"HOST":"42.157.8.162"},"ws-path":"/"}
@@ -1166,7 +1165,6 @@ proxy-groups:
   - 🇫🇷-FR-742
   - 🇨🇦-CA-743
   - 🇨🇦-CA-744
-  - 🇩🇪-DE-746
   - 🇨🇦-CA-747
   - 🇨🇦-CA-748
   - 🇨🇳-CN-750
@@ -1749,7 +1747,6 @@ proxy-groups:
   - 🇫🇷-FR-742
   - 🇨🇦-CA-743
   - 🇨🇦-CA-744
-  - 🇩🇪-DE-746
   - 🇨🇦-CA-747
   - 🇨🇦-CA-748
   - 🇨🇳-CN-750
