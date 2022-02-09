@@ -19,7 +19,7 @@ jobs:
       - name: Run Fetch
         run: |
           go install github.com/xwjdsh/freeproxy/cmd/freeproxy@main
-          freeproxy -c ./config.yml fetch
+          freeproxy -c ./config.yml fetch -q
       - name: Commit & Push
         run: |
           CHANGES=$(git status --porcelain)
