@@ -521,7 +521,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-654","password":"XKFKl2rULjIp74","plugin":"","plugin-opts":{},"port":8008,"server":"145.239.1.100","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-655","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2375,"server":"172.99.190.149","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-656","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8091,"server":"172.99.190.149","type":"ss"}
-  - {"cipher":"aes-256-cfb","name":"🇦🇺-AU-659","obfs":"tls1.2_ticket_auth","password":"Jz8r4gLNP","port":443,"protocol":"origin","server":"sy-am2.eqsunshine.com","type":"ssr"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-660","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":8080,"server":"167.88.61.60","type":"ss"}
   - {"alterId":0,"cipher":"auto","http-opts":{},"name":"🇨🇦-CA-662","network":"ws","port":8443,"server":"oz1.mooncloud.bike","servername":"oz.mooncloud.bike","skip-cert-verify":true,"tls":true,"type":"vmess","uuid":"f1533fd1-4562-4935-a1e6-832685d4a919","ws-headers":{"HOST":"oz.mooncloud.bike"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-663","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3306,"server":"172.99.190.87","type":"ss"}
@@ -1105,7 +1104,6 @@ proxy-groups:
   - 🇩🇪-DE-654
   - 🇬🇧-GB-655
   - 🇬🇧-GB-656
-  - 🇦🇺-AU-659
   - 🇺🇸-US-660
   - 🇨🇦-CA-662
   - 🇬🇧-GB-663
@@ -1686,7 +1684,6 @@ proxy-groups:
   - 🇩🇪-DE-654
   - 🇬🇧-GB-655
   - 🇬🇧-GB-656
-  - 🇦🇺-AU-659
   - 🇺🇸-US-660
   - 🇨🇦-CA-662
   - 🇬🇧-GB-663
