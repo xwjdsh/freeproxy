@@ -3,7 +3,7 @@
 |CountryCode|Country|SS|SSR|Vmess|Total|
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
 |🇺🇸 US|United States|277|2|0|279|
-|🇨🇦 CA|Canada|166|1|1|168|
+|🇨🇦 CA|Canada|166|0|1|167|
 |🇬🇧 GB|United Kingdom|54|0|0|54|
 |🇩🇪 DE|Germany|15|1|0|16|
 |🇯🇵 JP|Japan|12|0|0|12|
@@ -17,4 +17,4 @@
 |🇮🇳 IN|India|3|0|0|3|
 |🇳🇱 NL|Netherlands|3|0|0|3|
 |🇷🇺 RU|Russia|2|0|0|2|
-||Total|562|7|12|581|
+||Total|562|6|12|580|
