@@ -583,7 +583,6 @@ proxies:
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-751","network":"tcp","port":52225,"server":"125.wgong.xyz","servername":"125.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"125.wgong.xyz"},"ws-path":"/"}
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-752","network":"tcp","port":52332,"server":"132.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-753","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7307,"server":"193.108.118.79","type":"ss"}
-  - {"cipher":"dummy","name":"🇷🇺-RU-755","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"ru1.free4444.xyz","type":"ssr"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-756","password":"kDWvXYZoTBcGkC4","plugin":"","plugin-opts":{},"port":8882,"server":"134.195.196.214","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-757","password":"RexnBgU7EV5ADxG","plugin":"","plugin-opts":{},"port":7001,"server":"167.88.63.61","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇳🇱-NL-758","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2376,"server":"172.99.188.99","type":"ss"}
@@ -1191,7 +1190,6 @@ proxy-groups:
   - 🇭🇰-HK-751
   - 🇭🇰-HK-752
   - 🇩🇪-DE-753
-  - 🇷🇺-RU-755
   - 🇨🇦-CA-756
   - 🇺🇸-US-757
   - 🇳🇱-NL-758
@@ -1796,7 +1794,6 @@ proxy-groups:
   - 🇭🇰-HK-751
   - 🇭🇰-HK-752
   - 🇩🇪-DE-753
-  - 🇷🇺-RU-755
   - 🇨🇦-CA-756
   - 🇺🇸-US-757
   - 🇳🇱-NL-758
