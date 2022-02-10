@@ -127,8 +127,8 @@ func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
 	}
 	close(proxyChan)
 
-	wg.Wait()
 	pb.Wait()
+	wg.Wait()
 
 	return nil
 }
@@ -154,7 +154,7 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 						return
 					}
 
-					source := r.Proxy.GetBase().Source
+					source := r.Source
 					bar := func() *progressbar.Bar {
 						barMutex.Lock()
 						defer barMutex.Unlock()
@@ -164,6 +164,12 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 						}
 						return pb.AddBar(source, 0)
 					}()
+
+					if r.SourceDone {
+						bar.Wait()
+						bar.TriggerComplete()
+						continue
+					}
 
 					bar.TotalInc(1)
 
@@ -202,10 +208,9 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 
 	h.parser.Parse(ctx, parserResultChan)
 	close(parserResultChan)
-	wg.Wait()
 
-	// pb.SetTotal(total.Get(), true)
 	pb.Wait()
+	wg.Wait()
 
 	return nil
 }

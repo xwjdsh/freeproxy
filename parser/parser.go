@@ -13,8 +13,10 @@ import (
 )
 
 type Result struct {
-	Proxy proxy.Proxy
-	Err   error
+	Source     string
+	SourceDone bool
+	Proxy      proxy.Proxy
+	Err        error
 }
 
 type Executor interface {
@@ -28,8 +30,9 @@ type Handler struct {
 }
 
 type linkResp struct {
-	Source string
-	Link   string
+	Source     string
+	SourceDone bool
+	Link       string
 }
 
 var executorsMap = map[string]Executor{}
@@ -69,9 +72,11 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 		e := e
 		go func() {
 			defer func() {
+				linkChan <- &linkResp{Source: e.Name(), SourceDone: true}
 				wg.Done()
 				log.L().Debug("parser: executor end", zap.String("name", e.Name()))
 			}()
+
 			log.L().Debug("parser: executor start", zap.String("name", e.Name()))
 			if err := e.Execute(ctx, linkChan); err != nil {
 				log.L().Debug("parser: executor error", zap.Error(err))
@@ -90,13 +95,17 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 			if !ok {
 				return
 			}
-			r := new(Result)
-			r.Proxy, r.Err = proxy.NewProxyByLink(lr.Link)
-			if r.Err != nil {
-				continue
+			r := &Result{Source: lr.Source}
+			if lr.SourceDone {
+				r.SourceDone = lr.SourceDone
+			} else {
+				r.Proxy, r.Err = proxy.NewProxyByLink(lr.Link)
+				if r.Err != nil {
+					continue
+				}
+				r.Proxy.GetBase().Source = lr.Source
 			}
 
-			r.Proxy.GetBase().Source = lr.Source
 			ch <- r
 		case <-ctx.Done():
 			return

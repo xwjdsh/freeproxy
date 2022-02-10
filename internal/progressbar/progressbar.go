@@ -10,6 +10,7 @@ import (
 )
 
 type Bar struct {
+	sync.WaitGroup
 	sync.Mutex
 	bar    *mpb.Bar
 	suffix string
@@ -21,6 +22,7 @@ func (b *Bar) TotalInc(delta int) {
 		b.Lock()
 		defer b.Unlock()
 
+		b.WaitGroup.Add(delta)
 		b.total += delta
 		b.bar.SetTotal(int64(b.total), false)
 	}
@@ -66,6 +68,12 @@ func (b *Bar) getSuffix() string {
 
 func (b *Bar) Incr() {
 	if b != nil {
+		b.Lock()
+		defer b.Unlock()
+
+		if b.total > 0 {
+			b.Done()
+		}
 		b.bar.Increment()
 	}
 }
@@ -118,24 +126,28 @@ func (s *ProgressBar) AddBar(key string, total int) *Bar {
 					return frame
 				})
 			}(),
-			decor.Name(key, decor.WC{W: 13}),
+			decor.Name(key, decor.WCSyncWidth),
 		),
 		mpb.AppendDecorators(
 			decor.NewPercentage("%d  "),
+			decor.CountersNoUnit("(%d/%d)", decor.WCSyncWidth),
 			decor.Any(func(statistics decor.Statistics) string {
 				if s != nil {
 					if b := s.Bar(key); b != nil {
-						return fmt.Sprintf("(%d/%d) %s", statistics.Current, b.GetTotal(), b.getSuffix())
+						return b.getSuffix()
 					}
 				}
 				return ""
-			}),
+			}, decor.WCSyncSpace),
 		),
 		mpb.BarWidth(15),
 	)
 
-	b := &Bar{bar: bar}
-	s.barMap.Store(key, &Bar{bar: bar})
+	b := &Bar{bar: bar, total: total}
+	if total != 0 {
+		b.Add(total)
+	}
+	s.barMap.Store(key, b)
 	return b
 }
 

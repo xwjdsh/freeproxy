@@ -24,7 +24,7 @@ var (
 
 	freefqVmessInstance = &baseFreefqExecutor{
 		name:    "freefq_v2ray",
-		address: "https://freefq.com/free-v2ray/",
+		address: "https://freefq.com/v2ray/",
 	}
 )
 
