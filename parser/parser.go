@@ -2,7 +2,6 @@ package parser
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"sync"
 
@@ -33,6 +32,14 @@ type linkResp struct {
 	Link   string
 }
 
+var executorsMap = map[string]Executor{}
+
+func init() {
+	for _, e := range []Executor{cfmemInstance, freefqSSInstance, freefqSSRInstance, freefqVmessInstance, feedburnerInstance} {
+		executorsMap[e.Name()] = e
+	}
+}
+
 func Init(cfg *config.ParserConfig) (*Handler, error) {
 	h := &Handler{
 		cfg:       cfg,
@@ -42,16 +49,12 @@ func Init(cfg *config.ParserConfig) (*Handler, error) {
 		if h.executors[e.Name] != nil {
 			return nil, fmt.Errorf("parser: registered executor: %s", e.Name)
 		}
-		switch e.Name {
-		case "cfmem":
-			h.executors[e.Name] = cfmemInstance
-		case "freefq":
-			h.executors[e.Name] = freefqInstance
-		case "feedburner":
-			h.executors[e.Name] = feedburnerInstance
-		default:
+
+		executor, ok := executorsMap[e.Name]
+		if !ok {
 			return nil, fmt.Errorf("parser: invalid executor name: %s", e.Name)
 		}
+		h.executors[e.Name] = executor
 	}
 
 	return h, nil
@@ -89,14 +92,11 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 			}
 			r := new(Result)
 			r.Proxy, r.Err = proxy.NewProxyByLink(lr.Link)
-			if errors.Is(r.Err, proxy.ErrInvalidLink) {
+			if r.Err != nil {
 				continue
 			}
 
-			if r.Err == nil {
-				r.Proxy.GetBase().Source = lr.Source
-			}
-
+			r.Proxy.GetBase().Source = lr.Source
 			ch <- r
 		case <-ctx.Done():
 			return

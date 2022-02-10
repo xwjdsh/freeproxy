@@ -66,7 +66,9 @@ func DefaultConfig() *Config {
 		Parser: &ParserConfig{
 			Executors: []*ParserExecutor{
 				{Name: "cfmem"},
-				{Name: "freefq"},
+				{Name: "freefq_ss"},
+				{Name: "freefq_ssr"},
+				{Name: "freefq_v2ray"},
 				{Name: "feedburner"},
 			},
 		},

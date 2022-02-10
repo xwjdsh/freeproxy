@@ -8,36 +8,40 @@ import (
 	"regexp"
 	"strings"
 
-	"golang.org/x/sync/errgroup"
-
 	"github.com/PuerkitoBio/goquery"
 )
 
-var freefqInstance = &freefqExecutor{
-	host: "https://freefq.com",
-}
-
-type freefqExecutor struct {
-	host string
-}
-
-func (c *freefqExecutor) Name() string {
-	return "freefq"
-}
-
-func (c *freefqExecutor) Execute(ctx context.Context, linkChan chan<- *linkResp) error {
-	g := new(errgroup.Group)
-	for _, url := range []string{"https://freefq.com/free-ss/", "https://freefq.com/free-ssr/", "https://freefq.com/v2ray/"} {
-		url := url
-		g.Go(func() error {
-			return c.parse(ctx, url, linkChan)
-		})
+var (
+	freefqSSInstance = &baseFreefqExecutor{
+		name:    "freefq_ss",
+		address: "https://freefq.com/free-ss/",
 	}
 
-	return g.Wait()
+	freefqSSRInstance = &baseFreefqExecutor{
+		name:    "freefq_ssr",
+		address: "https://freefq.com/free-ssr/",
+	}
+
+	freefqVmessInstance = &baseFreefqExecutor{
+		name:    "freefq_v2ray",
+		address: "https://freefq.com/free-v2ray/",
+	}
+)
+
+type baseFreefqExecutor struct {
+	address string
+	name    string
 }
 
-func (c *freefqExecutor) parse(ctx context.Context, url string, linkChan chan<- *linkResp) error {
+func (c *baseFreefqExecutor) Name() string {
+	return c.name
+}
+
+func (c *baseFreefqExecutor) Execute(ctx context.Context, linkChan chan<- *linkResp) error {
+	return c.parse(ctx, c.address, linkChan)
+}
+
+func (c *baseFreefqExecutor) parse(ctx context.Context, url string, linkChan chan<- *linkResp) error {
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -57,7 +61,9 @@ func (c *freefqExecutor) parse(ctx context.Context, url string, linkChan chan<- 
 	if !ok {
 		return fmt.Errorf("page link not found")
 	}
-	pageLink = c.host + pageLink
+
+	host := "https://freefq.com"
+	pageLink = host + pageLink
 	fileLink, err := c.getFileLinkByPageLink(ctx, pageLink)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -67,7 +73,7 @@ func (c *freefqExecutor) parse(ctx context.Context, url string, linkChan chan<- 
 	return c.fetchFile(ctx, fileLink, linkChan)
 }
 
-func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkChan chan<- *linkResp) error {
+func (c *baseFreefqExecutor) fetchFile(ctx context.Context, fileLink string, linkChan chan<- *linkResp) error {
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, fileLink, nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -94,7 +100,7 @@ func (c *freefqExecutor) fetchFile(ctx context.Context, fileLink string, linkCha
 		}
 
 		linkChan <- &linkResp{
-			Source: c.Name(),
+			Source: c.name,
 			Link:   text,
 		}
 	}
@@ -118,7 +124,7 @@ func getV2raylink(line string) (string, bool) {
 	return "vmess://" + result[1], true
 }
 
-func (c *freefqExecutor) getFileLinkByPageLink(ctx context.Context, pageLink string) (string, error) {
+func (c *baseFreefqExecutor) getFileLinkByPageLink(ctx context.Context, pageLink string) (string, error) {
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, pageLink, nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {

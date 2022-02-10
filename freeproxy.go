@@ -61,7 +61,8 @@ func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
 		return err
 	}
 
-	pb := progressbar.New(len(ps), quiet)
+	pb := progressbar.NewSingle(len(ps), quiet)
+	bar := pb.DefaultBar()
 	proxyChan := make(chan *storage.Proxy)
 
 	var (
@@ -86,8 +87,8 @@ func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
 
 					if err := func() error {
 						defer func() {
-							pb.SetSuffix("removed: %d, setCountry: %d, emptyCountry: %d", removedCount.Get(), setCountryCount.Get(), emptyCountryCount.Get())
-							pb.Incr()
+							bar.SetSuffix("removed: %d, setCountry: %d, emptyCountry: %d", removedCount.Get(), setCountryCount.Get(), emptyCountryCount.Get())
+							bar.Incr()
 						}()
 
 						pp, err := p.Restore(p.Config)
@@ -133,17 +134,16 @@ func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
 }
 
 func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
-	var (
-		createdCount counter.Count
-		total        counter.Count
-	)
-
-	pb := progressbar.New(0, quiet)
+	pb := progressbar.NewMulti(quiet)
 	parserResultChan := make(chan *parser.Result)
 
 	wg := sync.WaitGroup{}
 	wg.Add(h.cfg.Worker)
 
+	createdCountMap := map[string]int{}
+	createdCountMutex := sync.Mutex{}
+
+	barMutex := sync.Mutex{}
 	for i := 0; i < h.cfg.Worker; i++ {
 		go func() {
 			defer wg.Done()
@@ -153,17 +153,30 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 					if !ok {
 						return
 					}
-					if r.Err != nil {
-						continue
-					}
 
-					total.Inc()
-					pb.SetTotal(int(total.Get()), false)
+					source := r.Proxy.GetBase().Source
+					bar := func() *progressbar.Bar {
+						barMutex.Lock()
+						defer barMutex.Unlock()
+
+						if b := pb.Bar(source); b != nil {
+							return b
+						}
+						return pb.AddBar(source, 0)
+					}()
+
+					bar.TotalInc(1)
 
 					if err := func() error {
 						defer func() {
-							pb.SetSuffix("created: %d", createdCount.Get())
-							pb.Incr()
+							createdCountMutex.Lock()
+							defer createdCountMutex.Unlock()
+
+							if v := createdCountMap[source]; v > 0 {
+								bar.SetSuffix("new: %d", v)
+							}
+
+							bar.Incr()
 						}()
 
 						if err := h.validator.Validate(ctx, r.Proxy); err != nil {
@@ -171,7 +184,12 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 						}
 						_, created, err := h.storage.Create(ctx, r.Proxy)
 						if created {
-							createdCount.Inc()
+							func() {
+								createdCountMutex.Lock()
+								defer createdCountMutex.Unlock()
+
+								createdCountMap[source] += 1
+							}()
 						}
 						return err
 					}(); err != nil {
@@ -186,7 +204,7 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 	close(parserResultChan)
 	wg.Wait()
 
-	pb.SetTotal(total.Get(), true)
+	// pb.SetTotal(total.Get(), true)
 	pb.Wait()
 
 	return nil

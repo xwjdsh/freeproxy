@@ -2,43 +2,77 @@ package progressbar
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/fatih/color"
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
 )
 
+type Bar struct {
+	sync.Mutex
+	bar    *mpb.Bar
+	suffix string
+	total  int
+}
+
+func (b *Bar) TotalInc(delta int) {
+	if b != nil {
+		b.Lock()
+		defer b.Unlock()
+
+		b.total += delta
+		b.bar.SetTotal(int64(b.total), false)
+	}
+}
+
+func (b *Bar) TriggerComplete() {
+	if b != nil {
+		b.Lock()
+		defer b.Unlock()
+
+		b.bar.SetTotal(int64(b.total), true)
+	}
+}
+
+func (b *Bar) GetTotal() int {
+	if b != nil {
+		b.Lock()
+		defer b.Unlock()
+
+		return b.total
+	}
+	return 0
+}
+
+func (b *Bar) SetSuffix(format string, args ...interface{}) {
+	if b != nil {
+		b.Lock()
+		defer b.Unlock()
+
+		b.suffix = fmt.Sprintf(format, args...)
+	}
+}
+
+func (b *Bar) getSuffix() string {
+	if b != nil {
+		b.Lock()
+		defer b.Unlock()
+
+		return b.suffix
+	}
+	return ""
+}
+
+func (b *Bar) Incr() {
+	if b != nil {
+		b.bar.Increment()
+	}
+}
+
 type ProgressBar struct {
 	container *mpb.Progress
-	bar       *mpb.Bar
-	prefix    string
-	suffix    string
-	total     int
-}
-
-func (s *ProgressBar) SetPrefix(format string, args ...interface{}) {
-	if s != nil {
-		s.prefix = fmt.Sprintf(format, args...)
-	}
-}
-
-func (s *ProgressBar) SetTotal(total int, triggerComplete bool) {
-	if s != nil {
-		s.total = total
-		s.bar.SetTotal(int64(total), triggerComplete)
-	}
-}
-
-func (s *ProgressBar) SetSuffix(format string, args ...interface{}) {
-	if s != nil {
-		s.suffix = fmt.Sprintf(format, args...)
-	}
-}
-
-func (s *ProgressBar) Incr() {
-	if s != nil {
-		s.bar.Increment()
-	}
+	barMap    sync.Map
 }
 
 func (s *ProgressBar) Wait() {
@@ -47,27 +81,27 @@ func (s *ProgressBar) Wait() {
 	}
 }
 
-func getSpinner() []string {
-	activeState := "[ " + color.GreenString("●") + " ] "
-	defaultState := "[   ] "
-	return []string{
-		activeState,
-		activeState,
-		activeState,
-		defaultState,
-		defaultState,
-		defaultState,
-	}
+func (s *ProgressBar) DefaultBar() *Bar {
+	return s.Bar("")
 }
 
-func New(count int, quiet bool) *ProgressBar {
-	var progressBar *ProgressBar
-	if quiet {
-		return progressBar
+func (s *ProgressBar) Bar(key string) *Bar {
+	if s != nil {
+		v, ok := s.barMap.Load(key)
+		if ok {
+			return v.(*Bar)
+		}
 	}
 
-	container := mpb.New()
-	bar := container.Add(int64(count),
+	return nil
+}
+
+func (s *ProgressBar) AddBar(key string, total int) *Bar {
+	if s == nil {
+		return nil
+	}
+
+	bar := s.container.Add(int64(total),
 		mpb.NewBarFiller(mpb.BarStyle().Lbound("[").
 			Filler(color.GreenString("=")).
 			Tip(color.GreenString(">")).Padding(" ").Rbound("]")),
@@ -84,18 +118,15 @@ func New(count int, quiet bool) *ProgressBar {
 					return frame
 				})
 			}(),
-			decor.Any(func(statistics decor.Statistics) string {
-				if progressBar != nil {
-					return progressBar.prefix
-				}
-				return ""
-			}),
+			decor.Name(key, decor.WC{W: 13}),
 		),
 		mpb.AppendDecorators(
 			decor.NewPercentage("%d  "),
 			decor.Any(func(statistics decor.Statistics) string {
-				if progressBar != nil {
-					return fmt.Sprintf("(%d/%d) %s", statistics.Current, progressBar.total, progressBar.suffix)
+				if s != nil {
+					if b := s.Bar(key); b != nil {
+						return fmt.Sprintf("(%d/%d) %s", statistics.Current, b.GetTotal(), b.getSuffix())
+					}
 				}
 				return ""
 			}),
@@ -103,11 +134,45 @@ func New(count int, quiet bool) *ProgressBar {
 		mpb.BarWidth(15),
 	)
 
-	progressBar = &ProgressBar{
-		container: container,
-		bar:       bar,
-		total:     count,
+	b := &Bar{bar: bar}
+	s.barMap.Store(key, &Bar{bar: bar})
+	return b
+}
+
+func getSpinner() []string {
+	activeState := "[ " + color.GreenString("●") + " ] "
+	defaultState := "[   ] "
+	return []string{
+		activeState,
+		activeState,
+		activeState,
+		defaultState,
+		defaultState,
+		defaultState,
+	}
+}
+
+func NewMulti(quiet bool) *ProgressBar {
+	var progressBar *ProgressBar
+	if quiet {
+		return progressBar
 	}
 
+	return &ProgressBar{
+		container: mpb.New(),
+	}
+}
+
+func NewSingle(total int, quiet bool) *ProgressBar {
+	var progressBar *ProgressBar
+	if quiet {
+		return progressBar
+	}
+
+	progressBar = &ProgressBar{
+		container: mpb.New(),
+	}
+
+	progressBar.AddBar("", total)
 	return progressBar
 }
