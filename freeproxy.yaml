@@ -280,7 +280,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-294","password":"XKFKl2rULjIp74","plugin":"","plugin-opts":{},"port":8008,"server":"172.99.190.87","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-295","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"172.99.190.149","type":"ss"}
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-298","network":"tcp","port":52299,"server":"99.wgong.xyz","servername":"99.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"99.wgong.xyz"},"ws-path":"/"}
-  - {"cipher":"aes-256-gcm","name":"🇷🇺-RU-301","password":"dongtaiwang.com","plugin":"","plugin-opts":{},"port":10088,"server":"45.137.154.208","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-302","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"38.107.226.48","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-307","password":"kDWvXYZoTBcGkC4","plugin":"","plugin-opts":{},"port":8882,"server":"134.195.196.71","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-308","password":"e4FCWrgpkji3QY","plugin":"","plugin-opts":{},"port":9101,"server":"172.99.190.87","type":"ss"}
@@ -587,7 +586,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-753","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7307,"server":"193.108.118.79","type":"ss"}
   - {"cipher":"dummy","name":"🇺🇸-US-754","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"us3.free4444.xyz","type":"ssr"}
   - {"cipher":"dummy","name":"🇷🇺-RU-755","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"ru1.free4444.xyz","type":"ssr"}
-  - {"cipher":"aes-256-gcm","name":"🇩🇪-DE-756","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8091,"server":"193.108.118.34","type":"ss"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -868,7 +866,6 @@ proxy-groups:
   - 🇬🇧-GB-294
   - 🇬🇧-GB-295
   - 🇭🇰-HK-298
-  - 🇷🇺-RU-301
   - 🇺🇸-US-302
   - 🇨🇦-CA-307
   - 🇬🇧-GB-308
@@ -1175,7 +1172,6 @@ proxy-groups:
   - 🇩🇪-DE-753
   - 🇺🇸-US-754
   - 🇷🇺-RU-755
-  - 🇩🇪-DE-756
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1453,7 +1449,6 @@ proxy-groups:
   - 🇬🇧-GB-294
   - 🇬🇧-GB-295
   - 🇭🇰-HK-298
-  - 🇷🇺-RU-301
   - 🇺🇸-US-302
   - 🇨🇦-CA-307
   - 🇬🇧-GB-308
@@ -1760,7 +1755,6 @@ proxy-groups:
   - 🇩🇪-DE-753
   - 🇺🇸-US-754
   - 🇷🇺-RU-755
-  - 🇩🇪-DE-756
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
