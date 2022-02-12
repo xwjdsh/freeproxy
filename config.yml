@@ -3,7 +3,10 @@ app:
 parser:
     executors:
         - name: cfmem
-        - name: freefq
+        - name: freefq_ss
+        - name: freefq_ssr
+        - name: freefq_v2ray
+        - name: feedburner
 validator:
     test_network_url: https://www.baidu.com
     test_url: http://www.gstatic.com/generate_204
