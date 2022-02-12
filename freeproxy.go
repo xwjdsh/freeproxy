@@ -61,7 +61,14 @@ func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
 		return err
 	}
 
-	pb := progressbar.NewSingle(len(ps), quiet)
+	var pb progressbar.ProgressBar
+	if quiet {
+		pb = progressbar.NewMock()
+	} else {
+		pb = progressbar.New()
+	}
+	pb.AddBar("", len(ps))
+
 	bar := pb.DefaultBar()
 	proxyChan := make(chan *storage.Proxy)
 
@@ -134,7 +141,12 @@ func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
 }
 
 func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
-	pb := progressbar.NewMulti(quiet)
+	var pb progressbar.ProgressBar
+	if quiet {
+		pb = progressbar.NewMock()
+	} else {
+		pb = progressbar.New()
+	}
 	parserResultChan := make(chan *parser.Result)
 
 	wg := sync.WaitGroup{}
@@ -155,7 +167,7 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 					}
 
 					source := r.Source
-					bar := func() *progressbar.Bar {
+					bar := func() progressbar.Bar {
 						barMutex.Lock()
 						defer barMutex.Unlock()
 
@@ -209,8 +221,8 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 	h.parser.Parse(ctx, parserResultChan)
 	close(parserResultChan)
 
-	pb.Wait()
 	wg.Wait()
+	pb.Wait()
 
 	return nil
 }

@@ -9,107 +9,39 @@ import (
 	"github.com/vbauerster/mpb/v7/decor"
 )
 
-type Bar struct {
-	sync.WaitGroup
-	sync.Mutex
-	bar    *mpb.Bar
-	suffix string
-	total  int
+type ProgressBar interface {
+	Wait()
+	DefaultBar() Bar
+	Bar(string) Bar
+	AddBar(string, int) Bar
 }
 
-func (b *Bar) TotalInc(delta int) {
-	if b != nil {
-		b.Lock()
-		defer b.Unlock()
+var _ ProgressBar = new(progressBar)
 
-		b.WaitGroup.Add(delta)
-		b.total += delta
-		b.bar.SetTotal(int64(b.total), false)
-	}
-}
-
-func (b *Bar) TriggerComplete() {
-	if b != nil {
-		b.Lock()
-		defer b.Unlock()
-
-		b.bar.SetTotal(int64(b.total), true)
-	}
-}
-
-func (b *Bar) GetTotal() int {
-	if b != nil {
-		b.Lock()
-		defer b.Unlock()
-
-		return b.total
-	}
-	return 0
-}
-
-func (b *Bar) SetSuffix(format string, args ...interface{}) {
-	if b != nil {
-		b.Lock()
-		defer b.Unlock()
-
-		b.suffix = fmt.Sprintf(format, args...)
-	}
-}
-
-func (b *Bar) getSuffix() string {
-	if b != nil {
-		b.Lock()
-		defer b.Unlock()
-
-		return b.suffix
-	}
-	return ""
-}
-
-func (b *Bar) Incr() {
-	if b != nil {
-		b.Lock()
-		defer b.Unlock()
-
-		if b.total > 0 {
-			b.Done()
-		}
-		b.bar.Increment()
-	}
-}
-
-type ProgressBar struct {
+type progressBar struct {
 	container *mpb.Progress
 	barMap    sync.Map
 }
 
-func (s *ProgressBar) Wait() {
-	if s != nil {
-		s.container.Wait()
-	}
+func (s *progressBar) Wait() {
+	s.container.Wait()
 }
 
-func (s *ProgressBar) DefaultBar() *Bar {
+func (s *progressBar) DefaultBar() Bar {
 	return s.Bar("")
 }
 
-func (s *ProgressBar) Bar(key string) *Bar {
-	if s != nil {
-		v, ok := s.barMap.Load(key)
-		if ok {
-			return v.(*Bar)
-		}
+func (s *progressBar) Bar(key string) Bar {
+	v, ok := s.barMap.Load(key)
+	if ok {
+		return v.(*bar)
 	}
 
 	return nil
 }
 
-func (s *ProgressBar) AddBar(key string, total int) *Bar {
-	if s == nil {
-		return nil
-	}
-
-	bar := s.container.Add(int64(total),
+func (s *progressBar) AddBar(key string, total int) Bar {
+	b := s.container.Add(int64(total),
 		mpb.NewBarFiller(mpb.BarStyle().Lbound("[").
 			Filler(color.GreenString("=")).
 			Tip(color.GreenString(">")).Padding(" ").Rbound("]")),
@@ -134,7 +66,7 @@ func (s *ProgressBar) AddBar(key string, total int) *Bar {
 			decor.Any(func(statistics decor.Statistics) string {
 				if s != nil {
 					if b := s.Bar(key); b != nil {
-						return b.getSuffix()
+						return b.(*bar).getSuffix()
 					}
 				}
 				return ""
@@ -143,12 +75,12 @@ func (s *ProgressBar) AddBar(key string, total int) *Bar {
 		mpb.BarWidth(15),
 	)
 
-	b := &Bar{bar: bar, total: total}
+	nb := &bar{Bar: b, total: total}
 	if total != 0 {
-		b.Add(total)
+		nb.Add(total)
 	}
-	s.barMap.Store(key, b)
-	return b
+	s.barMap.Store(key, nb)
+	return nb
 }
 
 func getSpinner() []string {
@@ -164,27 +96,63 @@ func getSpinner() []string {
 	}
 }
 
-func NewMulti(quiet bool) *ProgressBar {
-	var progressBar *ProgressBar
-	if quiet {
-		return progressBar
-	}
-
-	return &ProgressBar{
+func New() *progressBar {
+	return &progressBar{
 		container: mpb.New(),
 	}
 }
 
-func NewSingle(total int, quiet bool) *ProgressBar {
-	var progressBar *ProgressBar
-	if quiet {
-		return progressBar
-	}
+type Bar interface {
+	Wait()
+	TotalInc(delta int)
+	TriggerComplete()
+	SetSuffix(format string, args ...interface{})
+	Incr()
+}
 
-	progressBar = &ProgressBar{
-		container: mpb.New(),
-	}
+type bar struct {
+	*mpb.Bar
+	sync.WaitGroup
+	sync.Mutex
+	suffix string
+	total  int
+}
 
-	progressBar.AddBar("", total)
-	return progressBar
+func (b *bar) TotalInc(delta int) {
+	b.Lock()
+	defer b.Unlock()
+
+	b.WaitGroup.Add(delta)
+	b.total += delta
+	b.Bar.SetTotal(int64(b.total), false)
+}
+
+func (b *bar) TriggerComplete() {
+	b.Lock()
+	defer b.Unlock()
+
+	b.Bar.SetTotal(int64(b.total), true)
+}
+
+func (b *bar) SetSuffix(format string, args ...interface{}) {
+	b.Lock()
+	defer b.Unlock()
+
+	b.suffix = fmt.Sprintf(format, args...)
+}
+
+func (b *bar) getSuffix() string {
+	b.Lock()
+	defer b.Unlock()
+
+	return b.suffix
+}
+
+func (b *bar) Incr() {
+	b.Lock()
+	defer b.Unlock()
+
+	b.Done()
+
+	b.Bar.Increment()
 }
