@@ -69,7 +69,7 @@ func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
 	}
 	pb.AddBar("", len(ps))
 
-	bar := pb.DefaultBar()
+	bar := pb.Bar("")
 	proxyChan := make(chan *storage.Proxy)
 
 	var (
@@ -147,6 +147,7 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 	} else {
 		pb = progressbar.New()
 	}
+
 	parserResultChan := make(chan *parser.Result)
 
 	wg := sync.WaitGroup{}
@@ -156,9 +157,11 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 	createdCountMutex := sync.Mutex{}
 
 	barMutex := sync.Mutex{}
+
 	for i := 0; i < h.cfg.Worker; i++ {
 		go func() {
 			defer wg.Done()
+
 			for {
 				select {
 				case r, ok := <-parserResultChan:
@@ -174,6 +177,7 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 						if b := pb.Bar(source); b != nil {
 							return b
 						}
+
 						return pb.AddBar(source, 0)
 					}()
 

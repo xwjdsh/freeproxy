@@ -30,9 +30,8 @@ type Handler struct {
 }
 
 type linkResp struct {
-	Source     string
-	SourceDone bool
-	Link       string
+	Source string
+	Link   string
 }
 
 var executorsMap = map[string]Executor{}
@@ -72,7 +71,7 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 		e := e
 		go func() {
 			defer func() {
-				linkChan <- &linkResp{Source: e.Name(), SourceDone: true}
+				ch <- &Result{Source: e.Name(), SourceDone: true}
 				wg.Done()
 				log.L().Debug("parser: executor end", zap.String("name", e.Name()))
 			}()
@@ -96,16 +95,12 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 				return
 			}
 			r := &Result{Source: lr.Source}
-			if lr.SourceDone {
-				r.SourceDone = lr.SourceDone
-			} else {
-				r.Proxy, r.Err = proxy.NewProxyByLink(lr.Link)
-				if r.Err != nil {
-					continue
-				}
-				r.Proxy.GetBase().Source = lr.Source
+			r.Proxy, r.Err = proxy.NewProxyByLink(lr.Link)
+			if r.Err != nil {
+				continue
 			}
 
+			r.Proxy.GetBase().Source = lr.Source
 			ch <- r
 		case <-ctx.Done():
 			return

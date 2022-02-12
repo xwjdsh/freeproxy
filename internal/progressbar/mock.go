@@ -1,17 +1,29 @@
 package progressbar
 
+import "sync"
+
 var _ ProgressBar = new(mockProgressBar)
 
-type mockProgressBar struct{}
+type mockProgressBar struct {
+	sync.Map
+}
 
 func NewMock() *mockProgressBar {
 	return new(mockProgressBar)
 }
 
-func (*mockProgressBar) Wait()                  {}
-func (*mockProgressBar) DefaultBar() Bar        { return new(mockBar) }
-func (*mockProgressBar) Bar(string) Bar         { return new(mockBar) }
-func (*mockProgressBar) AddBar(string, int) Bar { return new(mockBar) }
+func (*mockProgressBar) Wait() {}
+func (p *mockProgressBar) Bar(key string) Bar {
+	if v, ok := p.Load(key); ok {
+		return v.(*mockBar)
+	}
+	return nil
+}
+func (p *mockProgressBar) AddBar(key string, total int) Bar {
+	b := new(mockBar)
+	p.Store(key, b)
+	return b
+}
 
 var _ Bar = new(mockBar)
 

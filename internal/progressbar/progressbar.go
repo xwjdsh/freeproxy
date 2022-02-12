@@ -11,7 +11,6 @@ import (
 
 type ProgressBar interface {
 	Wait()
-	DefaultBar() Bar
 	Bar(string) Bar
 	AddBar(string, int) Bar
 }
@@ -25,10 +24,6 @@ type progressBar struct {
 
 func (s *progressBar) Wait() {
 	s.container.Wait()
-}
-
-func (s *progressBar) DefaultBar() Bar {
-	return s.Bar("")
 }
 
 func (s *progressBar) Bar(key string) Bar {
@@ -64,10 +59,8 @@ func (s *progressBar) AddBar(key string, total int) Bar {
 			decor.NewPercentage("%d  "),
 			decor.CountersNoUnit("(%d/%d)", decor.WCSyncWidth),
 			decor.Any(func(statistics decor.Statistics) string {
-				if s != nil {
-					if b := s.Bar(key); b != nil {
-						return b.(*bar).getSuffix()
-					}
+				if b := s.Bar(key); b != nil {
+					return b.(*bar).getSuffix()
 				}
 				return ""
 			}, decor.WCSyncSpace),
@@ -79,6 +72,7 @@ func (s *progressBar) AddBar(key string, total int) Bar {
 	if total != 0 {
 		nb.Add(total)
 	}
+
 	s.barMap.Store(key, nb)
 	return nb
 }
@@ -120,18 +114,16 @@ type bar struct {
 
 func (b *bar) TotalInc(delta int) {
 	b.Lock()
-	defer b.Unlock()
-
-	b.WaitGroup.Add(delta)
 	b.total += delta
-	b.Bar.SetTotal(int64(b.total), false)
+	total := b.total
+	b.Unlock()
+
+	b.Add(delta)
+	b.Bar.SetTotal(int64(total), false)
 }
 
 func (b *bar) TriggerComplete() {
-	b.Lock()
-	defer b.Unlock()
-
-	b.Bar.SetTotal(int64(b.total), true)
+	b.Bar.SetTotal(-1, true)
 }
 
 func (b *bar) SetSuffix(format string, args ...interface{}) {
@@ -149,10 +141,6 @@ func (b *bar) getSuffix() string {
 }
 
 func (b *bar) Incr() {
-	b.Lock()
-	defer b.Unlock()
-
 	b.Done()
-
 	b.Bar.Increment()
 }
