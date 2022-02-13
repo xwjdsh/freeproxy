@@ -114,7 +114,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-119","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5004,"server":"38.75.136.45","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-121","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5003,"server":"38.75.136.45","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-122","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":8080,"server":"38.75.136.45","type":"ss"}
-  - {"cipher":"aes-256-gcm","name":"🇸🇬-SG-123","password":"kDWvXYZoTBcGkC4","plugin":"","plugin-opts":{},"port":8882,"server":"139.162.24.50","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-125","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3389,"server":"38.75.136.93","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-127","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7307,"server":"198.57.27.241","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-128","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5003,"server":"198.57.27.152","type":"ss"}
@@ -732,6 +731,11 @@ proxies:
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-947","network":"tcp","port":52210,"server":"110.wgong.xyz","servername":"110.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"110.wgong.xyz"},"ws-path":"/"}
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-948","network":"tcp","port":52335,"server":"20.24.67.68","servername":"20.24.67.68","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"20.24.67.68"},"ws-path":"/"}
   - {"cipher":"aes-256-cfb","name":"🇫🇷-FR-949","obfs":"tls1.2_ticket_auth","password":"gVWc0WaJn","port":8181,"protocol":"origin","server":"fr-am1-1.eqsunshine.com","type":"ssr"}
+  - {"cipher":"aes-256-cfb","name":"🇨🇦-CA-950","obfs":"tls1.2_ticket_auth","password":"4axflHccX","port":8080,"protocol":"origin","server":"ca-am3.eqnode.net","type":"ssr"}
+  - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-951","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7306,"server":"172.99.190.149","type":"ss"}
+  - {"cipher":"dummy","name":"🇺🇸-US-953","obfs":"tls1.2_ticket_auth","password":"dongtaiwang.com","port":443,"protocol":"auth_chain_a","server":"lg1.free4444.xyz","type":"ssr"}
+  - {"cipher":"aes-256-cfb","name":"🇦🇺-AU-954","obfs":"tls1.2_ticket_auth","password":"Jz8r4gLNP","port":443,"protocol":"origin","server":"sy-am2.eqsunshine.com","type":"ssr"}
+  - {"cipher":"aes-256-cfb","name":"🇺🇸-US-955","obfs":"tls1.2_ticket_auth","password":"YFVrXZgRo","port":8081,"protocol":"origin","server":"us-am32-5.eqnode.net","type":"ssr"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -846,7 +850,6 @@ proxy-groups:
   - 🇺🇸-US-119
   - 🇺🇸-US-121
   - 🇺🇸-US-122
-  - 🇸🇬-SG-123
   - 🇺🇸-US-125
   - 🇨🇦-CA-127
   - 🇨🇦-CA-128
@@ -1464,6 +1467,11 @@ proxy-groups:
   - 🇭🇰-HK-947
   - 🇭🇰-HK-948
   - 🇫🇷-FR-949
+  - 🇨🇦-CA-950
+  - 🇬🇧-GB-951
+  - 🇺🇸-US-953
+  - 🇦🇺-AU-954
+  - 🇺🇸-US-955
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1575,7 +1583,6 @@ proxy-groups:
   - 🇺🇸-US-119
   - 🇺🇸-US-121
   - 🇺🇸-US-122
-  - 🇸🇬-SG-123
   - 🇺🇸-US-125
   - 🇨🇦-CA-127
   - 🇨🇦-CA-128
@@ -2193,6 +2200,11 @@ proxy-groups:
   - 🇭🇰-HK-947
   - 🇭🇰-HK-948
   - 🇫🇷-FR-949
+  - 🇨🇦-CA-950
+  - 🇬🇧-GB-951
+  - 🇺🇸-US-953
+  - 🇦🇺-AU-954
+  - 🇺🇸-US-955
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
