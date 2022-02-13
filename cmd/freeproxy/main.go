@@ -132,7 +132,13 @@ func main() {
 						Name:    "address",
 						Aliases: []string{"a"},
 						Usage:   "Server listen address",
-						Value:   ":10000",
+						Value:   "127.0.0.1",
+					},
+					&cli.IntFlag{
+						Name:    "port",
+						Aliases: []string{"p"},
+						Usage:   "Server listen port",
+						Value:   10000,
 					},
 					&cli.StringFlag{
 						Name:    "country-code",
@@ -143,11 +149,6 @@ func main() {
 						Name:  "id",
 						Usage: "Filter proxies by id",
 					},
-					&cli.BoolFlag{
-						Name:    "verbose",
-						Aliases: []string{"v"},
-						Usage:   "Verbose to true will log information on each request sent to the proxy",
-					},
 				},
 				Action: func(c *cli.Context) error {
 					h, err := getHandler(c)
@@ -155,8 +156,8 @@ func main() {
 						return err
 					}
 					opts := &freeproxy.ProxyOptions{
-						Address:     c.String("address"),
-						Verbose:     c.Bool("verbose"),
+						BindAddress: c.String("address"),
+						Port:        c.Int("port"),
 						ID:          c.Uint("id"),
 						CountryCode: c.String("country-code"),
 					}
