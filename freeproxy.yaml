@@ -298,7 +298,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-333","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8091,"server":"38.68.134.191","type":"ss"}
   - {"alterId":64,"cipher":"auto","http-opts":{},"name":"🇨🇳-CN-339","network":"tcp","port":47972,"server":"47.113.190.48","skip-cert-verify":true,"type":"vmess","uuid":"d1f1e8e0-bf5c-4219-8ba4-48de32c50557","ws-path":"/"}
   - {"alterId":0,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-340","network":"tcp","port":44444,"server":"keli.scsevers.cf","servername":"keli.scsevers.cf","skip-cert-verify":true,"type":"vmess","uuid":"3fd63a1f-3f1c-4f62-8073-dfce344a2bcf","ws-headers":{"HOST":"keli.scsevers.cf"},"ws-path":"/ws"}
-  - {"alterId":64,"cipher":"auto","http-opts":{},"name":"🇨🇳-CN-342","network":"tcp","port":48727,"server":"42.157.8.52","skip-cert-verify":true,"type":"vmess","uuid":"57aa5ac3-d1d0-4e2f-b32e-6488d5a7cb45","ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-349","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5004,"server":"38.121.43.71","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-355","password":"kDWvXYZoTBcGkC4","plugin":"","plugin-opts":{},"port":8881,"server":"198.57.27.172","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-359","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":5601,"server":"172.99.190.87","type":"ss"}
@@ -567,7 +566,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-727","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"212.38.189.174","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-728","password":"pKEW8JPByTVTLtM","plugin":"","plugin-opts":{},"port":443,"server":"167.88.61.60","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-729","password":"pKEW8JPByTVTLtM","plugin":"","plugin-opts":{},"port":443,"server":"198.57.27.184","type":"ss"}
-  - {"cipher":"chacha20-ietf-poly1305","name":"🇫🇷-FR-731","password":"tkAx1ehPPkMN","plugin":"","plugin-opts":{},"port":443,"server":"95.142.175.14","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-732","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3306,"server":"142.202.48.34","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇦🇺-AU-738","obfs":"tls1.2_ticket_auth","password":"Jz8r4gLNP","port":443,"protocol":"origin","server":"sy-am2.eqsunshine.com","type":"ssr"}
   - {"cipher":"aes-256-cfb","name":"🇫🇷-FR-739","obfs":"tls1.2_ticket_auth","password":"gVWc0WaJn","port":8181,"protocol":"origin","server":"fr-am1-1.eqsunshine.com","type":"ssr"}
@@ -686,7 +684,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-862","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3389,"server":"169.197.141.24","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-863","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":8080,"server":"38.64.138.145","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-864","password":"PCnnH6SQSnfoS27","plugin":"","plugin-opts":{},"port":8090,"server":"198.57.27.218","type":"ss"}
-  - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-865","password":"RexnBgU7EV5ADxG","plugin":"","plugin-opts":{},"port":7002,"server":"141.164.38.135","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-866","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2376,"server":"134.195.196.81","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇦🇺-AU-867","password":"XKFKl2rULjIp74","plugin":"","plugin-opts":{},"port":8008,"server":"172.105.180.227","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇦🇺-AU-868","password":"TEzjfAYq2IjtuoS","plugin":"","plugin-opts":{},"port":6697,"server":"172.105.180.227","type":"ss"}
@@ -1000,7 +997,6 @@ proxy-groups:
   - 🇺🇸-US-333
   - 🇨🇳-CN-339
   - 🇭🇰-HK-340
-  - 🇨🇳-CN-342
   - 🇺🇸-US-349
   - 🇨🇦-CA-355
   - 🇬🇧-GB-359
@@ -1269,7 +1265,6 @@ proxy-groups:
   - 🇬🇧-GB-727
   - 🇺🇸-US-728
   - 🇨🇦-CA-729
-  - 🇫🇷-FR-731
   - 🇺🇸-US-732
   - 🇦🇺-AU-738
   - 🇫🇷-FR-739
@@ -1388,7 +1383,6 @@ proxy-groups:
   - 🇺🇸-US-862
   - 🇺🇸-US-863
   - 🇨🇦-CA-864
-  - 🇰🇷-KR-865
   - 🇨🇦-CA-866
   - 🇦🇺-AU-867
   - 🇦🇺-AU-868
@@ -1699,7 +1693,6 @@ proxy-groups:
   - 🇺🇸-US-333
   - 🇨🇳-CN-339
   - 🇭🇰-HK-340
-  - 🇨🇳-CN-342
   - 🇺🇸-US-349
   - 🇨🇦-CA-355
   - 🇬🇧-GB-359
@@ -1968,7 +1961,6 @@ proxy-groups:
   - 🇬🇧-GB-727
   - 🇺🇸-US-728
   - 🇨🇦-CA-729
-  - 🇫🇷-FR-731
   - 🇺🇸-US-732
   - 🇦🇺-AU-738
   - 🇫🇷-FR-739
@@ -2087,7 +2079,6 @@ proxy-groups:
   - 🇺🇸-US-862
   - 🇺🇸-US-863
   - 🇨🇦-CA-864
-  - 🇰🇷-KR-865
   - 🇨🇦-CA-866
   - 🇦🇺-AU-867
   - 🇦🇺-AU-868
