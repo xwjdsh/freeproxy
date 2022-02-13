@@ -465,7 +465,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-572","password":"RexnBgU7EV5ADxG","plugin":"","plugin-opts":{},"port":7001,"server":"198.57.27.172","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-582","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3306,"server":"38.121.43.71","type":"ss"}
   - {"cipher":"chacha20-ietf-poly1305","name":"🇩🇪-DE-600","password":"sF43Xt2gONqcgFX563","plugin":"","plugin-opts":{},"port":826,"server":"141.95.0.26","type":"ss"}
-  - {"cipher":"aes-256-cfb","name":"🇸🇬-SG-607","obfs":"tls1.2_ticket_auth","password":"kKdNNt2HZ","port":8181,"protocol":"origin","server":"sg-am11.eqnode.net","type":"ssr"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-612","password":"e4FCWrgpkji3QY","plugin":"","plugin-opts":{},"port":9101,"server":"38.114.114.49","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-613","password":"cdBIDV42DCwnfIN","plugin":"","plugin-opts":{},"port":8118,"server":"38.114.114.49","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-614","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":5500,"server":"169.197.142.48","type":"ss"}
@@ -754,6 +753,9 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-943","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":5001,"server":"167.88.63.61","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-944","password":"TEzjfAYq2IjtuoS","plugin":"","plugin-opts":{},"port":6679,"server":"134.195.196.193","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-945","password":"TEzjfAYq2IjtuoS","plugin":"","plugin-opts":{},"port":6679,"server":"167.88.62.34","type":"ss"}
+  - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-947","network":"tcp","port":52210,"server":"110.wgong.xyz","servername":"110.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"110.wgong.xyz"},"ws-path":"/"}
+  - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-948","network":"tcp","port":52335,"server":"20.24.67.68","servername":"20.24.67.68","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"20.24.67.68"},"ws-path":"/"}
+  - {"cipher":"aes-256-cfb","name":"🇫🇷-FR-949","obfs":"tls1.2_ticket_auth","password":"gVWc0WaJn","port":8181,"protocol":"origin","server":"fr-am1-1.eqsunshine.com","type":"ssr"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -1219,7 +1221,6 @@ proxy-groups:
   - 🇨🇦-CA-572
   - 🇺🇸-US-582
   - 🇩🇪-DE-600
-  - 🇸🇬-SG-607
   - 🇺🇸-US-612
   - 🇺🇸-US-613
   - 🇺🇸-US-614
@@ -1508,6 +1509,9 @@ proxy-groups:
   - 🇺🇸-US-943
   - 🇨🇦-CA-944
   - 🇺🇸-US-945
+  - 🇭🇰-HK-947
+  - 🇭🇰-HK-948
+  - 🇫🇷-FR-949
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -1970,7 +1974,6 @@ proxy-groups:
   - 🇨🇦-CA-572
   - 🇺🇸-US-582
   - 🇩🇪-DE-600
-  - 🇸🇬-SG-607
   - 🇺🇸-US-612
   - 🇺🇸-US-613
   - 🇺🇸-US-614
@@ -2259,6 +2262,9 @@ proxy-groups:
   - 🇺🇸-US-943
   - 🇨🇦-CA-944
   - 🇺🇸-US-945
+  - 🇭🇰-HK-947
+  - 🇭🇰-HK-948
+  - 🇫🇷-FR-949
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
