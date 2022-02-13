@@ -463,7 +463,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-562","password":"g5MeD6Ft3CWlJId","plugin":"","plugin-opts":{},"port":5004,"server":"167.88.61.60","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-563","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2376,"server":"198.57.27.172","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-564","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3389,"server":"167.88.62.34","type":"ss"}
-  - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-571","network":"tcp","port":52226,"server":"126.wgong.xyz","servername":"126.wgong.xyz","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"126.wgong.xyz"},"ws-path":"/"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-572","password":"RexnBgU7EV5ADxG","plugin":"","plugin-opts":{},"port":7001,"server":"198.57.27.172","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-582","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":3306,"server":"38.121.43.71","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇺🇸-US-591","obfs":"tls1.2_ticket_auth","password":"vGndzdmPB","port":8080,"protocol":"origin","server":"us-am11.eqnode.net","type":"ssr"}
@@ -1166,7 +1165,6 @@ proxy-groups:
   - 🇺🇸-US-562
   - 🇨🇦-CA-563
   - 🇺🇸-US-564
-  - 🇭🇰-HK-571
   - 🇨🇦-CA-572
   - 🇺🇸-US-582
   - 🇺🇸-US-591
@@ -1866,7 +1864,6 @@ proxy-groups:
   - 🇺🇸-US-562
   - 🇨🇦-CA-563
   - 🇺🇸-US-564
-  - 🇭🇰-HK-571
   - 🇨🇦-CA-572
   - 🇺🇸-US-582
   - 🇺🇸-US-591
