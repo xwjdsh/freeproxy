@@ -1,6 +1,7 @@
-package exporter
+package freeproxy
 
 import (
+	"context"
 	_ "embed"
 	"encoding/json"
 	"fmt"
@@ -11,7 +12,6 @@ import (
 
 	emoji "github.com/jayco/go-emoji-flag"
 
-	"github.com/xwjdsh/freeproxy/config"
 	"github.com/xwjdsh/freeproxy/storage"
 )
 
@@ -27,17 +27,12 @@ type RenderData struct {
 	Items []*RenderItem
 }
 
-type Exporter struct {
-	cfg *config.ExporterConfig
-}
-
-func New(cfg *config.ExporterConfig) *Exporter {
-	return &Exporter{
-		cfg: cfg,
+func (h *Handler) Export(ctx context.Context) error {
+	ps, err := h.storage.GetProxies(ctx)
+	if err != nil {
+		return nil
 	}
-}
 
-func (e *Exporter) Export(ps []*storage.Proxy) error {
 	rd := &RenderData{}
 	for _, p := range ps {
 		m := map[string]interface{}{}
@@ -57,7 +52,7 @@ func (e *Exporter) Export(ps []*storage.Proxy) error {
 	}
 
 	text := defaultTemplate
-	if fp := e.cfg.TemplateFilePath; fp != "" {
+	if fp := h.cfg.Export.TemplateFilePath; fp != "" {
 		data, err := ioutil.ReadFile(fp)
 		if err != nil {
 			return err
@@ -71,7 +66,7 @@ func (e *Exporter) Export(ps []*storage.Proxy) error {
 	}
 
 	var wr io.Writer = os.Stdout
-	outputPath := e.cfg.OutputFilePath
+	outputPath := h.cfg.Export.OutputFilePath
 	if fp := outputPath; fp != "" {
 		f, err := os.OpenFile(fp, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 		if err != nil {

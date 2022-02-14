@@ -14,7 +14,6 @@ import (
 	"github.com/olekukonko/tablewriter"
 
 	"github.com/xwjdsh/freeproxy/config"
-	"github.com/xwjdsh/freeproxy/exporter"
 	"github.com/xwjdsh/freeproxy/internal/counter"
 	"github.com/xwjdsh/freeproxy/internal/progressbar"
 	"github.com/xwjdsh/freeproxy/log"
@@ -29,7 +28,6 @@ type Handler struct {
 	parser    *parser.Handler
 	validator *validator.Validator
 	storage   *storage.Handler
-	exporter  *exporter.Exporter
 }
 
 func Init(cfg *config.Config) (*Handler, error) {
@@ -48,7 +46,6 @@ func Init(cfg *config.Config) (*Handler, error) {
 		parser:    p,
 		validator: validator.New(cfg.Validator),
 		storage:   h,
-		exporter:  exporter.New(cfg.Exporter),
 	}, nil
 }
 
@@ -234,15 +231,6 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 	pb.Wait()
 
 	return nil
-}
-
-func (h *Handler) Export(ctx context.Context) error {
-	ps, err := h.storage.GetProxies(ctx)
-	if err != nil {
-		return nil
-	}
-
-	return h.exporter.Export(ps)
 }
 
 type SummaryGroup struct {

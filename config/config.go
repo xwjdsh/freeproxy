@@ -15,7 +15,6 @@ type Config struct {
 	Parser    *ParserConfig    `yaml:"parser"`
 	Validator *ValidatorConfig `yaml:"validator"`
 	Storage   *StorageConfig   `yaml:"storage"`
-	Exporter  *ExporterConfig  `yaml:"exporter"`
 	Log       *LogConfig       `yaml:"log"`
 }
 
@@ -24,7 +23,13 @@ func (c *Config) Marshal() ([]byte, error) {
 }
 
 type AppConfig struct {
-	Worker int `yaml:"worker"`
+	Worker int              `yaml:"worker"`
+	Export *AppExportConfig `yaml:"export"`
+}
+
+type AppExportConfig struct {
+	TemplateFilePath string `yaml:"template_file_path"`
+	OutputFilePath   string `yaml:"output_file_path"`
 }
 
 type LogConfig struct {
@@ -55,16 +60,12 @@ type StorageConfig struct {
 	DSN    string `yaml:"dsn"`
 }
 
-type ExporterConfig struct {
-	TemplateFilePath string `yaml:"template_file_path"`
-	OutputFilePath   string `yaml:"output_file_path"`
-}
-
 func DefaultConfig() *Config {
 	homeDir, _ := os.UserHomeDir()
 	c := &Config{
 		App: &AppConfig{
 			Worker: 100,
+			Export: &AppExportConfig{},
 		},
 		Parser: &ParserConfig{
 			Executors: []*ParserExecutor{
@@ -109,7 +110,6 @@ func DefaultConfig() *Config {
 			Driver: "sqlite",
 			DSN:    fmt.Sprintf("%s/.config/freeproxy/freeproxy.db", homeDir),
 		},
-		Exporter: &ExporterConfig{},
 		Log: &LogConfig{
 			Level: zapcore.InfoLevel,
 		},
