@@ -723,7 +723,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-944","password":"TEzjfAYq2IjtuoS","plugin":"","plugin-opts":{},"port":6679,"server":"134.195.196.193","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-945","password":"TEzjfAYq2IjtuoS","plugin":"","plugin-opts":{},"port":6679,"server":"167.88.62.34","type":"ss"}
   - {"alterId":2,"cipher":"auto","http-opts":{},"name":"🇭🇰-HK-948","network":"tcp","port":52335,"server":"20.24.67.68","servername":"20.24.67.68","skip-cert-verify":true,"type":"vmess","uuid":"08103798-414e-32b6-8748-2507732d2c51","ws-headers":{"HOST":"20.24.67.68"},"ws-path":"/"}
-  - {"cipher":"aes-256-cfb","name":"🇫🇷-FR-949","obfs":"tls1.2_ticket_auth","password":"gVWc0WaJn","port":8181,"protocol":"origin","server":"fr-am1-1.eqsunshine.com","type":"ssr"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-951","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7306,"server":"172.99.190.149","type":"ss"}
 proxy-groups:
 - name: PROXY
@@ -1448,7 +1447,6 @@ proxy-groups:
   - 🇨🇦-CA-944
   - 🇺🇸-US-945
   - 🇭🇰-HK-948
-  - 🇫🇷-FR-949
   - 🇬🇧-GB-951
 - name: Auto - UrlTest
   type: url-test
@@ -2170,7 +2168,6 @@ proxy-groups:
   - 🇨🇦-CA-944
   - 🇺🇸-US-945
   - 🇭🇰-HK-948
-  - 🇫🇷-FR-949
   - 🇬🇧-GB-951
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
