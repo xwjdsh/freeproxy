@@ -9,8 +9,8 @@
 |🇫🇷 FR|France|12|1|0|13|
 |🇯🇵 JP|Japan|12|0|0|12|
 |🇦🇺 AU|Australia|11|0|0|11|
-|🇭🇰 HK|Hong Kong|0|0|7|7|
 |🇰🇷 KR|South Korea|6|0|0|6|
+|🇭🇰 HK|Hong Kong|0|0|5|5|
 |🇳🇱 NL|Netherlands|5|0|0|5|
 |🇳🇴 NO|Norway|3|0|0|3|
 |🇮🇳 IN|India|3|0|0|3|
@@ -18,4 +18,4 @@
 |🇸🇬 SG|Singapore|2|0|0|2|
 |🇱🇺 LU|Luxembourg|1|0|0|1|
 |🇷🇺 RU|Russia|1|0|0|1|
-||Total|711|1|9|721|
+||Total|711|1|7|719|
