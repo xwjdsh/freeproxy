@@ -42,7 +42,9 @@ type linkResp struct {
 var executorsMap = map[string]Executor{}
 
 func init() {
-	for _, e := range []Executor{cfmemInstance, freefqSSInstance, freefqSSRInstance, freefqVmessInstance, feedburnerInstance} {
+	for _, e := range []Executor{
+		cfmemInstance, freefqSSInstance, freefqSSRInstance, freefqVmessInstance, feedburnerInstance,
+	} {
 		executorsMap[e.Name()] = e
 	}
 }
@@ -53,14 +55,25 @@ func Init(cfg *config.ParserConfig) (*Handler, error) {
 		executors: map[string]*executorAndConfig{},
 	}
 	for _, e := range cfg.Executors {
-		if h.executors[e.Name] != nil {
-			return nil, fmt.Errorf("parser: registered executor: %s", e.Name)
+		if !e.Enable {
+			continue
 		}
 
-		executor, ok := executorsMap[e.Name]
-		if !ok {
-			return nil, fmt.Errorf("parser: invalid executor name: %s", e.Name)
+		var executor Executor
+		if e.FileURL != "" {
+			executor = &generalFileExecutor{name: e.Name, address: e.FileURL}
+		} else {
+			if h.executors[e.Name] != nil {
+				return nil, fmt.Errorf("parser: registered executor: %s", e.Name)
+			}
+
+			var ok bool
+			executor, ok = executorsMap[e.Name]
+			if !ok {
+				return nil, fmt.Errorf("parser: invalid executor name: %s", e.Name)
+			}
 		}
+
 		h.executors[e.Name] = &executorAndConfig{
 			Executor: executor,
 			cfg:      e,

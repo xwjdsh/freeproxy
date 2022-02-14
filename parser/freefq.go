@@ -38,11 +38,7 @@ func (c *baseFreefqExecutor) Name() string {
 }
 
 func (c *baseFreefqExecutor) Execute(ctx context.Context, linkChan chan<- *linkResp) error {
-	return c.parse(ctx, c.address, linkChan)
-}
-
-func (c *baseFreefqExecutor) parse(ctx context.Context, url string, linkChan chan<- *linkResp) error {
-	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, c.address, nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err

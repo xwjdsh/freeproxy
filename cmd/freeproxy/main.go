@@ -64,9 +64,16 @@ func main() {
 						Aliases: []string{"q"},
 						Usage:   "Quiet mode, do not display progress bar",
 					},
+					&cli.IntFlag{
+						Name:    "worker",
+						Aliases: []string{"w"},
+						Usage:   "Worker count",
+					},
 				},
 				Action: func(c *cli.Context) error {
-					h, err := getHandler(c)
+					h, err := getHandler(c, func(cfg *config.Config) {
+						cfg.App.Worker = c.Int("worker")
+					})
 					if err != nil {
 						return err
 					}
@@ -83,9 +90,16 @@ func main() {
 						Aliases: []string{"q"},
 						Usage:   "Quiet mode, do not display progress bar",
 					},
+					&cli.BoolFlag{
+						Name:    "worker",
+						Aliases: []string{"w"},
+						Usage:   "Worker count",
+					},
 				},
 				Action: func(c *cli.Context) error {
-					h, err := getHandler(c)
+					h, err := getHandler(c, func(cfg *config.Config) {
+						cfg.App.Worker = c.Int("worker")
+					})
 					if err != nil {
 						return err
 					}
@@ -104,7 +118,7 @@ func main() {
 					},
 				},
 				Action: func(c *cli.Context) error {
-					h, err := getHandler(c)
+					h, err := getHandler(c, nil)
 					if err != nil {
 						return err
 					}
@@ -116,7 +130,7 @@ func main() {
 				Aliases: []string{"e"},
 				Usage:   "Export proxies",
 				Action: func(c *cli.Context) error {
-					h, err := getHandler(c)
+					h, err := getHandler(c, nil)
 					if err != nil {
 						return err
 					}
@@ -151,7 +165,7 @@ func main() {
 					},
 				},
 				Action: func(c *cli.Context) error {
-					h, err := getHandler(c)
+					h, err := getHandler(c, nil)
 					if err != nil {
 						return err
 					}
@@ -173,11 +187,16 @@ func main() {
 	}
 }
 
-func getHandler(c *cli.Context) (*freeproxy.Handler, error) {
+func getHandler(c *cli.Context, f func(cfg *config.Config)) (*freeproxy.Handler, error) {
 	cfg, err := config.Init(c.String("config"))
 	if err != nil {
 		return nil, err
 	}
+
+	if f != nil {
+		f(cfg)
+	}
+
 	h, err := freeproxy.Init(cfg)
 	if err != nil {
 		return nil, err
