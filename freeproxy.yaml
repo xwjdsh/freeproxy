@@ -100,7 +100,6 @@ proxies:
   - {"cipher":"aes-256-gcm","name":"🇺🇸-US-94","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":5001,"server":"38.75.136.93","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇨🇦-CA-95","password":"KixLvKzwjekG00rm","plugin":"","plugin-opts":{},"port":8080,"server":"134.195.196.193","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇸🇬-SG-96","password":"Y6R9pAtvxxzmGC","plugin":"","plugin-opts":{},"port":8888,"server":"139.162.24.50","type":"ss"}
-  - {"cipher":"aes-256-gcm","name":"🇸🇬-SG-97","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7307,"server":"139.162.24.50","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-100","password":"faBAoD54k87UJG7","plugin":"","plugin-opts":{},"port":2376,"server":"158.247.199.253","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-101","password":"RexnBgU7EV5ADxG","plugin":"","plugin-opts":{},"port":7001,"server":"158.247.199.253","type":"ss"}
   - {"cipher":"aes-256-gcm","name":"🇰🇷-KR-107","password":"pKEW8JPByTVTLtM","plugin":"","plugin-opts":{},"port":443,"server":"158.247.199.253","type":"ss"}
@@ -835,7 +834,6 @@ proxy-groups:
   - 🇺🇸-US-94
   - 🇨🇦-CA-95
   - 🇸🇬-SG-96
-  - 🇸🇬-SG-97
   - 🇰🇷-KR-100
   - 🇰🇷-KR-101
   - 🇰🇷-KR-107
@@ -1567,7 +1565,6 @@ proxy-groups:
   - 🇺🇸-US-94
   - 🇨🇦-CA-95
   - 🇸🇬-SG-96
-  - 🇸🇬-SG-97
   - 🇰🇷-KR-100
   - 🇰🇷-KR-101
   - 🇰🇷-KR-107

@@ -12,10 +12,10 @@
 |🇭🇰 HK|Hong Kong|0|0|10|10|
 |🇰🇷 KR|South Korea|6|0|0|6|
 |🇳🇱 NL|Netherlands|5|0|0|5|
-|🇸🇬 SG|Singapore|4|0|0|4|
+|🇸🇬 SG|Singapore|3|0|0|3|
 |🇳🇴 NO|Norway|3|0|0|3|
 |🇮🇳 IN|India|3|0|0|3|
 |🇨🇳 CN|China|1|0|2|3|
 |🇱🇺 LU|Luxembourg|1|0|0|1|
 |🇷🇺 RU|Russia|1|0|0|1|
-||Total|713|4|12|729|
+||Total|712|4|12|728|
