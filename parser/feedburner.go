@@ -75,11 +75,11 @@ func (c *feedburnerExecutor) Execute(ctx context.Context, linkChan chan<- *linkR
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36")
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return fmt.Errorf("parser: [%s] http.Get error: %w", c.Name(), err)
+		return err
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		return fmt.Errorf("parser: [%s] invalid error code: %d", c.Name(), res.StatusCode)
+		return fmt.Errorf("unexpected status code: %d", res.StatusCode)
 	}
 
 	data, err := ioutil.ReadAll(res.Body)
@@ -93,12 +93,12 @@ func (c *feedburnerExecutor) Execute(ctx context.Context, linkChan chan<- *linkR
 	}
 
 	if len(fd.Entry) == 0 {
-		return fmt.Errorf("parser: [%s] xml no entries", c.Name())
+		return fmt.Errorf("unexpected result, no entries")
 	}
 
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(fd.Entry[0].Content.Text))
 	if err != nil {
-		return fmt.Errorf("parser: [%s] goquery.NewDocumentFromReader error: %w", c.Name(), err)
+		return err
 	}
 
 	doc.Find("div[style='-webkit-text-stroke-width: 0px;']").Children().Eq(4).Children().Last().Find("div").Each(func(i int, s *goquery.Selection) {

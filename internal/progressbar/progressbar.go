@@ -60,10 +60,13 @@ func (s *progressBar) AddBar(key string, total int) Bar {
 			decor.CountersNoUnit("(%d/%d)", decor.WCSyncWidth),
 			decor.Any(func(statistics decor.Statistics) string {
 				if b := s.Bar(key); b != nil {
-					return b.(*bar).getSuffix()
+					suffix := b.(*bar).getSuffix()
+					if suffix != "" {
+						return "  " + suffix
+					}
 				}
 				return ""
-			}, decor.WCSyncSpace),
+			}, decor.WCSyncWidthR),
 		),
 		mpb.BarWidth(15),
 	)

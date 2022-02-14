@@ -9,6 +9,7 @@ import (
 	"sync"
 	"text/template"
 
+	"github.com/fatih/color"
 	emoji "github.com/jayco/go-emoji-flag"
 	"github.com/olekukonko/tablewriter"
 
@@ -182,6 +183,10 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 					}()
 
 					if r.SourceDone {
+						if r.Err != nil {
+							bar.SetSuffix(color.RedString(r.Err.Error()))
+						}
+
 						bar.Wait()
 						bar.TriggerComplete()
 						continue
@@ -195,7 +200,7 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 							defer createdCountMutex.Unlock()
 
 							if v := createdCountMap[source]; v > 0 {
-								bar.SetSuffix("new: %d", v)
+								bar.SetSuffix(color.GreenString("new: %d", v))
 							}
 
 							bar.Incr()

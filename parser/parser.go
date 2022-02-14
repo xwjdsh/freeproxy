@@ -24,8 +24,13 @@ type Executor interface {
 	Name() string
 }
 
+type executorAndConfig struct {
+	Executor
+	cfg *config.ParserExecutor
+}
+
 type Handler struct {
-	executors map[string]Executor
+	executors map[string]*executorAndConfig
 	cfg       *config.ParserConfig
 }
 
@@ -45,7 +50,7 @@ func init() {
 func Init(cfg *config.ParserConfig) (*Handler, error) {
 	h := &Handler{
 		cfg:       cfg,
-		executors: map[string]Executor{},
+		executors: map[string]*executorAndConfig{},
 	}
 	for _, e := range cfg.Executors {
 		if h.executors[e.Name] != nil {
@@ -56,7 +61,10 @@ func Init(cfg *config.ParserConfig) (*Handler, error) {
 		if !ok {
 			return nil, fmt.Errorf("parser: invalid executor name: %s", e.Name)
 		}
-		h.executors[e.Name] = executor
+		h.executors[e.Name] = &executorAndConfig{
+			Executor: executor,
+			cfg:      e,
+		}
 	}
 
 	return h, nil
@@ -70,16 +78,20 @@ func (h *Handler) Parse(ctx context.Context, ch chan<- *Result) {
 	for _, e := range h.executors {
 		e := e
 		go func() {
+			ctx, cancel := context.WithTimeout(ctx, e.cfg.Timeout)
 			defer func() {
-				ch <- &Result{Source: e.Name(), SourceDone: true}
+				cancel()
 				wg.Done()
 				log.L().Debug("parser: executor end", zap.String("name", e.Name()))
 			}()
 
 			log.L().Debug("parser: executor start", zap.String("name", e.Name()))
-			if err := e.Execute(ctx, linkChan); err != nil {
-				log.L().Debug("parser: executor error", zap.Error(err))
+			r := &Result{Source: e.Name(), SourceDone: true}
+			r.Err = e.Execute(ctx, linkChan)
+			if r.Err != nil {
+				log.L().Debug("parser: executor error", zap.Error(r.Err))
 			}
+			ch <- r
 		}()
 	}
 

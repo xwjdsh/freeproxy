@@ -45,16 +45,17 @@ func (c *baseFreefqExecutor) parse(ctx context.Context, url string, linkChan cha
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return fmt.Errorf("parser: [freefq] http.Get error: %w", err)
+		return err
 	}
+
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		return fmt.Errorf("parser: [freefq] invalid error code: %d", res.StatusCode)
+		return fmt.Errorf("unexpected status code: %d", res.StatusCode)
 	}
 
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
-		return fmt.Errorf("parser: [freefq] goquery.NewDocumentFromReader error: %w", err)
+		return err
 	}
 
 	pageLink, ok := doc.Find(".news_list table").Eq(1).Find("a").First().Attr("href")
@@ -66,7 +67,6 @@ func (c *baseFreefqExecutor) parse(ctx context.Context, url string, linkChan cha
 	pageLink = host + pageLink
 	fileLink, err := c.getFileLinkByPageLink(ctx, pageLink)
 	if err != nil {
-		fmt.Println(err.Error())
 		return err
 	}
 
@@ -82,7 +82,7 @@ func (c *baseFreefqExecutor) fetchFile(ctx context.Context, fileLink string, lin
 
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		return fmt.Errorf("parser: [freefq] http status code error: %d, url: %s", res.StatusCode, fileLink)
+		return fmt.Errorf("unexpected status code: %d", res.StatusCode)
 	}
 
 	doc, err := goquery.NewDocumentFromResponse(res)
@@ -128,21 +128,21 @@ func (c *baseFreefqExecutor) getFileLinkByPageLink(ctx context.Context, pageLink
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, pageLink, nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return "", fmt.Errorf("parser: [freefq] http request error: %w", err)
+		return "", err
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		return "", fmt.Errorf("parser: [freefq] invalid error code: %d", res.StatusCode)
+		return "", fmt.Errorf("unexpected status code: %d", res.StatusCode)
 	}
 
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
-		return "", fmt.Errorf("parser: [freefq] goquery.NewDocumentFromReader error: %w", err)
+		return "", err
 	}
 
 	fileLink, ok := doc.Find("fieldset a").Attr("href")
 	if !ok {
-		return "", fmt.Errorf("parser: [freefq] file link not found")
+		return "", fmt.Errorf("file link not found")
 	}
 
 	return fileLink, nil

@@ -32,7 +32,8 @@ type LogConfig struct {
 }
 
 type ParserExecutor struct {
-	Name string `yaml:"name"`
+	Name    string        `yaml:"name"`
+	Timeout time.Duration `yaml:"deadline"`
 }
 
 type ParserConfig struct {
@@ -65,11 +66,11 @@ func DefaultConfig() *Config {
 		},
 		Parser: &ParserConfig{
 			Executors: []*ParserExecutor{
-				{Name: "cfmem"},
-				{Name: "freefq_ss"},
-				{Name: "freefq_ssr"},
-				{Name: "freefq_v2ray"},
-				{Name: "feedburner"},
+				{Name: "cfmem", Timeout: 5 * time.Second},
+				{Name: "freefq_ss", Timeout: 5 * time.Second},
+				{Name: "freefq_ssr", Timeout: 5 * time.Second},
+				{Name: "freefq_v2ray", Timeout: 5 * time.Second},
+				{Name: "feedburner", Timeout: 5 * time.Second},
 			},
 		},
 		Validator: &ValidatorConfig{
