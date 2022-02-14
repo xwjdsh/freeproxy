@@ -733,7 +733,6 @@ proxies:
   - {"cipher":"aes-256-cfb","name":"🇨🇦-CA-950","obfs":"tls1.2_ticket_auth","password":"4axflHccX","port":8080,"protocol":"origin","server":"ca-am3.eqnode.net","type":"ssr"}
   - {"cipher":"aes-256-gcm","name":"🇬🇧-GB-951","password":"FoOiGlkAA9yPEGP","plugin":"","plugin-opts":{},"port":7306,"server":"172.99.190.149","type":"ss"}
   - {"cipher":"aes-256-cfb","name":"🇦🇺-AU-954","obfs":"tls1.2_ticket_auth","password":"Jz8r4gLNP","port":443,"protocol":"origin","server":"sy-am2.eqsunshine.com","type":"ssr"}
-  - {"cipher":"aes-256-cfb","name":"🇺🇸-US-955","obfs":"tls1.2_ticket_auth","password":"YFVrXZgRo","port":8081,"protocol":"origin","server":"us-am32-5.eqnode.net","type":"ssr"}
 proxy-groups:
 - name: PROXY
   type: select
@@ -1467,7 +1466,6 @@ proxy-groups:
   - 🇨🇦-CA-950
   - 🇬🇧-GB-951
   - 🇦🇺-AU-954
-  - 🇺🇸-US-955
 - name: Auto - UrlTest
   type: url-test
   proxies:
@@ -2198,7 +2196,6 @@ proxy-groups:
   - 🇨🇦-CA-950
   - 🇬🇧-GB-951
   - 🇦🇺-AU-954
-  - 🇺🇸-US-955
   url: http://cp.cloudflare.com/generate_204
   interval: "3600"
 
