@@ -72,7 +72,9 @@ func main() {
 				},
 				Action: func(c *cli.Context) error {
 					h, err := getHandler(c, func(cfg *config.Config) {
-						cfg.App.Worker = c.Int("worker")
+						if worker := c.Int("worker"); worker > 0 {
+							cfg.App.Worker = worker
+						}
 					})
 					if err != nil {
 						return err
@@ -98,7 +100,9 @@ func main() {
 				},
 				Action: func(c *cli.Context) error {
 					h, err := getHandler(c, func(cfg *config.Config) {
-						cfg.App.Worker = c.Int("worker")
+						if worker := c.Int("worker"); worker > 0 {
+							cfg.App.Worker = worker
+						}
 					})
 					if err != nil {
 						return err
