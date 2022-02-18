@@ -131,29 +131,24 @@ type QueryOptions struct {
 	ID              uint
 	CountryCodes    string
 	NotCountryCodes string
-	Limit           int
-	OrderByDelay    bool
+	Count           int
 }
 
 func (h *Handler) GetProxies(ctx context.Context, opts *QueryOptions) ([]*Proxy, error) {
 	ps := []*Proxy{}
 	db := h.db
-	if opts.ID != 0 {
+	if opts != nil && opts.ID != 0 {
 		db = db.Where("id = ?", opts.ID)
 	}
-	if opts.CountryCodes != "" {
+	if opts != nil && opts.CountryCodes != "" {
 		db = db.Where("country_code IN (?)", strings.Split(opts.CountryCodes, ","))
 	}
-	if opts.NotCountryCodes != "" {
+	if opts != nil && opts.NotCountryCodes != "" {
 		db = db.Where("country_code NOT IN (?)", strings.Split(opts.NotCountryCodes, ","))
 	}
 
-	if opts.OrderByDelay {
-		db = db.Order("delay")
-	}
-
-	if opts.Limit != 0 {
-		db = db.Limit(opts.Limit)
+	if opts != nil && opts.Count > 0 {
+		db = db.Limit(opts.Count).Order("delay")
 	}
 
 	return ps, db.Find(&ps).Error

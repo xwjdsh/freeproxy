@@ -51,13 +51,13 @@ type proxyRenderData struct {
 	Proxy       string
 }
 
-func (h *Handler) Proxy(ctx context.Context, opts *ProxyOptions) error {
+func (h *Handler) Proxy(ctx context.Context) error {
+	cfg := h.cfg.Proxy
 	ps, err := h.storage.GetProxies(ctx, &storage.QueryOptions{
-		ID:              opts.ID,
-		CountryCodes:    opts.CountryCodes,
-		NotCountryCodes: opts.NotCountryCodes,
-		Limit:           1,
-		OrderByDelay:    true,
+		ID:              cfg.ProxyID,
+		CountryCodes:    cfg.ProxyCountryCodes,
+		NotCountryCodes: cfg.ProxyNotCountryCodes,
+		Count:           1,
 	})
 	if err != nil {
 		return err
@@ -94,8 +94,8 @@ func (h *Handler) Proxy(ctx context.Context, opts *ProxyOptions) error {
 	}()
 
 	if err := t.Execute(f, &proxyRenderData{
-		BindAddress: "localhost",
-		Port:        opts.Port,
+		BindAddress: cfg.BindAddress,
+		Port:        cfg.Port,
 		Proxy:       string(data),
 	}); err != nil {
 		return err

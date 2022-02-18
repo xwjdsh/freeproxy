@@ -76,10 +76,11 @@ func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
 		emptyCountryCount counter.Count
 	)
 
+	worker := h.cfg.Tidy.Worker
 	wg := sync.WaitGroup{}
-	wg.Add(h.cfg.Worker)
+	wg.Add(worker)
 
-	for i := 0; i < h.cfg.Worker; i++ {
+	for i := 0; i < worker; i++ {
 		go func() {
 			defer wg.Done()
 
@@ -148,15 +149,16 @@ func (h *Handler) Fetch(ctx context.Context, quiet bool) error {
 
 	parserResultChan := make(chan *parser.Result)
 
+	worker := h.cfg.Fetch.Worker
 	wg := sync.WaitGroup{}
-	wg.Add(h.cfg.Worker)
+	wg.Add(worker)
 
 	createdCountMap := map[string]int{}
 	createdCountMutex := sync.Mutex{}
 
 	barMutex := sync.Mutex{}
 
-	for i := 0; i < h.cfg.Worker; i++ {
+	for i := 0; i < worker; i++ {
 		go func() {
 			defer wg.Done()
 
@@ -247,8 +249,8 @@ type SummaryData struct {
 	Total             int
 }
 
-func (h *Handler) Summary(ctx context.Context, templatePath string) error {
-	ps, err := h.storage.GetProxies(ctx, &storage.QueryOptions{})
+func (h *Handler) Summary(ctx context.Context) error {
+	ps, err := h.storage.GetProxies(ctx, nil)
 	if err != nil {
 		return nil
 	}
@@ -280,8 +282,8 @@ func (h *Handler) Summary(ctx context.Context, templatePath string) error {
 		return sd.Items[i].Total > sd.Items[j].Total
 	})
 
-	if templatePath != "" {
-		data, err := ioutil.ReadFile(templatePath)
+	if fp := h.cfg.Summary.TemplateFilePath; fp != "" {
+		data, err := ioutil.ReadFile(fp)
 		if err != nil {
 			return err
 		}

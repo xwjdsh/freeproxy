@@ -23,16 +23,29 @@ func (c *Config) Marshal() ([]byte, error) {
 }
 
 type AppConfig struct {
-	Worker int              `yaml:"worker"`
-	Export *AppExportConfig `yaml:"export"`
-	Proxy  *AppProxyConfig  `yaml:"proxy"`
+	Fetch   *AppFetchConfig   `yaml:"fetch"`
+	Tidy    *AppTidyConfig    `yaml:"tidy"`
+	Export  *AppExportConfig  `yaml:"export"`
+	Proxy   *AppProxyConfig   `yaml:"proxy"`
+	Summary *AppSummaryConfig `yaml:"summary"`
+}
+
+type AppFetchConfig struct {
+	Worker int `yaml:"worker"`
+}
+
+type AppTidyConfig struct {
+	Worker int `yaml:"worker"`
+}
+
+type AppSummaryConfig struct {
+	TemplateFilePath string `yaml:"template_file_path"`
 }
 
 type AppProxyConfig struct {
 	BindAddress          string `yaml:"bind_address"`
 	Port                 int    `yaml:"port"`
 	Verbose              bool   `yaml:"verbose"`
-	ProxyCount           int    `yaml:"proxy_count"`
 	ProxyCountryCodes    string `yaml:"proxy_country_codes"`
 	ProxyNotCountryCodes string `yaml:"proxy_not_country_codes"`
 	ProxyID              uint   `yaml:"proxy_id"`
@@ -79,8 +92,14 @@ func DefaultConfig() *Config {
 	homeDir, _ := os.UserHomeDir()
 	c := &Config{
 		App: &AppConfig{
-			Worker: 100,
-			Export: &AppExportConfig{},
+			Fetch:  &AppFetchConfig{Worker: 300},
+			Tidy:   &AppTidyConfig{Worker: 300},
+			Export: &AppExportConfig{ProxyCount: 100},
+			Proxy: &AppProxyConfig{
+				BindAddress: "127.0.0.1",
+				Port:        10000,
+			},
+			Summary: &AppSummaryConfig{},
 		},
 		Parser: &ParserConfig{
 			Executors: []*ParserExecutor{
@@ -116,7 +135,7 @@ func DefaultConfig() *Config {
 		},
 		Validator: &ValidatorConfig{
 			TestNetworkURL:        "https://www.baidu.com",
-			TestURL:               "http://www.gstatic.com/generate_204",
+			TestURL:               "https://connectivitycheck.gstatic.com/generate_204",
 			TestURLCount:          3,
 			TestURLTimeout:        5 * time.Second,
 			GetCountryInfoTimeout: 5 * time.Second,

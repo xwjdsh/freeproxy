@@ -31,8 +31,14 @@ type ExportOptions struct {
 	storage.QueryOptions
 }
 
-func (h *Handler) Export(ctx context.Context, opts *ExportOptions) error {
-	ps, err := h.storage.GetProxies(ctx, &opts.QueryOptions)
+func (h *Handler) Export(ctx context.Context) error {
+	cfg := h.cfg.Export
+	ps, err := h.storage.GetProxies(ctx, &storage.QueryOptions{
+		ID:              cfg.ProxyID,
+		CountryCodes:    cfg.ProxyCountryCodes,
+		NotCountryCodes: cfg.ProxyNotCountryCodes,
+		Count:           cfg.ProxyCount,
+	})
 	if err != nil {
 		return nil
 	}
