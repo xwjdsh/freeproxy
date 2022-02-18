@@ -9,6 +9,7 @@ import (
 
 	"github.com/xwjdsh/freeproxy"
 	"github.com/xwjdsh/freeproxy/config"
+	"github.com/xwjdsh/freeproxy/storage"
 )
 
 func main() {
@@ -133,12 +134,35 @@ func main() {
 				Name:    "export",
 				Aliases: []string{"e"},
 				Usage:   "Export proxies",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:    "country-code",
+						Aliases: []string{"cc"},
+						Usage:   "Filter proxies by country codes, for example 'US,DE'",
+					},
+					&cli.StringFlag{
+						Name:    "not-country-code",
+						Aliases: []string{"ncc"},
+						Usage:   "Filter proxies other than country codes, for example 'CN,IN'",
+					},
+					&cli.UintFlag{
+						Name:  "id",
+						Usage: "Filter proxies by id",
+					},
+					&cli.IntFlag{
+						Name:    "fast",
+						Aliases: []string{"f"},
+						Usage:   "Get the top N fastest proxies",
+					},
+				},
 				Action: func(c *cli.Context) error {
 					h, err := getHandler(c, nil)
 					if err != nil {
 						return err
 					}
-					return h.Export(c.Context)
+					return h.Export(c.Context, &freeproxy.ExportOptions{
+						QueryOptions: storage.QueryOptions{},
+					})
 				},
 			},
 			{
@@ -161,7 +185,12 @@ func main() {
 					&cli.StringFlag{
 						Name:    "country-code",
 						Aliases: []string{"cc"},
-						Usage:   "Filter proxies by country code",
+						Usage:   "Filter proxies by country codes, for example 'US,DE'",
+					},
+					&cli.StringFlag{
+						Name:    "not-country-code",
+						Aliases: []string{"ncc"},
+						Usage:   "Filter proxies other than country codes, for example 'CN,IN'",
 					},
 					&cli.UintFlag{
 						Name:  "id",
@@ -174,10 +203,11 @@ func main() {
 						return err
 					}
 					opts := &freeproxy.ProxyOptions{
-						BindAddress: c.String("address"),
-						Port:        c.Int("port"),
-						ID:          c.Uint("id"),
-						CountryCode: c.String("country-code"),
+						BindAddress:     c.String("address"),
+						Port:            c.Int("port"),
+						ID:              c.Uint("id"),
+						CountryCodes:    c.String("country-code"),
+						NotCountryCodes: c.String("not-country-code"),
 					}
 					return h.Proxy(c.Context, opts)
 				},

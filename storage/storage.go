@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"strings"
 	"time"
 
 	"gorm.io/driver/sqlite"
@@ -126,19 +127,34 @@ func (h *Handler) Create(ctx context.Context, p proxy.Proxy) (*Proxy, bool, erro
 	return pp, r.RowsAffected > 0, nil
 }
 
-func (h *Handler) GetProxies(ctx context.Context) ([]*Proxy, error) {
-	proxies := []*Proxy{}
-	return proxies, h.db.Find(&proxies).Error
+type QueryOptions struct {
+	ID              uint
+	CountryCodes    string
+	NotCountryCodes string
+	Limit           int
+	OrderByDelay    bool
 }
 
-func (h *Handler) GetProxy(ctx context.Context, id uint, countryCode string) (*Proxy, error) {
-	p := new(Proxy)
-	db := h.db.Order("delay")
-	if id != 0 {
-		db = db.Where("id = ?", id)
+func (h *Handler) GetProxies(ctx context.Context, opts *QueryOptions) ([]*Proxy, error) {
+	ps := []*Proxy{}
+	db := h.db
+	if opts.ID != 0 {
+		db = db.Where("id = ?", opts.ID)
 	}
-	if countryCode != "" {
-		db = db.Where("country_code = ?", countryCode)
+	if opts.CountryCodes != "" {
+		db = db.Where("country_code IN (?)", strings.Split(opts.CountryCodes, ","))
 	}
-	return p, db.Take(p).Error
+	if opts.NotCountryCodes != "" {
+		db = db.Where("country_code NOT IN (?)", strings.Split(opts.NotCountryCodes, ","))
+	}
+
+	if opts.OrderByDelay {
+		db = db.Order("delay")
+	}
+
+	if opts.Limit != 0 {
+		db = db.Limit(opts.Limit)
+	}
+
+	return ps, db.Find(&ps).Error
 }

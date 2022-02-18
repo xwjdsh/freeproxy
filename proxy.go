@@ -3,6 +3,7 @@ package freeproxy
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -13,6 +14,8 @@ import (
 	C "github.com/Dreamacro/clash/constant"
 	"github.com/Dreamacro/clash/hub"
 	"github.com/google/uuid"
+
+	"github.com/xwjdsh/freeproxy/storage"
 )
 
 type ProxyOptions struct {
@@ -20,8 +23,9 @@ type ProxyOptions struct {
 	Port        int
 	Verbose     bool
 
-	ID          uint
-	CountryCode string
+	ID              uint
+	CountryCodes    string
+	NotCountryCodes string
 }
 
 var proxyClashTemplate = `
@@ -48,11 +52,21 @@ type proxyRenderData struct {
 }
 
 func (h *Handler) Proxy(ctx context.Context, opts *ProxyOptions) error {
-	p, err := h.storage.GetProxy(ctx, opts.ID, opts.CountryCode)
+	ps, err := h.storage.GetProxies(ctx, &storage.QueryOptions{
+		ID:              opts.ID,
+		CountryCodes:    opts.CountryCodes,
+		NotCountryCodes: opts.NotCountryCodes,
+		Limit:           1,
+		OrderByDelay:    true,
+	})
 	if err != nil {
 		return err
 	}
+	if len(ps) == 0 {
+		return fmt.Errorf("no proxy records")
+	}
 
+	p := ps[0]
 	log.Printf("select id: %d, server: %s, country: %s\n", p.ID, p.Server, p.Country)
 	m := map[string]interface{}{}
 	if err := json.Unmarshal([]byte(p.Config), &m); err == nil {

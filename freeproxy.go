@@ -50,7 +50,7 @@ func Init(cfg *config.Config) (*Handler, error) {
 }
 
 func (h *Handler) Tidy(ctx context.Context, quiet bool) error {
-	ps, err := h.storage.GetProxies(ctx)
+	ps, err := h.storage.GetProxies(ctx, &storage.QueryOptions{})
 	if err != nil {
 		return err
 	}
@@ -248,7 +248,7 @@ type SummaryData struct {
 }
 
 func (h *Handler) Summary(ctx context.Context, templatePath string) error {
-	ps, err := h.storage.GetProxies(ctx)
+	ps, err := h.storage.GetProxies(ctx, &storage.QueryOptions{})
 	if err != nil {
 		return nil
 	}

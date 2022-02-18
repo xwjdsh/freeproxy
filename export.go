@@ -27,8 +27,12 @@ type RenderData struct {
 	Items []*RenderItem
 }
 
-func (h *Handler) Export(ctx context.Context) error {
-	ps, err := h.storage.GetProxies(ctx)
+type ExportOptions struct {
+	storage.QueryOptions
+}
+
+func (h *Handler) Export(ctx context.Context, opts *ExportOptions) error {
+	ps, err := h.storage.GetProxies(ctx, &opts.QueryOptions)
 	if err != nil {
 		return nil
 	}

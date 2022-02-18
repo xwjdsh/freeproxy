@@ -25,11 +25,26 @@ func (c *Config) Marshal() ([]byte, error) {
 type AppConfig struct {
 	Worker int              `yaml:"worker"`
 	Export *AppExportConfig `yaml:"export"`
+	Proxy  *AppProxyConfig  `yaml:"proxy"`
+}
+
+type AppProxyConfig struct {
+	BindAddress          string `yaml:"bind_address"`
+	Port                 int    `yaml:"port"`
+	Verbose              bool   `yaml:"verbose"`
+	ProxyCount           int    `yaml:"proxy_count"`
+	ProxyCountryCodes    string `yaml:"proxy_country_codes"`
+	ProxyNotCountryCodes string `yaml:"proxy_not_country_codes"`
+	ProxyID              uint   `yaml:"proxy_id"`
 }
 
 type AppExportConfig struct {
-	TemplateFilePath string `yaml:"template_file_path"`
-	OutputFilePath   string `yaml:"output_file_path"`
+	TemplateFilePath     string `yaml:"template_file_path"`
+	OutputFilePath       string `yaml:"output_file_path"`
+	ProxyCount           int    `yaml:"proxy_count"`
+	ProxyCountryCodes    string `yaml:"proxy_country_codes"`
+	ProxyNotCountryCodes string `yaml:"proxy_not_country_codes"`
+	ProxyID              uint   `yaml:"proxy_id"`
 }
 
 type LogConfig struct {
