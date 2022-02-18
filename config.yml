@@ -1,23 +1,146 @@
 app:
-    worker: 100
+    fetch:
+        worker: 300
+    tidy:
+        worker: 300
+    export:
+        template_file_path: ""
+        output_file_path: "./freeproxy.yaml"
+        proxy_count: 100
+        proxy_country_codes: ""
+        proxy_not_country_codes: ""
+        proxy_id: 0
+    proxy:
+        bind_address: 127.0.0.1
+        port: 10000
+        verbose: false
+        proxy_country_codes: ""
+        proxy_not_country_codes: ""
+        proxy_id: 0
+    summary:
+        template_file_path: ""
 parser:
     executors:
         - name: cfmem
+          enable: true
+          deadline: 10s
+          file_url: ""
         - name: freefq_ss
+          enable: true
+          deadline: 10s
+          file_url: ""
         - name: freefq_ssr
+          enable: true
+          deadline: 10s
+          file_url: ""
         - name: freefq_v2ray
+          enable: true
+          deadline: 10s
+          file_url: ""
         - name: feedburner
+          enable: true
+          deadline: 10s
+          file_url: ""
+        - name: freefq/free/v2
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/freefq/free/master/v2
+        - name: freefq/free/ssr
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/freefq/free/master/ssr
+        - name: aiboboxx/v2rayfree
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/aiboboxx/v2rayfree/main/v2
+        - name: learnhard-cn/free_proxy_ss/ss
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/learnhard-cn/free_proxy_ss/main/ss/sssub
+        - name: learnhard-cn/free_proxy_ss/ssr
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/learnhard-cn/free_proxy_ss/main/ssr/ssrsub
+        - name: learnhard-cn/free_proxy_ss/v2ray
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/learnhard-cn/free_proxy_ss/main/v2ray/v2raysub
+        - name: learnhard-cn/free_proxy_ss/free
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/learnhard-cn/free_proxy_ss/main/free
+        - name: chfchf0306/jeidian4.18
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/chfchf0306/jeidian4.18/main/4.18
+        - name: xiyaowong/freeFQ
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/xiyaowong/freeFQ/main/v2ray
+        - name: vpei/Free-Node-Merge
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/vpei/Free-Node-Merge/main/out/node.txt
+        - name: colatiger/v2ray-nodes/proxy
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/colatiger/v2ray-nodes/master/proxy.md
+        - name: colatiger/v2ray-nodes/ss
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/colatiger/v2ray-nodes/master/ss.md
+        - name: colatiger/v2ray-nodes/vmess
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/colatiger/v2ray-nodes/master/vmess.md
+        - name: ssrsub/ssr/V2Ray
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/ssrsub/ssr/master/V2Ray
+        - name: ssrsub/ssr/V2Ray
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/ssrsub/ssr/master/V2Ray
+        - name: ssrsub/ssr/ss-sub
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/ssrsub/ssr/master/ss-sub
+        - name: ssrsub/ssr/ssrsub
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/ssrsub/ssr/master/ssrsub
+        - name: ssrsub/ssr/trojan
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/ssrsub/ssr/master/trojan
+        - name: Leon406/SubCrawler
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/Leon406/SubCrawler/main/sub/share/all
+        - name: https://t.me/abc999222/392205
+          enable: true
+          deadline: 10s
+          file_url: https://www.abrnya.com/ssr/ssr.txt
+        - name: wrfree/free/ssr
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/wrfree/free/main/ssr
+        - name: wrfree/free/v2
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/wrfree/free/main/v2
+        - name: ThekingMX1998/free-v2ray-code
+          enable: true
+          deadline: 10s
+          file_url: https://raw.githubusercontent.com/ThekingMX1998/free-v2ray-code/master/Subscription/GreenFishYYDS
 validator:
     test_network_url: https://www.baidu.com
-    test_url: http://www.gstatic.com/generate_204
+    test_url: https://connectivitycheck.gstatic.com/generate_204
     test_url_count: 3
     test_url_timeout: 5s
     get_country_info_timeout: 5s
 storage:
     driver: sqlite
     dsn: ./freeproxy.db
-exporter:
-    template_file_path: ""
-    output_file_path: "./freeproxy.yaml"
 log:
     level: info
