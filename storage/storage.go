@@ -133,12 +133,12 @@ func (h *Handler) GetProxies(ctx context.Context) ([]*Proxy, error) {
 
 func (h *Handler) GetProxy(ctx context.Context, id uint, countryCode string) (*Proxy, error) {
 	p := new(Proxy)
-	db := h.db.Order("RANDOM()")
+	db := h.db.Order("delay")
 	if id != 0 {
 		db = db.Where("id = ?", id)
 	}
 	if countryCode != "" {
 		db = db.Where("country_code = ?", countryCode)
 	}
-	return p, db.First(p).Error
+	return p, db.Take(p).Error
 }
