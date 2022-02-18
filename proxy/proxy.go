@@ -20,6 +20,10 @@ var (
 
 type Type string
 
+func (t Type) String() string {
+	return string(t)
+}
+
 func (t Type) Prefix() string {
 	return fmt.Sprintf("%s://", t)
 }

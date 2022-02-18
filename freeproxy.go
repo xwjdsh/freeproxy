@@ -238,12 +238,12 @@ type SummaryGroup struct {
 	CountryEmoji string
 	Country      string
 	Total        int
-	ProxyTypeMap map[proxy.Type]int
+	ProxyTypeMap map[string]int
 }
 
 type SummaryData struct {
 	Items             []*SummaryGroup
-	TotalProxyTypeMap map[proxy.Type]int
+	TotalProxyTypeMap map[string]int
 	Total             int
 }
 
@@ -255,7 +255,7 @@ func (h *Handler) Summary(ctx context.Context, templatePath string) error {
 
 	sd := &SummaryData{
 		Total:             len(ps),
-		TotalProxyTypeMap: map[proxy.Type]int{},
+		TotalProxyTypeMap: map[string]int{},
 	}
 
 	m := map[string]*SummaryGroup{}
@@ -266,14 +266,14 @@ func (h *Handler) Summary(ctx context.Context, templatePath string) error {
 				CountryCode:  p.CountryCode,
 				CountryEmoji: emoji.GetFlag(p.CountryCode),
 				Country:      p.Country,
-				ProxyTypeMap: map[proxy.Type]int{},
+				ProxyTypeMap: map[string]int{},
 			}
 			m[p.CountryCode] = sg
 			sd.Items = append(sd.Items, sg)
 		}
 		sg.Total += 1
-		sg.ProxyTypeMap[p.Type] += 1
-		sd.TotalProxyTypeMap[p.Type] += 1
+		sg.ProxyTypeMap[p.Type.String()] += 1
+		sd.TotalProxyTypeMap[p.Type.String()] += 1
 	}
 
 	sort.Slice(sd.Items, func(i, j int) bool {
@@ -295,22 +295,52 @@ func (h *Handler) Summary(ctx context.Context, templatePath string) error {
 	}
 
 	data := [][]string{}
-	for _, item := range sd.Items {
-		data = append(data, []string{
-			item.CountryEmoji + " " + item.CountryCode, item.Country, strconv.Itoa(item.ProxyTypeMap[proxy.SS]),
-			strconv.Itoa(item.ProxyTypeMap[proxy.SSR]), strconv.Itoa(item.ProxyTypeMap[proxy.Vmess]),
-			strconv.Itoa(item.Total),
-		})
+	header := []string{"CountryCode", "Country"}
+	footer := []string{"", "Total"}
+	if v := sd.TotalProxyTypeMap[proxy.SS.String()]; v != 0 {
+		header = append(header, "SS")
+		footer = append(footer, strconv.Itoa(v))
 	}
+	if v := sd.TotalProxyTypeMap[proxy.SSR.String()]; v != 0 {
+		header = append(header, "SSR")
+		footer = append(footer, strconv.Itoa(v))
+	}
+	if v := sd.TotalProxyTypeMap[proxy.Vmess.String()]; v != 0 {
+		header = append(header, "Vmess")
+		footer = append(footer, strconv.Itoa(v))
+	}
+	if v := sd.TotalProxyTypeMap[proxy.Trojan.String()]; v != 0 {
+		header = append(header, "Trojan")
+		footer = append(footer, strconv.Itoa(v))
+	}
+	header = append(header, "Total")
+	footer = append(footer, strconv.Itoa(sd.Total))
+
+	for _, item := range sd.Items {
+		dataItem := []string{
+			item.CountryEmoji + " " + item.CountryCode, item.Country,
+		}
+
+		if v := sd.TotalProxyTypeMap[proxy.SS.String()]; v != 0 {
+			dataItem = append(dataItem, strconv.Itoa(item.ProxyTypeMap[proxy.SS.String()]))
+		}
+		if v := sd.TotalProxyTypeMap[proxy.SSR.String()]; v != 0 {
+			dataItem = append(dataItem, strconv.Itoa(item.ProxyTypeMap[proxy.SSR.String()]))
+		}
+		if v := sd.TotalProxyTypeMap[proxy.Vmess.String()]; v != 0 {
+			dataItem = append(dataItem, strconv.Itoa(item.ProxyTypeMap[proxy.Vmess.String()]))
+		}
+		if v := sd.TotalProxyTypeMap[proxy.Trojan.String()]; v != 0 {
+			dataItem = append(dataItem, strconv.Itoa(item.ProxyTypeMap[proxy.Trojan.String()]))
+		}
+		dataItem = append(dataItem, strconv.Itoa(item.Total))
+		data = append(data, dataItem)
+	}
+
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetAutoFormatHeaders(false)
-	table.SetHeader([]string{"CountryCode", "Country", "SS", "SSR", "Vmess", "Total"})
-	table.SetFooter([]string{
-		"", "Total",
-		strconv.Itoa(sd.TotalProxyTypeMap[proxy.SS]),
-		strconv.Itoa(sd.TotalProxyTypeMap[proxy.SSR]),
-		strconv.Itoa(sd.TotalProxyTypeMap[proxy.Vmess]),
-		strconv.Itoa(sd.Total)})
+	table.SetHeader(header)
+	table.SetFooter(footer)
 	table.SetBorder(false)
 	table.AppendBulk(data)
 	table.SetAlignment(tablewriter.ALIGN_CENTER)
