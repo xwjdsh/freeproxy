@@ -16,6 +16,8 @@ type ssProxy struct {
 	PluginOpts map[string]interface{} `json:"plugin-opts"`
 }
 
+type ssProxyHandler struct{}
+
 func newSSByLink(link string) (*ssProxy, error) {
 	uri, err := url.Parse(link)
 	if err != nil {

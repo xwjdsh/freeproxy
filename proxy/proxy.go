@@ -18,12 +18,17 @@ var (
 	_ Proxy = new(ssProxy)
 )
 
-type Type = string
+type Type string
+
+func (t Type) Prefix() string {
+	return fmt.Sprintf("%s://", t)
+}
 
 const (
-	SS    Type = "ss"
-	SSR   Type = "ssr"
-	Vmess Type = "vmess"
+	SS     Type = "ss"
+	SSR    Type = "ssr"
+	Vmess  Type = "vmess"
+	Trojan Type = "trojan"
 )
 
 type Base struct {
@@ -52,6 +57,8 @@ func (b *Base) Restore(cm string) (Proxy, error) {
 		proxy = &ssrProxy{Base: b}
 	case Vmess:
 		proxy = &vmessProxy{Base: b}
+	case Trojan:
+		proxy = &trojanProxy{Base: b}
 	}
 
 	if err := json.Unmarshal([]byte(cm), proxy); err != nil {
@@ -87,12 +94,14 @@ func NewProxyByLink(link string) (Proxy, error) {
 		err error
 	)
 	switch {
-	case strings.HasPrefix(link, "ss://"):
+	case strings.HasPrefix(link, SS.Prefix()):
 		p, err = newSSByLink(link)
-	case strings.HasPrefix(link, "ssr://"):
+	case strings.HasPrefix(link, SSR.Prefix()):
 		p, err = newSSRByLink(link)
-	case strings.HasPrefix(link, "vmess://"):
+	case strings.HasPrefix(link, Vmess.Prefix()):
 		p, err = newVmessByLink(link)
+	case strings.HasPrefix(link, Trojan.Prefix()):
+		p, err = newTrojanByLink(link)
 	default:
 		err = ErrInvalidLink
 	}
@@ -101,7 +110,11 @@ func NewProxyByLink(link string) (Proxy, error) {
 }
 
 func LinkValid(link string) bool {
-	return strings.HasPrefix(link, "ss://") ||
-		strings.HasPrefix(link, "ssr://") ||
-		strings.HasPrefix(link, "vmess://")
+	for _, t := range []Type{SS, SSR, Vmess, Trojan} {
+		if strings.HasPrefix(link, t.Prefix()) {
+			return true
+		}
+	}
+
+	return false
 }
