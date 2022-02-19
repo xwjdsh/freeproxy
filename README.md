@@ -2,26 +2,28 @@
 
 |CountryCode|Country|SS|SSR|Vmess|Total|
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
-| ||1554|42|37|1633|
-|🇺🇸 US|United States|541|0|1|542|
-|🇨🇦 CA|Canada|328|0|0|328|
-|🇬🇧 GB|United Kingdom|116|1|0|117|
-|🇩🇪 DE|Germany|34|0|0|34|
-|🇫🇷 FR|France|34|0|0|34|
-|🇦🇺 AU|Australia|16|0|0|16|
-|🇭🇰 HK|Hong Kong|3|0|11|14|
-|🇸🇬 SG|Singapore|12|0|0|12|
-|🇮🇳 IN|India|12|0|0|12|
-|🇰🇷 KR|South Korea|9|0|0|9|
+| ||1445|38|36|1519|
+|🇺🇸 US|United States|571|0|1|572|
+|🇨🇦 CA|Canada|340|0|0|340|
+|🇬🇧 GB|United Kingdom|120|1|0|121|
+|🇫🇷 FR|France|41|0|0|41|
+|🇩🇪 DE|Germany|37|0|0|37|
+|🇸🇬 SG|Singapore|19|0|0|19|
+|🇦🇺 AU|Australia|16|1|0|17|
+|🇮🇳 IN|India|15|0|0|15|
+|🇭🇰 HK|Hong Kong|2|0|11|13|
+|🇳🇴 NO|Norway|11|0|0|11|
+|🇰🇷 KR|South Korea|10|0|0|10|
+|🇯🇵 JP|Japan|6|0|0|6|
+|🇵🇱 PL|Poland|6|0|0|6|
 |🇳🇱 NL|Netherlands|5|0|0|5|
 |🇧🇦 BA|Bosnia and Herzegovina|4|0|0|4|
-|🇵🇱 PL|Poland|3|0|0|3|
-|🇯🇵 JP|Japan|2|0|0|2|
-|🇨🇳 CN|China|1|0|1|2|
+|🇨🇳 CN|China|1|1|1|3|
 |🇮🇹 IT|Italy|2|0|0|2|
-|🇷🇺 RU|Russia|1|0|0|1|
-|🇲🇰 MK|North Macedonia|1|0|0|1|
-|🇱🇺 LU|Luxembourg|1|0|0|1|
+|🇱🇺 LU|Luxembourg|2|0|0|2|
 |🇪🇸 ES|Spain|1|0|0|1|
+|🇲🇰 MK|North Macedonia|1|0|0|1|
 |🇮🇲 IM|Isle of Man|1|0|0|1|
-||Total|2681|43|50|2774|
+|🇷🇺 RU|Russia|1|0|0|1|
+|🇨🇭 CH|Switzerland|1|0|0|1|
+||Total|2658|41|49|2748|
