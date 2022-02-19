@@ -103,3 +103,7 @@ func (v *Validator) GetCountryInfo(ctx context.Context, server string) (string, 
 
 	return res.CountryCode, res.Country, nil
 }
+
+func (c *Validator) GetTestURL() string {
+	return c.cfg.TestURL
+}

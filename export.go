@@ -24,7 +24,8 @@ type RenderItem struct {
 }
 
 type RenderData struct {
-	Items []*RenderItem
+	TestURL string
+	Items   []*RenderItem
 }
 
 type ExportOptions struct {
@@ -43,7 +44,9 @@ func (h *Handler) Export(ctx context.Context) error {
 		return nil
 	}
 
-	rd := &RenderData{}
+	rd := &RenderData{
+		TestURL: h.validator.GetTestURL(),
+	}
 	for _, p := range ps {
 		m := map[string]interface{}{}
 		if err := json.Unmarshal([]byte(p.Config), &m); err == nil {

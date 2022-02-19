@@ -135,7 +135,7 @@ func DefaultConfig() *Config {
 		},
 		Validator: &ValidatorConfig{
 			TestNetworkURL:        "https://www.baidu.com",
-			TestURL:               "https://connectivitycheck.gstatic.com/generate_204",
+			TestURL:               "http://www.gstatic.com/generate_204",
 			TestURLCount:          3,
 			TestURLTimeout:        5 * time.Second,
 			GetCountryInfoTimeout: 5 * time.Second,

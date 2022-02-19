@@ -24,7 +24,7 @@ proxy-groups:
   {{- range .Items }}
   - {{.Proxy.Name}}
   {{- end }}
-  url: http://cp.cloudflare.com/generate_204
+  url: {{ .TestURL }}
   interval: "3600"
 
 rules:
