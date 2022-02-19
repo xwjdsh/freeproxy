@@ -2,20 +2,20 @@
 
 |CountryCode|Country|SS|SSR|Vmess|Total|
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
-| ||1237|17|29|1283|
-|🇺🇸 US|United States|653|0|1|654|
-|🇨🇦 CA|Canada|380|0|0|380|
-|🇬🇧 GB|United Kingdom|134|1|0|135|
-|🇩🇪 DE|Germany|56|1|0|57|
+| ||1241|29|28|1298|
+|🇺🇸 US|United States|679|0|1|680|
+|🇨🇦 CA|Canada|381|0|0|381|
+|🇬🇧 GB|United Kingdom|135|1|0|136|
+|🇩🇪 DE|Germany|57|1|0|58|
 |🇫🇷 FR|France|46|0|0|46|
-|🇸🇬 SG|Singapore|29|0|0|29|
-|🇭🇰 HK|Hong Kong|13|0|14|27|
-|🇮🇳 IN|India|22|0|0|22|
+|🇸🇬 SG|Singapore|33|0|0|33|
+|🇭🇰 HK|Hong Kong|12|0|18|30|
+|🇮🇳 IN|India|23|0|0|23|
 |🇦🇺 AU|Australia|18|1|0|19|
-|🇨🇳 CN|China|1|15|2|18|
-|🇰🇷 KR|South Korea|12|0|0|12|
+|🇨🇳 CN|China|0|14|2|16|
+|🇯🇵 JP|Japan|14|0|0|14|
+|🇰🇷 KR|South Korea|13|0|0|13|
 |🇳🇴 NO|Norway|11|0|0|11|
-|🇯🇵 JP|Japan|9|0|0|9|
 |🇵🇱 PL|Poland|9|0|0|9|
 |🇧🇦 BA|Bosnia and Herzegovina|5|0|0|5|
 |🇳🇱 NL|Netherlands|5|0|0|5|
@@ -29,4 +29,4 @@
 |🇨🇭 CH|Switzerland|1|0|0|1|
 |🇨🇴 CO|Colombia|1|0|0|1|
 |🇪🇪 EE|Estonia|1|0|0|1|
-||Total|2653|35|47|2735|
+||Total|2695|46|50|2791|
