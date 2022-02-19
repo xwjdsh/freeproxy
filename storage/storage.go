@@ -132,6 +132,7 @@ type QueryOptions struct {
 	CountryCodes    string
 	NotCountryCodes string
 	Count           int
+	Fast            bool
 }
 
 func (h *Handler) GetProxies(ctx context.Context, opts *QueryOptions) ([]*Proxy, error) {
@@ -148,7 +149,13 @@ func (h *Handler) GetProxies(ctx context.Context, opts *QueryOptions) ([]*Proxy,
 	}
 
 	if opts != nil && opts.Count > 0 {
-		db = db.Limit(opts.Count).Order("delay")
+		db = db.Limit(opts.Count)
+	}
+
+	if opts != nil && opts.Fast {
+		db = db.Order("delay")
+	} else {
+		db = db.Order("RANDOM()")
 	}
 
 	return ps, db.Find(&ps).Error

@@ -193,7 +193,7 @@ var (
 	proxyCommand = &cli.Command{
 		Name:    "proxy",
 		Aliases: []string{"p"},
-		Usage:   "Start http proxy server",
+		Usage:   "Start proxy server",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:    "address",
@@ -219,6 +219,16 @@ var (
 				Name:    "not-country-code",
 				Aliases: []string{"ncc"},
 				Usage:   "Filter proxies other than country codes, for example 'CN,IN'",
+			},
+			&cli.BoolFlag{
+				Name:    "fast",
+				Aliases: []string{"f"},
+				Usage:   "Get the fastest proxy",
+			},
+			&cli.BoolFlag{
+				Name:    "switch",
+				Aliases: []string{"s"},
+				Usage:   "Switch proxy server",
 			},
 			&cli.UintFlag{
 				Name:  "id",
@@ -247,7 +257,7 @@ var (
 			if err != nil {
 				return err
 			}
-			return h.Proxy(c.Context)
+			return h.Proxy(c.Context, c.Bool("fast"), c.Bool("switch"))
 		},
 	}
 )

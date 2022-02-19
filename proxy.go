@@ -4,7 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -51,41 +52,101 @@ type proxyRenderData struct {
 	Proxy       string
 }
 
-func (h *Handler) Proxy(ctx context.Context) error {
+func (h *Handler) Proxy(ctx context.Context, fast bool, switchProxy bool) error {
+	if switchProxy {
+		resp, err := http.PostForm(fmt.Sprintf("http://%s/switch", h.cfg.Proxy.SwitchServer), nil)
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+		data, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return err
+		}
+
+		p := &storage.Proxy{}
+		if err := json.Unmarshal(data, p); err != nil {
+			return err
+		}
+
+		fmt.Printf("select id: %d, server: %s, type: %s, country: %s\n", p.ID, p.Server, p.Type, p.Country)
+		return nil
+	}
+
+	if _, err := h.startProxyServer(ctx, fast); err != nil {
+		return err
+	}
+
+	go func() {
+		http.HandleFunc("/switch", func(rw http.ResponseWriter, r *http.Request) {
+			if r.Method != http.MethodPost {
+				code := http.StatusMethodNotAllowed
+				rw.Write([]byte(http.StatusText(code)))
+				rw.WriteHeader(code)
+				return
+			}
+
+			p, err := h.startProxyServer(ctx, fast)
+			if err != nil {
+				rw.Write([]byte(err.Error()))
+				rw.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+			data, err := json.Marshal(p)
+			if err != nil {
+				rw.Write([]byte(err.Error()))
+				rw.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+			rw.Write(data)
+			rw.Header().Set("Content-Type", "application/json")
+		})
+		http.ListenAndServe(h.cfg.Proxy.SwitchServer, nil)
+	}()
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+	<-sigCh
+
+	return nil
+}
+
+func (h *Handler) startProxyServer(ctx context.Context, fast bool) (*storage.Proxy, error) {
 	cfg := h.cfg.Proxy
 	ps, err := h.storage.GetProxies(ctx, &storage.QueryOptions{
 		ID:              cfg.ProxyID,
 		CountryCodes:    cfg.ProxyCountryCodes,
 		NotCountryCodes: cfg.ProxyNotCountryCodes,
 		Count:           1,
+		Fast:            fast,
 	})
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if len(ps) == 0 {
-		return fmt.Errorf("no proxy records")
+		return nil, fmt.Errorf("no proxy records")
 	}
 
 	p := ps[0]
-	log.Printf("select id: %d, server: %s, country: %s\n", p.ID, p.Server, p.Country)
+	fmt.Printf("select id: %d, server: %s, type: %s, country: %s\n", p.ID, p.Server, p.Type, p.Country)
 	m := map[string]interface{}{}
 	if err := json.Unmarshal([]byte(p.Config), &m); err == nil {
 		m["name"] = "proxy"
 	}
 	data, err := json.Marshal(m)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	t, err := template.New("").Parse(proxyClashTemplate)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	fp := filepath.Join(os.TempDir(), uuid.NewString()+".yaml")
 	f, err := os.Create(fp)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	defer func() {
@@ -98,17 +159,13 @@ func (h *Handler) Proxy(ctx context.Context) error {
 		Port:        cfg.Port,
 		Proxy:       string(data),
 	}); err != nil {
-		return err
+		return nil, err
 	}
 
 	C.SetConfig(fp)
 	if err := hub.Parse(); err != nil {
-		return err
+		return nil, err
 	}
 
-	sigCh := make(chan os.Signal, 1)
-	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
-	<-sigCh
-
-	return nil
+	return p, nil
 }

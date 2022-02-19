@@ -45,6 +45,7 @@ type AppSummaryConfig struct {
 type AppProxyConfig struct {
 	BindAddress          string `yaml:"bind_address"`
 	Port                 int    `yaml:"port"`
+	SwitchServer         string `yaml:"switch_server"`
 	Verbose              bool   `yaml:"verbose"`
 	ProxyCountryCodes    string `yaml:"proxy_country_codes"`
 	ProxyNotCountryCodes string `yaml:"proxy_not_country_codes"`
@@ -96,8 +97,9 @@ func DefaultConfig() *Config {
 			Tidy:   &AppTidyConfig{Worker: 300},
 			Export: &AppExportConfig{ProxyCount: 100},
 			Proxy: &AppProxyConfig{
-				BindAddress: "127.0.0.1",
-				Port:        10000,
+				BindAddress:  "127.0.0.1",
+				Port:         10000,
+				SwitchServer: "127.0.0.1:9999",
 			},
 			Summary: &AppSummaryConfig{},
 		},
