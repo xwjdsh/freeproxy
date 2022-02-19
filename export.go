@@ -39,6 +39,7 @@ func (h *Handler) Export(ctx context.Context) error {
 		CountryCodes:    cfg.ProxyCountryCodes,
 		NotCountryCodes: cfg.ProxyNotCountryCodes,
 		Count:           cfg.ProxyCount,
+		Fast:            true,
 	})
 	if err != nil {
 		return nil
