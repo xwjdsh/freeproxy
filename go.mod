@@ -11,7 +11,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/stretchr/testify v1.7.0
 	github.com/urfave/cli/v2 v2.3.0
-	github.com/vbauerster/mpb/v7 v7.3.2
+	github.com/vbauerster/mpb/v7 v7.4.1
 	go.uber.org/zap v1.20.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	gorm.io/driver/sqlite v1.2.6
