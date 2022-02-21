@@ -14,8 +14,8 @@ require (
 	github.com/vbauerster/mpb/v7 v7.3.2
 	go.uber.org/zap v1.20.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	gorm.io/driver/sqlite v1.2.6
-	gorm.io/gorm v1.22.5
+	gorm.io/driver/sqlite v1.3.1
+	gorm.io/gorm v1.23.1
 )
 
 require (
