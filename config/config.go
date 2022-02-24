@@ -139,7 +139,7 @@ func DefaultConfig() *Config {
 			TestNetworkURL:        "https://www.baidu.com",
 			TestURL:               "http://www.gstatic.com/generate_204",
 			TestURLCount:          3,
-			TestURLTimeout:        5 * time.Second,
+			TestURLTimeout:        10 * time.Second,
 			GetCountryInfoTimeout: 5 * time.Second,
 		},
 		Storage: &StorageConfig{

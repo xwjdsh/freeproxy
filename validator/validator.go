@@ -58,13 +58,13 @@ func (v *Validator) Validate(ctx context.Context, p proxy.Proxy) error {
 
 			return clashProxy.URLTest(ctx, v.cfg.TestURL)
 		}()
-		if err == nil {
-			break
+		if err != nil {
+			return err
 		}
 	}
 
 	if base.Delay == 0 {
-		return err
+		return fmt.Errorf("invalid delay")
 	}
 
 	return nil
