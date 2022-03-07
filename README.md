@@ -2,9 +2,9 @@
 
 |CountryCode|Country|SS|SSR|Vmess|Total|
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
-|🇺🇸 US|United States|1409|2|10|1421|
-|🇨🇦 CA|Canada|662|0|0|662|
-|🇬🇧 GB|United Kingdom|212|0|0|212|
+|🇺🇸 US|United States|1407|2|10|1419|
+|🇨🇦 CA|Canada|659|0|0|659|
+|🇬🇧 GB|United Kingdom|211|0|0|211|
 |🇮🇳 IN|India|171|0|0|171|
 |🇩🇪 DE|Germany|138|0|3|141|
 |🇸🇬 SG|Singapore|131|1|3|135|
@@ -20,31 +20,31 @@
 |🇦🇪 AE|United Arab Emirates|8|0|0|8|
 |🇮🇹 IT|Italy|8|0|0|8|
 |🇹🇼 TW|Taiwan|3|0|2|5|
-|🇹🇭 TH|Thailand|3|0|0|3|
-|🇷🇺 RU|Russia|1|0|2|3|
 |🇮🇱 IL|Israel|3|0|0|3|
+|🇷🇺 RU|Russia|1|0|2|3|
 |🇸🇪 SE|Sweden|2|0|0|2|
+|🇻🇳 VN|Vietnam|2|0|0|2|
 |🇭🇺 HU|Hungary|1|0|1|2|
 |🇷🇴 RO|Romania|2|0|0|2|
-|🇻🇳 VN|Vietnam|2|0|0|2|
 |🇹🇷 TR|Turkey|2|0|0|2|
-|🇪🇸 ES|Spain|1|0|0|1|
-|🇮🇸 IS|Iceland|1|0|0|1|
-|🇲🇾 MY|Malaysia|1|0|0|1|
+|🇹🇭 TH|Thailand|2|0|0|2|
+|🇿🇦 ZA|South Africa|1|0|0|1|
+|🇨🇳 CN|China|1|0|0|1|
 |🇨🇾 CY|Cyprus|1|0|0|1|
+|🇪🇸 ES|Spain|1|0|0|1|
+|🇮🇲 IM|Isle of Man|1|0|0|1|
 |🇮🇪 IE|Ireland|1|0|0|1|
 |🇪🇪 EE|Estonia|1|0|0|1|
 |🇬🇷 GR|Greece|1|0|0|1|
+|🇨🇭 CH|Switzerland|1|0|0|1|
+|🇮🇩 ID|Indonesia|1|0|0|1|
+|🇮🇸 IS|Iceland|1|0|0|1|
 |🇦🇿 AZ|Azerbaijan|1|0|0|1|
-|🇨🇳 CN|China|1|0|0|1|
-|🇫🇮 FI|Finland|1|0|0|1|
 |🇱🇺 LU|Luxembourg|1|0|0|1|
-|🇿🇦 ZA|South Africa|1|0|0|1|
-|🇲🇴 MO|Macao|0|0|1|1|
-|🇮🇲 IM|Isle of Man|1|0|0|1|
+|🇫🇮 FI|Finland|1|0|0|1|
 |🇲🇩 MD|Moldova|1|0|0|1|
 |🇲🇰 MK|North Macedonia|1|0|0|1|
-|🇨🇭 CH|Switzerland|1|0|0|1|
+|🇲🇾 MY|Malaysia|1|0|0|1|
 |🇨🇴 CO|Colombia|1|0|0|1|
-|🇮🇩 ID|Indonesia|1|0|0|1|
-||Total|3083|6|50|3139|
+|🇲🇴 MO|Macao|0|0|1|1|
+||Total|3076|6|50|3132|
