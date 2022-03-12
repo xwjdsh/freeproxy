@@ -2,9 +2,9 @@
 
 |CountryCode|Country|SS|SSR|Vmess|Total|
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
-|🇺🇸 US|United States|1436|0|13|1449|
-|🇨🇦 CA|Canada|659|0|0|659|
-|🇬🇧 GB|United Kingdom|218|0|0|218|
+|🇺🇸 US|United States|1433|0|10|1443|
+|🇨🇦 CA|Canada|639|0|0|639|
+|🇬🇧 GB|United Kingdom|217|0|0|217|
 |🇮🇳 IN|India|171|0|0|171|
 |🇩🇪 DE|Germany|138|0|3|141|
 |🇸🇬 SG|Singapore|130|0|5|135|
@@ -19,29 +19,29 @@
 |🇦🇪 AE|United Arab Emirates|8|0|1|9|
 |🇮🇹 IT|Italy|5|0|0|5|
 |🇹🇼 TW|Taiwan|3|0|2|5|
-|🇮🇱 IL|Israel|3|0|0|3|
 |🇷🇺 RU|Russia|1|0|2|3|
-|🇳🇴 NO|Norway|2|0|0|2|
+|🇮🇱 IL|Israel|3|0|0|3|
+|🇻🇳 VN|Vietnam|2|0|0|2|
 |🇸🇪 SE|Sweden|2|0|0|2|
-|🇹🇷 TR|Turkey|2|0|0|2|
+|🇭🇺 HU|Hungary|1|0|1|2|
+|🇳🇴 NO|Norway|2|0|0|2|
 |🇷🇴 RO|Romania|2|0|0|2|
 |🇹🇭 TH|Thailand|2|0|0|2|
-|🇻🇳 VN|Vietnam|2|0|0|2|
-|🇭🇺 HU|Hungary|1|0|1|2|
-|🇨🇭 CH|Switzerland|1|0|0|1|
-|🇲🇰 MK|North Macedonia|1|0|0|1|
-|🇨🇳 CN|China|1|0|0|1|
-|🇱🇺 LU|Luxembourg|1|0|0|1|
-|🇪🇪 EE|Estonia|1|0|0|1|
-|🇬🇷 GR|Greece|1|0|0|1|
-|🇨🇴 CO|Colombia|1|0|0|1|
+|🇹🇷 TR|Turkey|2|0|0|2|
 |🇮🇩 ID|Indonesia|1|0|0|1|
-|🇫🇮 FI|Finland|1|0|0|1|
-|🇦🇿 AZ|Azerbaijan|1|0|0|1|
-|🇪🇸 ES|Spain|1|0|0|1|
-|🇨🇾 CY|Cyprus|1|0|0|1|
 |🇲🇩 MD|Moldova|1|0|0|1|
-|🇮🇸 IS|Iceland|1|0|0|1|
+|🇬🇷 GR|Greece|1|0|0|1|
 |🇿🇦 ZA|South Africa|1|0|0|1|
+|🇪🇸 ES|Spain|1|0|0|1|
+|🇫🇮 FI|Finland|1|0|0|1|
+|🇨🇴 CO|Colombia|1|0|0|1|
+|🇨🇳 CN|China|1|0|0|1|
+|🇦🇿 AZ|Azerbaijan|1|0|0|1|
+|🇨🇾 CY|Cyprus|1|0|0|1|
+|🇪🇪 EE|Estonia|1|0|0|1|
+|🇲🇰 MK|North Macedonia|1|0|0|1|
+|🇱🇺 LU|Luxembourg|1|0|0|1|
+|🇮🇸 IS|Iceland|1|0|0|1|
 |🇮🇲 IM|Isle of Man|1|0|0|1|
-||Total|3097|2|52|3151|
+|🇨🇭 CH|Switzerland|1|0|0|1|
+||Total|3073|2|49|3124|
