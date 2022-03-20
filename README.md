@@ -11,8 +11,8 @@
 |🇫🇷 FR|France|71|0|0|71|
 |🇩🇪 DE|Germany|66|1|3|70|
 |🇭🇰 HK|Hong Kong|10|1|20|31|
-|🇯🇵 JP|Japan|22|0|5|27|
 |🇧🇦 BA|Bosnia and Herzegovina|26|0|0|26|
+|🇯🇵 JP|Japan|21|0|5|26|
 |🇰🇷 KR|South Korea|15|0|4|19|
 |🇵🇱 PL|Poland|18|0|0|18|
 |🇳🇱 NL|Netherlands|9|0|1|10|
@@ -21,21 +21,21 @@
 |🇹🇼 TW|Taiwan|3|0|2|5|
 |🇷🇺 RU|Russia|1|0|1|2|
 |🇹🇷 TR|Turkey|2|0|0|2|
-|🇻🇳 VN|Vietnam|1|0|0|1|
-|🇮🇹 IT|Italy|1|0|0|1|
-|🇪🇪 EE|Estonia|1|0|0|1|
 |🇨🇴 CO|Colombia|1|0|0|1|
-|🇳🇴 NO|Norway|1|0|0|1|
-|🇨🇾 CY|Cyprus|1|0|0|1|
-|🇷🇴 RO|Romania|1|0|0|1|
 |🇫🇮 FI|Finland|1|0|0|1|
-|🇭🇺 HU|Hungary|1|0|0|1|
-|🇱🇺 LU|Luxembourg|1|0|0|1|
-|🇹🇭 TH|Thailand|1|0|0|1|
+|🇮🇹 IT|Italy|1|0|0|1|
+|🇸🇮 SI|Slovenia|1|0|0|1|
 |🇮🇪 IE|Ireland|1|0|0|1|
 |🇲🇩 MD|Moldova|1|0|0|1|
-|🇨🇭 CH|Switzerland|1|0|0|1|
-|🇸🇮 SI|Slovenia|1|0|0|1|
 |🇦🇱 AL|Albania|1|0|0|1|
+|🇳🇴 NO|Norway|1|0|0|1|
+|🇭🇺 HU|Hungary|1|0|0|1|
+|🇨🇾 CY|Cyprus|1|0|0|1|
+|🇷🇴 RO|Romania|1|0|0|1|
+|🇨🇭 CH|Switzerland|1|0|0|1|
+|🇱🇺 LU|Luxembourg|1|0|0|1|
 |🇸🇪 SE|Sweden|1|0|0|1|
-||Total|2804|11|49|2864|
+|🇪🇪 EE|Estonia|1|0|0|1|
+|🇹🇭 TH|Thailand|1|0|0|1|
+|🇻🇳 VN|Vietnam|1|0|0|1|
+||Total|2803|11|49|2863|
