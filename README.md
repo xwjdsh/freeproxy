@@ -19,15 +19,15 @@
 |🇦🇪 AE|United Arab Emirates|5|0|1|6|
 |🇹🇼 TW|Taiwan|3|0|1|4|
 |🇷🇺 RU|Russia|2|0|0|2|
-|🇨🇾 CY|Cyprus|1|0|0|1|
-|🇮🇪 IE|Ireland|1|0|0|1|
-|🇮🇹 IT|Italy|1|0|0|1|
-|🇷🇴 RO|Romania|1|0|0|1|
-|🇭🇺 HU|Hungary|1|0|0|1|
-|🇲🇩 MD|Moldova|1|0|0|1|
-|🇻🇳 VN|Vietnam|1|0|0|1|
-|🇦🇱 AL|Albania|1|0|0|1|
 |🇨🇴 CO|Colombia|1|0|0|1|
-|🇸🇮 SI|Slovenia|1|0|0|1|
+|🇭🇺 HU|Hungary|1|0|0|1|
 |🇳🇴 NO|Norway|1|0|0|1|
+|🇨🇾 CY|Cyprus|1|0|0|1|
+|🇻🇳 VN|Vietnam|1|0|0|1|
+|🇷🇴 RO|Romania|1|0|0|1|
+|🇲🇩 MD|Moldova|1|0|0|1|
+|🇮🇪 IE|Ireland|1|0|0|1|
+|🇦🇱 AL|Albania|1|0|0|1|
+|🇮🇹 IT|Italy|1|0|0|1|
+|🇸🇮 SI|Slovenia|1|0|0|1|
 ||Total|2378|1|22|2401|
