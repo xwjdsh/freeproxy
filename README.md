@@ -2,8 +2,8 @@
 
 |CountryCode|Country|SS|SSR|Vmess|Total|
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
-|🇺🇸 US|United States|1216|2|4|1222|
-|🇨🇦 CA|Canada|585|0|0|585|
+|🇺🇸 US|United States|1214|2|4|1220|
+|🇨🇦 CA|Canada|582|0|0|582|
 |🇬🇧 GB|United Kingdom|184|0|0|184|
 |🇮🇳 IN|India|123|0|0|123|
 |🇦🇺 AU|Australia|75|1|0|76|
@@ -19,16 +19,16 @@
 |🇦🇪 AE|United Arab Emirates|5|0|0|5|
 |🇹🇼 TW|Taiwan|3|0|1|4|
 |🇷🇺 RU|Russia|2|0|0|2|
-|🇮🇹 IT|Italy|1|0|0|1|
-|🇨🇴 CO|Colombia|1|0|0|1|
-|🇲🇩 MD|Moldova|1|0|0|1|
 |🇷🇴 RO|Romania|1|0|0|1|
-|🇳🇴 NO|Norway|1|0|0|1|
-|🇭🇺 HU|Hungary|1|0|0|1|
-|🇻🇳 VN|Vietnam|1|0|0|1|
-|🇦🇱 AL|Albania|1|0|0|1|
-|🇨🇾 CY|Cyprus|1|0|0|1|
-|🇸🇮 SI|Slovenia|1|0|0|1|
+|🇮🇹 IT|Italy|1|0|0|1|
 |🇮🇪 IE|Ireland|1|0|0|1|
+|🇸🇮 SI|Slovenia|1|0|0|1|
+|🇭🇺 HU|Hungary|1|0|0|1|
+|🇳🇴 NO|Norway|1|0|0|1|
+|🇨🇾 CY|Cyprus|1|0|0|1|
 |🇨🇳 CN|China|1|0|0|1|
-||Total|2447|3|20|2470|
+|🇦🇱 AL|Albania|1|0|0|1|
+|🇻🇳 VN|Vietnam|1|0|0|1|
+|🇲🇩 MD|Moldova|1|0|0|1|
+|🇨🇴 CO|Colombia|1|0|0|1|
+||Total|2442|3|20|2465|
