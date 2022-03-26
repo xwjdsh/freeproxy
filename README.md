@@ -2,8 +2,8 @@
 
 |CountryCode|Country|SS|SSR|Vmess|Total|
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
-|🇺🇸 US|United States|1214|0|5|1219|
-|🇨🇦 CA|Canada|578|0|0|578|
+|🇺🇸 US|United States|1211|0|4|1215|
+|🇨🇦 CA|Canada|575|0|0|575|
 |🇬🇧 GB|United Kingdom|184|0|0|184|
 |🇮🇳 IN|India|123|0|0|123|
 |🇦🇺 AU|Australia|75|1|0|76|
@@ -18,17 +18,16 @@
 |🇳🇱 NL|Netherlands|7|0|1|8|
 |🇦🇪 AE|United Arab Emirates|5|0|0|5|
 |🇹🇼 TW|Taiwan|1|0|1|2|
-|🇮🇪 IE|Ireland|1|0|0|1|
+|🇷🇺 RU|Russia|1|0|0|1|
+|🇮🇹 IT|Italy|1|0|0|1|
+|🇳🇴 NO|Norway|1|0|0|1|
 |🇨🇴 CO|Colombia|1|0|0|1|
 |🇲🇩 MD|Moldova|1|0|0|1|
-|🇭🇺 HU|Hungary|1|0|0|1|
-|🇳🇴 NO|Norway|1|0|0|1|
-|🇨🇳 CN|China|1|0|0|1|
-|🇷🇺 RU|Russia|1|0|0|1|
 |🇻🇳 VN|Vietnam|1|0|0|1|
-|🇮🇹 IT|Italy|1|0|0|1|
 |🇦🇱 AL|Albania|1|0|0|1|
 |🇸🇮 SI|Slovenia|1|0|0|1|
+|🇭🇺 HU|Hungary|1|0|0|1|
 |🇷🇴 RO|Romania|1|0|0|1|
+|🇮🇪 IE|Ireland|1|0|0|1|
 |🇨🇾 CY|Cyprus|1|0|0|1|
-||Total|2436|1|24|2461|
+||Total|2429|1|23|2453|
