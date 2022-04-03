@@ -2,10 +2,10 @@
 
 |CountryCode|Country|SS|SSR|Vmess|Total|
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
-|🇺🇸 US|United States|1225|0|4|1229|
-|🇨🇦 CA|Canada|625|0|1|626|
+|🇺🇸 US|United States|1224|0|3|1227|
+|🇨🇦 CA|Canada|623|0|1|624|
 |🇬🇧 GB|United Kingdom|189|0|0|189|
-|🇮🇳 IN|India|122|1|0|123|
+|🇮🇳 IN|India|121|1|0|122|
 |🇦🇺 AU|Australia|108|1|0|109|
 |🇫🇷 FR|France|52|0|0|52|
 |🇩🇪 DE|Germany|49|0|1|50|
@@ -19,13 +19,13 @@
 |🇰🇷 KR|South Korea|3|0|4|7|
 |🇨🇳 CN|China|2|0|1|3|
 |🇮🇹 IT|Italy|2|0|0|2|
-|🇮🇪 IE|Ireland|1|0|0|1|
-|🇹🇼 TW|Taiwan|0|0|1|1|
-|🇱🇹 LT|Lithuania|1|0|0|1|
-|🇷🇴 RO|Romania|1|0|0|1|
-|🇲🇩 MD|Moldova|1|0|0|1|
 |🇿🇦 ZA|South Africa|1|0|0|1|
-|🇨🇾 CY|Cyprus|1|0|0|1|
-|🇨🇭 CH|Switzerland|1|0|0|1|
+|🇲🇩 MD|Moldova|1|0|0|1|
+|🇷🇴 RO|Romania|1|0|0|1|
 |🇳🇴 NO|Norway|1|0|0|1|
-||Total|2498|2|23|2523|
+|🇨🇾 CY|Cyprus|1|0|0|1|
+|🇹🇼 TW|Taiwan|0|0|1|1|
+|🇮🇪 IE|Ireland|1|0|0|1|
+|🇨🇭 CH|Switzerland|1|0|0|1|
+|🇱🇹 LT|Lithuania|1|0|0|1|
+||Total|2494|2|22|2518|
