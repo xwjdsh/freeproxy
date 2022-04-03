@@ -18,13 +18,13 @@
 |🇭🇰 HK|Hong Kong|5|0|4|9|
 |🇰🇷 KR|South Korea|3|0|5|8|
 |🇮🇹 IT|Italy|2|0|0|2|
-|🇿🇦 ZA|South Africa|1|0|0|1|
-|🇷🇴 RO|Romania|1|0|0|1|
-|🇮🇪 IE|Ireland|1|0|0|1|
-|🇳🇴 NO|Norway|1|0|0|1|
 |🇲🇩 MD|Moldova|1|0|0|1|
+|🇷🇴 RO|Romania|1|0|0|1|
 |🇨🇭 CH|Switzerland|1|0|0|1|
 |🇨🇳 CN|China|0|0|1|1|
+|🇳🇴 NO|Norway|1|0|0|1|
+|🇿🇦 ZA|South Africa|1|0|0|1|
+|🇮🇪 IE|Ireland|1|0|0|1|
 |🇹🇼 TW|Taiwan|0|0|1|1|
 |🇨🇾 CY|Cyprus|1|0|0|1|
 ||Total|2490|1|23|2514|
