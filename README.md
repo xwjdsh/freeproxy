@@ -4,10 +4,10 @@
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
 |🇺🇸 US|United States|1210|0|1|1211|
 |🇨🇦 CA|Canada|743|0|0|743|
-|🇩🇪 DE|Germany|211|152|1|364|
+|🇩🇪 DE|Germany|211|151|1|363|
 |🇦🇺 AU|Australia|196|59|0|255|
 |🇳🇱 NL|Netherlands|151|98|1|250|
-|🇵🇱 PL|Poland|124|125|0|249|
+|🇵🇱 PL|Poland|123|125|0|248|
 |🇸🇬 SG|Singapore|130|106|2|238|
 |🇬🇧 GB|United Kingdom|209|24|0|233|
 |🇧🇬 BG|Bulgaria|103|69|0|172|
@@ -21,19 +21,19 @@
 |🇳🇿 NZ|New Zealand|9|0|0|9|
 |🇦🇪 AE|United Arab Emirates|5|0|0|5|
 |🇺🇦 UA|Ukraine|3|0|0|3|
-|🇨🇳 CN|China|2|0|0|2|
 |🇿🇦 ZA|South Africa|2|0|0|2|
-|🇭🇰 HK|Hong Kong|1|0|0|1|
-|🇭🇺 HU|Hungary|1|0|0|1|
-|🇳🇴 NO|Norway|1|0|0|1|
+|🇨🇳 CN|China|2|0|0|2|
 |🇷🇴 RO|Romania|1|0|0|1|
+|🇮🇲 IM|Isle of Man|1|0|0|1|
+|🇱🇺 LU|Luxembourg|1|0|0|1|
 |🇸🇮 SI|Slovenia|1|0|0|1|
 |🇬🇷 GR|Greece|1|0|0|1|
-|🇱🇺 LU|Luxembourg|1|0|0|1|
 |🇮🇹 IT|Italy|1|0|0|1|
+|🇭🇺 HU|Hungary|1|0|0|1|
 |🇲🇰 MK|North Macedonia|1|0|0|1|
 |🇮🇱 IL|Israel|1|0|0|1|
 |🇨🇾 CY|Cyprus|1|0|0|1|
+|🇳🇴 NO|Norway|1|0|0|1|
+|🇭🇰 HK|Hong Kong|1|0|0|1|
 |🇮🇪 IE|Ireland|1|0|0|1|
-|🇮🇲 IM|Isle of Man|1|0|0|1|
-||Total|3499|704|14|4217|
+||Total|3498|703|14|4215|
