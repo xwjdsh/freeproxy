@@ -2,11 +2,11 @@
 
 |CountryCode|Country|SS|SSR|Vmess|Total|
 |  ----  | ----  |  ----  | ----  |  ----  | ----  |
-|🇺🇸 US|United States|1207|0|2|1209|
+|🇺🇸 US|United States|1206|0|2|1208|
 |🇨🇦 CA|Canada|742|0|0|742|
-|🇩🇪 DE|Germany|165|110|1|276|
+|🇩🇪 DE|Germany|164|110|1|275|
 |🇸🇬 SG|Singapore|125|100|1|226|
-|🇦🇺 AU|Australia|178|35|0|213|
+|🇦🇺 AU|Australia|177|35|0|212|
 |🇬🇧 GB|United Kingdom|197|15|0|212|
 |🇳🇱 NL|Netherlands|104|76|1|181|
 |🇧🇬 BG|Bulgaria|97|68|0|165|
@@ -22,17 +22,17 @@
 |🇦🇪 AE|United Arab Emirates|5|0|0|5|
 |🇺🇦 UA|Ukraine|3|0|0|3|
 |🇿🇦 ZA|South Africa|2|0|0|2|
-|🇮🇹 IT|Italy|1|0|0|1|
-|🇻🇳 VN|Vietnam|1|0|0|1|
-|🇱🇺 LU|Luxembourg|1|0|0|1|
-|🇮🇱 IL|Israel|1|0|0|1|
-|🇬🇷 GR|Greece|1|0|0|1|
-|🇭🇰 HK|Hong Kong|1|0|0|1|
-|🇭🇺 HU|Hungary|1|0|0|1|
-|🇸🇮 SI|Slovenia|1|0|0|1|
 |🇨🇾 CY|Cyprus|1|0|0|1|
+|🇮🇪 IE|Ireland|1|0|0|1|
+|🇮🇱 IL|Israel|1|0|0|1|
+|🇷🇴 RO|Romania|1|0|0|1|
 |🇲🇰 MK|North Macedonia|1|0|0|1|
 |🇳🇴 NO|Norway|1|0|0|1|
-|🇮🇪 IE|Ireland|1|0|0|1|
-|🇷🇴 RO|Romania|1|0|0|1|
-||Total|3300|536|14|3850|
+|🇭🇺 HU|Hungary|1|0|0|1|
+|🇸🇮 SI|Slovenia|1|0|0|1|
+|🇬🇷 GR|Greece|1|0|0|1|
+|🇱🇺 LU|Luxembourg|1|0|0|1|
+|🇻🇳 VN|Vietnam|1|0|0|1|
+|🇭🇰 HK|Hong Kong|1|0|0|1|
+|🇮🇹 IT|Italy|1|0|0|1|
+||Total|3297|536|14|3847|
