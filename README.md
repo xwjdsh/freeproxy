@@ -21,17 +21,17 @@
 |🇨🇭 CH|Switzerland|3|6|0|9|
 |🇦🇪 AE|United Arab Emirates|5|0|0|5|
 |🇺🇦 UA|Ukraine|3|0|0|3|
-|🇲🇰 MK|North Macedonia|1|0|0|1|
-|🇱🇺 LU|Luxembourg|1|0|0|1|
-|🇮🇸 IS|Iceland|1|0|0|1|
-|🇭🇺 HU|Hungary|1|0|0|1|
-|🇿🇦 ZA|South Africa|1|0|0|1|
-|🇨🇳 CN|China|1|0|0|1|
-|🇸🇮 SI|Slovenia|1|0|0|1|
 |🇭🇰 HK|Hong Kong|1|0|0|1|
-|🇮🇱 IL|Israel|1|0|0|1|
 |🇮🇪 IE|Ireland|1|0|0|1|
-|🇷🇸 RS|Serbia|1|0|0|1|
+|🇮🇸 IS|Iceland|1|0|0|1|
 |🇳🇴 NO|Norway|1|0|0|1|
 |🇨🇾 CY|Cyprus|1|0|0|1|
+|🇮🇱 IL|Israel|1|0|0|1|
+|🇷🇸 RS|Serbia|1|0|0|1|
+|🇨🇳 CN|China|1|0|0|1|
+|🇲🇰 MK|North Macedonia|1|0|0|1|
+|🇸🇮 SI|Slovenia|1|0|0|1|
+|🇭🇺 HU|Hungary|1|0|0|1|
+|🇿🇦 ZA|South Africa|1|0|0|1|
+|🇱🇺 LU|Luxembourg|1|0|0|1|
 ||Total|3138|409|14|3561|
