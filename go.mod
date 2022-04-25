@@ -14,8 +14,8 @@ require (
 	github.com/vbauerster/mpb/v7 v7.3.2
 	go.uber.org/zap v1.20.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	gorm.io/driver/sqlite v1.2.6
-	gorm.io/gorm v1.22.5
+	gorm.io/driver/sqlite v1.3.2
+	gorm.io/gorm v1.23.4
 )
 
 require (
@@ -32,12 +32,12 @@ require (
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/insomniacslk/dhcp v0.0.0-20220119180841-3c283ff8b7dd // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.4 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kr/pretty v0.2.1 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
-	github.com/mattn/go-sqlite3 v1.14.9 // indirect
+	github.com/mattn/go-sqlite3 v1.14.12 // indirect
 	github.com/miekg/dns v1.1.46 // indirect
 	github.com/oschwald/geoip2-golang v1.6.1 // indirect
 	github.com/oschwald/maxminddb-golang v1.8.0 // indirect
